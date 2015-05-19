@@ -7,7 +7,41 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Monopoly {
+        
+    private int nbMaisons = 32;
+    private int nbHotels = 12;
+    private Carreau carreaux;
+    private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+    public InterfaceJeu interfaceJeu;
 
+    public int getCashJoueur() {
+            throw new UnsupportedOperationException();
+    }
+
+    public int lancerDes() {
+            throw new UnsupportedOperationException();
+    }
+
+    public Carreau getNouveauCarreau(int num) {
+            throw new UnsupportedOperationException();
+    }
+
+    public Joueur getJoueur() {
+            throw new UnsupportedOperationException();
+    }
+
+    public void possibiliteAchat(Joueur j, Carreau c) {
+            throw new UnsupportedOperationException();
+    }
+
+    public void ChoixAchat(Joueur j, Carreau c) {
+            throw new UnsupportedOperationException();
+    }
+
+    public void InfosLoyer(String nomP, int loyer, int nouveauCash) {
+            throw new UnsupportedOperationException();
+    }
+    
     public Monopoly(String dataFilename) {
         buildGamePlateau(dataFilename);
     }
