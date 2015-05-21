@@ -1,3 +1,4 @@
+package jeu;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -54,7 +55,6 @@ public class Monopoly {
     }
 
     private void buildGamePlateau(String dataFilename) {
-        LinkedList<Carreau> carreaux = new LinkedList<>();
         /*                0    1     2    3        4    5   6   7   8  9    10        11          12       
          * P propr:     type, num, nom, couleur, prix, 0m, 1m, 2m, 3m, 4m, hotel, prixmaison, prixhotel
          * CA argent:   type, num, nom, montant __crédité__
@@ -85,6 +85,7 @@ public class Monopoly {
                     c.setLoyerParMaison(loyerParMaison);
                     c.setPrixMaison(Integer.parseInt(data.get(i)[11]));
                     c.setPrixHotel(Integer.parseInt(data.get(i)[12]));
+                    this.carreaux.put(data.get(i)[1], c);
                 }
                 else if (typeCase.compareTo("G") == 0) { //Gares
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
@@ -92,7 +93,7 @@ public class Monopoly {
                     c.setNumero(data.get(i)[1]);
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
-                    
+                    this.carreaux.put(data.get(i)[1], c);
                 }
                 else if (typeCase.compareTo("C") == 0) { //Compagnie
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
@@ -100,6 +101,7 @@ public class Monopoly {
                     c.setNumero(data.get(i)[1]);
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
+                    this.carreaux.put(data.get(i)[1], c);
                 }
                 else if (typeCase.compareTo("CT") == 0) { // Tirage
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
@@ -107,6 +109,7 @@ public class Monopoly {
                     c.setNumero(data.get(i)[1]);
                     c.setNomCarreau(data.get(i)[2]);
                     c.setTypeTirage(data.get(i)[3]);
+                    this.carreaux.put(data.get(i)[1], c);
                 }
                 else if (typeCase.compareTo("CA") == 0) { // Argent
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
@@ -114,7 +117,7 @@ public class Monopoly {
                     c.setNum(data.get(i)[1]);
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontant(Integer.parseInt(data.get(i)[3]));
-                    
+                    this.carreaux.put(data.get(i)[1], c);
                 }
                 else if (typeCase.compareTo("CM") == 0) { // Mouvement
                     System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
