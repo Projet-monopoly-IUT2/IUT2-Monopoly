@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Random;
@@ -12,7 +13,7 @@ public class Monopoly {
         
     private int nbMaisons = 32;
     private int nbHotels = 12;
-    private Carreau carreaux;
+    private HashMap<Integer,Carreau> carreaux;
     private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
     public InterfaceJeu interfaceJeu;
 
