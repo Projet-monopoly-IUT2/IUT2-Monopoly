@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Monopoly {
         
@@ -20,7 +21,11 @@ public class Monopoly {
     }
 
     public int lancerDes() {
-            throw new UnsupportedOperationException();
+        int res = 0;
+        Random r = new Random();
+        res += r.nextInt(6)+1; // 0 à 5  +1
+        res += r.nextInt(6)+1;
+        return res;
     }
 
     public Carreau getNouveauCarreau(int num) {
