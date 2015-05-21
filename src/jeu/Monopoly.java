@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Monopoly {
         
@@ -124,7 +125,19 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
     }
-
+    
+    
+        public void initialiserPartie() {
+        int nbJoueurs;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Inscription des joueurs : ");
+        System.out.print("Nombre de joueurs : ") ; nbJoueurs = sc.nextInt();
+        int i;
+        for (i=0 ; i < nbJoueurs ; ++i) {
+                    System.out.print("Nom du joueur "+ i+1 +" : ") ; getJoueur(i).setNomJoueur(sc.nextLine()); 
+        }
+    }
+        
     private ArrayList<String[]> readDataFile(String filename, String token) throws FileNotFoundException, IOException {
         ArrayList<String[]> data = new ArrayList<String[]>();
 
