@@ -1,3 +1,4 @@
+package jeu;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,8 +13,8 @@ public class Monopoly {
         
     private int nbMaisons = 32;
     private int nbHotels = 12;
-    private HashMap<Integer,Carreau> carreaux;
-    private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+    private LinkedList<Carreau> carreaux ;
+    private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     public InterfaceJeu interfaceJeu;
 
     public int getCashJoueur() {
@@ -28,8 +29,14 @@ public class Monopoly {
             throw new UnsupportedOperationException();
     }
 
-    public Joueur getJoueur() {
-            throw new UnsupportedOperationException();
+    public Joueur getJoueur(String nomJ) {
+            Joueur inconito = new Joueur();
+            for (Joueur j : joueurs) {
+                if (j.getNomjoueur().equalsIgnoreCase(nomJ)){
+                    inconito = j;
+                }
+            }
+            return inconito;
     }
 
     public void possibiliteAchat(Joueur j, Carreau c) {
@@ -45,6 +52,7 @@ public class Monopoly {
     }
     
     public Monopoly(String dataFilename) {
+        carreaux = new LinkedList<>();
         buildGamePlateau(dataFilename);
     }
 
@@ -131,10 +139,15 @@ public class Monopoly {
         int nbJoueurs;
         Scanner sc = new Scanner(System.in);
         System.out.println("Inscription des joueurs : ");
-        System.out.print("Nombre de joueurs : ") ; nbJoueurs = sc.nextInt();
+        System.out.print("Nombre de joueurs (2-6) : ") ; nbJoueurs = sc.nextInt();
         int i;
         for (i=0 ; i < nbJoueurs ; ++i) {
-                    System.out.print("Nom du joueur "+ i+1 +" : ") ; getJoueur(i).setNomJoueur(sc.nextLine()); 
+                    joueurs.add(new Joueur());
+                    Joueur j = joueurs.get(i);
+                    System.out.print("Nom du joueur "+ i+1 +" : "); 
+                    String nj = sc.nextLine();
+                    j.setNomJoueur(nj);
+                    j.setCarreau(carreaux.peekFirst());
         }
     }
         
