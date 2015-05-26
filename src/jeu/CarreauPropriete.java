@@ -1,3 +1,5 @@
+package jeu;
+
 public abstract class CarreauPropriete extends Carreau {
 	private int loyerBase;
 	private int prixAchat;

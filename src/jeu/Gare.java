@@ -1,3 +1,5 @@
+package jeu;
+
 public class Gare extends CarreauPropriete {
 
 	public Joueur getProprietaire() {

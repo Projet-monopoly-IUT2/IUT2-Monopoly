@@ -1,3 +1,5 @@
+package jeu;
+
 public class CarreauTirage extends CarreauAction {
 	private String typeTirage;
 

@@ -31,9 +31,13 @@ public class Joueur {
 	}
 
 	public void setCarreau(Carreau c) {
-		throw new UnsupportedOperationException();
+		positionCourante = c;
 	}
 
+        public void setNomJoueur(String nomJ){
+            nomJoueur = nomJ;
+        }
+        
 	public void achat(Carreau c) {
 		throw new UnsupportedOperationException();
 	}
@@ -68,4 +72,5 @@ public class Joueur {
 	public int calculNCash(Object argent) {
 		throw new UnsupportedOperationException();
 	}
+
 }
