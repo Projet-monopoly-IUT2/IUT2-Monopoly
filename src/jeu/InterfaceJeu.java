@@ -1,5 +1,7 @@
 package jeu;
 
+import java.util.ArrayList;
+
 public class InterfaceJeu {
 	public Monopoly monopoly;
 
@@ -11,7 +13,7 @@ public class InterfaceJeu {
 		throw new UnsupportedOperationException();
 	}
 
-	public void afficherProprietes(Carreau c) {
+	public void afficherProprietes(ArrayList<Carreau> c) {
 		throw new UnsupportedOperationException();
 	}
 

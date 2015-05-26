@@ -37,4 +37,8 @@ public abstract class CarreauPropriete extends Carreau {
 	public void setMontantAchat(int montantAchat) {
 		this.montantAchat = montantAchat;
 	}
+
+	public abstract int calculLoyer();
+
+	public abstract void action();
 }
