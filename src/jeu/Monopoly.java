@@ -98,7 +98,7 @@ public class Monopoly {
                     c.setGroupe(data.get(i)[3]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[4]));
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
-                    for (int j; j <= 5; ++j) { // for j in 0..5
+                    for (int j=0; j <= 5; ++j) { // for j in 0..5
                         loyerParMaison.add(Integer.parseInt(data.get(i)[j]));
                     }
                     c.setLoyerParMaison(loyerParMaison);
