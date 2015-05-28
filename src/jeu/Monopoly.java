@@ -141,6 +141,13 @@ public class Monopoly {
         }
     }
     
+        /**
+         * Demande à l'utilisateur d'entrer le nom des joueurs :
+         *      - A chaque entrée, le joueur est créé avec le nom fournit par l'Utilisateur
+         *      - Le nouveau joueur est placé sur la case départ.
+         */
+    
+    
     
         public void initialiserPartie() {
         int nbJoueurs;
