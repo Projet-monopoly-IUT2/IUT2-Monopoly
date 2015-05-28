@@ -35,13 +35,13 @@ public class Monopoly {
     }
 
     public Joueur getJoueur(String nomJ) {
-            Joueur inconito = new Joueur();
+            Joueur incognito = new Joueur();
             for (Joueur j : joueurs) {
                 if (j.getNomjoueur().equalsIgnoreCase(nomJ)){
-                    inconito = j;
+                    incognito = j;
                 }
             }
-            return inconito;
+            return incognito;
     }
 
     public void possibiliteAchat(Joueur j, Carreau c) {
