@@ -73,4 +73,11 @@ public class Joueur {
 		throw new UnsupportedOperationException();
 	}
 
+	public void recevoirLoyer(int l) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void payerLoyer(int l) {
+		throw new UnsupportedOperationException();
+	}
 }

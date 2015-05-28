@@ -6,11 +6,16 @@ public class Gare extends CarreauPropriete {
 		throw new UnsupportedOperationException();
 	}
 
-	public void CalculMontantLoyer(int nb) {
+	public int CalculMontantLoyer(int nb) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void calculLoyerGare() {
+	public void action() {
 		throw new UnsupportedOperationException();
 	}
+        
+        @Override
+        public int calculLoyer() {
+            throw new UnsupportedOperationException();
+        }
 }
