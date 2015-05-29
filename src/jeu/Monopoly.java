@@ -18,11 +18,16 @@ public class Monopoly {
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     public InterfaceJeu interfaceJeu;
 
+    public Monopoly(String dataFilename) {
+        carreaux = new LinkedList<>();
+        buildGamePlateau(dataFilename);
+    }
+        
     public int getCashJoueur() {
         throw new UnsupportedOperationException();
     }
 
-    public int lancerDes() {
+    public static int lancerDes() {
         int res = 0;
         Random r = new Random();
         res += r.nextInt(6)+1; // 0 à 5  +1
@@ -35,13 +40,13 @@ public class Monopoly {
     }
 
     public Joueur getJoueur(String nomJ) {
-            Joueur incognito = new Joueur();
-            for (Joueur j : joueurs) {
-                if (j.getNomjoueur().equalsIgnoreCase(nomJ)){
-                    incognito = j;
-                }
+        Joueur incognito = new Joueur();
+        for (Joueur j : joueurs) {
+            if (j.getNomjoueur().equalsIgnoreCase(nomJ)){
+                incognito = j;
             }
-            return incognito;
+        }
+        return incognito;
     }
 
     public void possibiliteAchat(Joueur j, Carreau c) {
@@ -56,10 +61,6 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-    public Monopoly(String dataFilename) {
-        carreaux = new LinkedList<>();
-        buildGamePlateau(dataFilename);
-    }
 
     public void jouerUnCoup(Joueur j) {
         throw new UnsupportedOperationException();
@@ -86,10 +87,9 @@ public class Monopoly {
         try {
             ArrayList<String[]> data = readDataFile(dataFilename, ",");
 
-            //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
                 String typeCase = data.get(i)[0];
-
+                // data.get(i)[j] : récupère le jème champ de texte de la ième ligne 
                 if (typeCase.compareTo("P") == 0) { //Propriétés
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     ProprieteAConstruire c = new ProprieteAConstruire();
@@ -98,9 +98,8 @@ public class Monopoly {
                     c.setGroupe(data.get(i)[3]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[4]));
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
-                    for (int j=0; j <= 5; ++j) { // for j in 0..5
+                    for (int j=0; j <= 5; ++j) // for j in 0..5
                         loyerParMaison.add(Integer.parseInt(data.get(i)[j]));
-                    }
                     c.setLoyerParMaison(loyerParMaison);
                     c.setPrixMaison(Integer.parseInt(data.get(i)[11]));
                     c.setPrixHotel(Integer.parseInt(data.get(i)[12]));
@@ -164,11 +163,11 @@ public class Monopoly {
         int i;
         for (i = 0; i < nbJoueurs; ++i) {
             joueurs.add(new Joueur());
-            Joueur j = joueurs.get(i);
+            Joueur j = joueurs.get(i); // récupération du dernier joueur (que l'on vient d'ajouter)
             System.out.print("Nom du joueur " + i + 1 + " : ");
             String nj = sc.nextLine();
             j.setNomJoueur(nj);
-            j.setCarreau(carreaux.peekFirst());
+            j.setCarreau(carreaux.peekFirst()); //Placement sur le 1er carreau (case départ)
         }
     }
 
