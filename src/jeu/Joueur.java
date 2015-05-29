@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Joueur {
 	private String nomJoueur;
 	private int cash = 1500;
+        private boolean enPrison;
 	private Monopoly monopoly;
 	private ArrayList<Compagnie> compagnies = new ArrayList<Compagnie>();
 	private ArrayList<Gare> gares = new ArrayList<Gare>();
@@ -38,6 +39,10 @@ public class Joueur {
             nomJoueur = nomJ;
         }
         
+        public void setEnPrison(boolean enPrison) {
+            this.enPrison = enPrison;
+        }
+            
 	public void achat(Carreau c) {
 		throw new UnsupportedOperationException();
 	}

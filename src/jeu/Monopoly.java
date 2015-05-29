@@ -27,14 +27,15 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-    public static int lancerDes() throws Double{
-        int d1,d2;
-        Random r = new Random();
-        d1 = r.nextInt(6)+1; // 0 à 5  +1
-        d2 = r.nextInt(6)+1;
-        if (d1 == d2)
-            throw new Double();
-        return d1+d2;
+    public static ResultatDes lancerDes() {
+        Random rand = new Random();
+        ResultatDes res = new ResultatDes();
+        int d1 = rand.nextInt(6)+1; // 0 à 5  +1
+        int d2 = rand.nextInt(6)+1;
+        res.setRes(d1+d2);
+        if (d1 == d2) res.setDble(true);
+            else res.setDble(false);
+        return res;
     }
 
     public Carreau getNouveauCarreau(int num) {
@@ -67,10 +68,22 @@ public class Monopoly {
     public void jouerUnCoup(Joueur j) {
         throw new UnsupportedOperationException();
     }
-
-    public void lancerDesAvancer() {
-        throw new UnsupportedOperationException();
+    
+    /**
+     * 
+     * @param j joueur courant
+     * @return Vrai si le lancer est un double, faux sinon.
+     */
+    public boolean lancerDesAvancer(Joueur j) {
+        ResultatDes resLancer;
+        resLancer = lancerDes();
+        int numCarreau = j.getPositionCourante();
+        Carreau c = getNouveauCarreau(resLancer.getRes());
+        j.deplacer(c);
+        return resLancer.isDble();
     }
+    
+       
 
     public void GetNbMaisons() {
         throw new UnsupportedOperationException();
