@@ -27,12 +27,14 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-    public static int lancerDes() {
-        int res = 0;
+    public static int lancerDes() throws Double{
+        int d1,d2;
         Random r = new Random();
-        res += r.nextInt(6)+1; // 0 à 5  +1
-        res += r.nextInt(6)+1;
-        return res;
+        d1 = r.nextInt(6)+1; // 0 à 5  +1
+        d2 = r.nextInt(6)+1;
+        if (d1 == d2)
+            throw new Double();
+        return d1+d2;
     }
 
     public Carreau getNouveauCarreau(int num) {
