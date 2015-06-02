@@ -72,10 +72,9 @@ public class Monopoly {
     }
 
     /**
-     *
-     * @param j joueur courant
-     * @return Vrai si le lancer est un double, faux sinon.
-     */
+      * @param j joueur courant
+      * @return Vrai si le lancer est un double, faux sinon.
+      */
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb;
         nb = lancerDes();
@@ -97,7 +96,7 @@ public class Monopoly {
     public int getNbMaisons() {
         return this.nbMaisons;
     }
-
+    
     private void buildGamePlateau(String dataFilename) {
         /*                0    1     2    3        4    5   6   7   8  9    10        11          12       
          * P propr:     type, num, nom, couleur, prix, 0m, 1m, 2m, 3m, 4m, hotel, prixmaison, prixhotel
@@ -107,10 +106,14 @@ public class Monopoly {
          * C compagnie: type, num, nom, prix
          * CM mouvement:type, num, nom 
          */
-
+        
         try {
             ArrayList<String[]> data = readDataFile(dataFilename, ",");
-
+           
+            ArrayList<Groupe> groupes = new ArrayList<>();
+                for (CouleurPropriete c: CouleurPropriete.values())
+                    groupes.add(new Groupe(c));
+            
             for (int i = 0; i < data.size(); ++i) {
                 String typeCase = data.get(i)[0];
                 // data.get(i)[j] : récupère le jème champ de texte de la ième ligne 
@@ -119,7 +122,7 @@ public class Monopoly {
                     ProprieteAConstruire c = new ProprieteAConstruire();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
-                    c.setGroupe(data.get(i)[3]);
+                    c.setGroupe(getGroupe(CouleurPropriete.valueOf(data.get(i)[3]),groupes));
                     c.setMontantAchat(Integer.parseInt(data.get(i)[4]));
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
                     for (int j = 0; j <= 5; ++j) // for j in 0..5
@@ -171,7 +174,21 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
     }
-
+    
+    /**
+     * Fonction annexe à buildGamePlateau
+     * @param coul couleur du groupe recherché
+     * @param grpes liste de groupes
+     * @return groupe dont la couleur est coul
+     */
+    private Groupe getGroupe(CouleurPropriete coul, ArrayList<Groupe> grpes) {
+        Groupe groupeCible = null;
+        for (Groupe g: grpes) {
+            if (g.getCouleur() == coul)
+                groupeCible = g;
+        }
+        return groupeCible;
+    }
     /**
      * Demande à l'utilisateur d'entrer le nom des joueurs : - A chaque entrée,
      * le joueur est créé avec le nom fournit par l'Utilisateur - Le nouveau
