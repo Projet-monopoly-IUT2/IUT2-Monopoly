@@ -9,7 +9,11 @@ public class Groupe {
     private CouleurPropriete couleur;
     private ArrayList<ProprieteAConstruire> proprietes = new ArrayList<ProprieteAConstruire>();
 
-    public void addPropriete(ProprieteAConstruire p) {
-        proprietes.add(p);
+    public Groupe(CouleurPropriete c) {
+        couleur = c;
+    }
+    
+    public CouleurPropriete getCouleur() {
+        return couleur;
     }
 }
