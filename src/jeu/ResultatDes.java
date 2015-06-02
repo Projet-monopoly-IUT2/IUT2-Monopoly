@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jeu;
 
 /**
@@ -11,6 +10,7 @@ package jeu;
  * @author bethouxa
  */
 public class ResultatDes {
+
     private int res;
     private boolean dble;
 

@@ -3,86 +3,86 @@ package jeu;
 import java.util.ArrayList;
 
 public class Joueur {
-	private String nomJoueur;
-	private int cash = 1500;
-        private boolean enPrison;
-	private Monopoly monopoly;
-	private ArrayList<Compagnie> compagnies = new ArrayList<Compagnie>();
-	private ArrayList<Gare> gares = new ArrayList<Gare>();
-	private Carreau positionCourante;
-	private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
 
-	public int getCash() {
-		return this.cash;
-	}
+    private String nomJoueur;
+    private int cash = 1500;
+    private boolean enPrison;
+    private Monopoly monopoly;
+    private ArrayList<Compagnie> compagnies = new ArrayList<Compagnie>();
+    private ArrayList<Gare> gares = new ArrayList<Gare>();
+    private Carreau positionCourante;
+    private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
 
-	public void setCash(int cash) {
-		this.cash = cash;
-	}
+    public int getCash() {
+        return this.cash;
+    }
 
-	/**
-	 * Renvoit le numero du carreau courant du joueur
-	 */
-	public int getPositionCourante() {
-		throw new UnsupportedOperationException();
-	}
+    public void setCash(int cash) {
+        this.cash = cash;
+    }
 
-	public void deplacer(Carreau c) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * Renvoie le numero du carreau courant du joueur
+     */
+    public int getPositionCourante() {
+        return positionCourante.getNumero();
+    }
 
-	public void setCarreau(Carreau c) {
-		positionCourante = c;
-	}
+    public void deplacer(Carreau c) {
+        this.setCarreau(c);
+    }
 
-        public void setNomJoueur(String nomJ){
-            nomJoueur = nomJ;
-        }
-        
-        public void setEnPrison(boolean enPrison) {
-            this.enPrison = enPrison;
-        }
-            
-	public void achat(Carreau c) {
-		throw new UnsupportedOperationException();
-	}
+    public void setCarreau(Carreau c) {
+        positionCourante = c;
+    }
 
-	public void operation(int prix) {
-		throw new UnsupportedOperationException();
-	}
+    public void setNomJoueur(String nomJ) {
+        nomJoueur = nomJ;
+    }
 
-	/**
-	 * nom + cash + position du joueur
-	 */
-	public String getInfosJoueur() {
-		throw new UnsupportedOperationException();
-	}
+    public void setEnPrison(boolean enPrison) {
+        this.enPrison = enPrison;
+    }
 
-	public String getInfosProprietes() {
-		throw new UnsupportedOperationException();
-	}
+    public void achat(Carreau c) {
+        throw new UnsupportedOperationException();
+    }
 
-	public ArrayList<CarreauPropriete> getProprietes() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * nom + cash + position du joueur
+     */
+    public String getInfosJoueur() {
+        String nomPositionCourante = new String();
+        nomPositionCourante = monopoly.getCarreau(getPositionCourante()).getNomCarreau();
+        return getNomjoueur() + " - " + getCash() + "€ - Position : " + nomPositionCourante + " (case " + getPositionCourante() + ")";
+    }          // plop - 1200€ - Position : Rue de la Paix (case 42)
 
-	public String getNomjoueur() {
-		throw new UnsupportedOperationException();
-	}
+    public String getInfosProprietes() {
+        throw new UnsupportedOperationException();
+    }
 
-	public int getNbGare() {
-		throw new UnsupportedOperationException();
-	}
+    public ArrayList<CarreauPropriete> getProprietes() {
+        throw new UnsupportedOperationException();
+    }
 
-	public int calculNCash(Object argent) {
-		throw new UnsupportedOperationException();
-	}
+    public String getNomjoueur() {
+        return nomJoueur;
+    }
 
-	public void recevoirLoyer(int l) {
-		throw new UnsupportedOperationException();
-	}
+    public int getNbGare() {
+        return gares.size();
+    }
 
-	public void payerLoyer(int l) {
-		throw new UnsupportedOperationException();
-	}
+    public int calculNCash(int argent) {
+        return getCash() - argent;
+        // + ou - ?????
+    }
+
+    public void recevoirLoyer(int l) {
+        setCash(getCash() + l);
+    }
+
+    public void payerLoyer(int l) {
+        setCash(getCash() - l);
+    }
 }

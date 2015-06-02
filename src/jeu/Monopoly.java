@@ -14,7 +14,7 @@ public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
-    private HashMap<Integer,Carreau> carreaux;
+    private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     public InterfaceJeu interfaceJeu;
 
@@ -22,11 +22,11 @@ public class Monopoly {
         carreaux = new HashMap<>();
         buildGamePlateau(dataFilename);
     }
-        
-    public int getCashJoueur() {
-        throw new UnsupportedOperationException();
+
+    public int getCashJoueur(Joueur j) {
+        return j.getCash();
     }
-    
+
     public Carreau getCarreau(int num) {
         return carreaux.get(num);
     }
@@ -34,22 +34,21 @@ public class Monopoly {
     public static ResultatDes lancerDes() {
         Random rand = new Random();
         ResultatDes res = new ResultatDes();
-        int d1 = rand.nextInt(6)+1; // 0 à 5  +1
-        int d2 = rand.nextInt(6)+1;
-        res.setRes(d1+d2);
-        if (d1 == d2) res.setDble(true);
-            else res.setDble(false);
+        int d1 = rand.nextInt(6) + 1; // 0 à 5  +1
+        int d2 = rand.nextInt(6) + 1;
+        res.setRes(d1 + d2);
+        if (d1 == d2) {
+            res.setDble(true);
+        } else {
+            res.setDble(false);
+        }
         return res;
-    }
-
-    public Carreau getNouveauCarreau(int num) {
-        throw new UnsupportedOperationException();
     }
 
     public Joueur getJoueur(String nomJ) {
         Joueur incognito = new Joueur();
         for (Joueur j : joueurs) {
-            if (j.getNomjoueur().equalsIgnoreCase(nomJ)){
+            if (j.getNomjoueur().equalsIgnoreCase(nomJ)) {
                 incognito = j;
             }
         }
@@ -68,13 +67,12 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-
     public void jouerUnCoup(Joueur j) {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
-     * 
+     *
      * @param j joueur courant
      * @return Vrai si le lancer est un double, faux sinon.
      */
@@ -82,12 +80,12 @@ public class Monopoly {
         ResultatDes nb;
         nb = lancerDes();
         int position = j.getPositionCourante();
-        Carreau c = getCarreau(position+nb.getRes());
+        Carreau c = getCarreau(position + nb.getRes());
         j.deplacer(c);
-        
+
         interfaceJeu.afficherJoueur(j);
         ArrayList<Joueur> joueurs = new ArrayList<>();
-        for (Joueur js: joueurs) {
+        for (Joueur js : joueurs) {
             interfaceJeu.afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = new ArrayList<>();
             proprietes = js.getProprietes();
@@ -95,11 +93,9 @@ public class Monopoly {
         }
         return nb.isDble();
     }
-    
-       
 
-    public void GetNbMaisons() {
-        throw new UnsupportedOperationException();
+    public int getNbMaisons() {
+        return this.nbMaisons;
     }
 
     private void buildGamePlateau(String dataFilename) {
@@ -126,40 +122,42 @@ public class Monopoly {
                     c.setGroupe(data.get(i)[3]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[4]));
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
-                    for (int j=0; j <= 5; ++j) // for j in 0..5
+                    for (int j = 0; j <= 5; ++j) // for j in 0..5
+                    {
                         loyerParMaison.add(Integer.parseInt(data.get(i)[j]));
+                    }
                     c.setLoyerParMaison(loyerParMaison);
                     c.setPrixMaison(Integer.parseInt(data.get(i)[11]));
                     c.setPrixHotel(Integer.parseInt(data.get(i)[12]));
-                    this.carreaux.put(Integer.parseInt(data.get(i)[1]),c);
+                    this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("G") == 0) { //Gares
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare c = new Gare();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
-                    this.carreaux.put(Integer.parseInt(data.get(i)[1]),c);
+                    this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("C") == 0) { //Compagnie
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie c = new Compagnie();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
-                    this.carreaux.put(Integer.parseInt(data.get(i)[1]),c);
+                    this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CT") == 0) { // Tirage
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauTirage c = new CarreauTirage();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setTypeTirage(data.get(i)[3]);
-                    this.carreaux.put(Integer.parseInt(data.get(i)[1]),c);
+                    this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CA") == 0) { // Argent
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauArgent c = new CarreauArgent();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontant(Integer.parseInt(data.get(i)[3]));
-                    this.carreaux.put(Integer.parseInt(data.get(i)[1]),c);
+                    this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CM") == 0) { // Mouvement
                     System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                 } else {
@@ -173,16 +171,13 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
     }
-    
-        /**
-         * Demande à l'utilisateur d'entrer le nom des joueurs :
-         *      - A chaque entrée, le joueur est créé avec le nom fournit par l'Utilisateur
-         *      - Le nouveau joueur est placé sur la case départ.
-         */
-    
-    
-    
-        public void initialiserPartie() {
+
+    /**
+     * Demande à l'utilisateur d'entrer le nom des joueurs : - A chaque entrée,
+     * le joueur est créé avec le nom fournit par l'Utilisateur - Le nouveau
+     * joueur est placé sur la case départ.
+     */
+    public void initialiserPartie() {
         int nbJoueurs;
         Scanner sc = new Scanner(System.in);
         System.out.println("Inscription des joueurs : ");
