@@ -62,7 +62,7 @@ public class Joueur {
 		throw new UnsupportedOperationException();
 	}
 
-	public CarreauPropriete getProprietes() {
+	public ArrayList<CarreauPropriete> getProprietes() {
 		throw new UnsupportedOperationException();
 	}
 

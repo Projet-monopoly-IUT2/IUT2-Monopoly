@@ -13,7 +13,7 @@ public class InterfaceJeu {
 		throw new UnsupportedOperationException();
 	}
 
-	public void afficherProprietes(ArrayList<Carreau> c) {
+	public void afficherProprietes(ArrayList<CarreauPropriete> c) {
 		throw new UnsupportedOperationException();
 	}
 
