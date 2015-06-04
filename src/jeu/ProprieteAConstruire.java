@@ -49,8 +49,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
         throw new UnsupportedOperationException();
     }
 
-    public void action() {
-        throw new UnsupportedOperationException();
+    @Override
+    public void action(Joueur j) {
+        super.action(j);
+        construire();
     }
 
     public void setGroupe(Groupe g) {

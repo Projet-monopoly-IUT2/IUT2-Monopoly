@@ -45,5 +45,23 @@ public abstract class CarreauPropriete extends Carreau {
 
     public abstract int calculLoyer();
 
-    public abstract void action();
+    /**
+     *
+     * @param j joueur courant
+     */
+    @Override
+    public void action(Joueur j) {
+        Joueur jProprio = getProprietaire();
+        if (jProprio == null) {
+            achatPropriete();
+        } else if (jProprio != j) {
+                j.payerLoyer(calculLoyer());
+                jProprio.recevoirLoyer(calculLoyer());
+        }
+    }
+
+    public void construire() {
+        throw new UnsupportedOperationException();
+    }
+
 }

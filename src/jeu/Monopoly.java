@@ -68,7 +68,8 @@ public class Monopoly {
     }
 
     public void jouerUnCoup(Joueur j) {
-        throw new UnsupportedOperationException();
+        lancerDesAvancer(j);
+        getCarreau(j.getPositionCourante()).action(j);
     }
 
     /**
@@ -86,8 +87,7 @@ public class Monopoly {
         ArrayList<Joueur> joueurs = new ArrayList<>();
         for (Joueur js : joueurs) {
             interfaceJeu.afficherJoueur(js);
-            ArrayList<CarreauPropriete> proprietes = new ArrayList<>();
-            proprietes = js.getProprietes();
+            ArrayList<CarreauPropriete> proprietes = js.getProprietes();
             interfaceJeu.afficherProprietes(proprietes);
         }
         return nb.isDble();

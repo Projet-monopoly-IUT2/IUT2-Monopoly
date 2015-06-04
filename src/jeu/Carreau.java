@@ -21,4 +21,6 @@ public abstract class Carreau {
     public String getNomCarreau() {
         return nomCarreau;
     }
+    
+    public abstract void action(Joueur j);
 }
