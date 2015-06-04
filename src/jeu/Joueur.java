@@ -12,7 +12,7 @@ public class Joueur {
     private ArrayList<Gare> gares = new ArrayList<Gare>();
     private Carreau positionCourante;
     private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
-
+    
     public int getCash() {
         return this.cash;
     }
@@ -22,7 +22,7 @@ public class Joueur {
     }
 
     /**
-     * Renvoie le numero du carreau courant du joueur
+     * @return numero du carreau courant du joueur
      */
     public int getPositionCourante() {
         return positionCourante.getNumero();
@@ -30,6 +30,10 @@ public class Joueur {
 
     public void deplacer(Carreau c) {
         this.setCarreau(c);
+    }
+    
+    public void deplacer(int numc) {
+        setCarreau(monopoly.getCarreau(numc));
     }
 
     public void setCarreau(Carreau c) {
@@ -43,6 +47,10 @@ public class Joueur {
     public void setEnPrison(boolean enPrison) {
         this.enPrison = enPrison;
     }
+    
+    public boolean isEnPrison() {
+        return enPrison;
+    }
 
     public void achat(Carreau c) {
         throw new UnsupportedOperationException();
@@ -52,8 +60,7 @@ public class Joueur {
      * nom + cash + position du joueur
      */
     public String getInfosJoueur() {
-        String nomPositionCourante = new String();
-        nomPositionCourante = monopoly.getCarreau(getPositionCourante()).getNomCarreau();
+        String nomPositionCourante = monopoly.getCarreau(getPositionCourante()).getNomCarreau();
         return getNomjoueur() + " - " + getCash() + "€ - Position : " + nomPositionCourante + " (case " + getPositionCourante() + ")";
     }          // plop - 1200€ - Position : Rue de la Paix (case 42)
 
