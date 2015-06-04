@@ -7,4 +7,9 @@ public class CarreauArgent extends CarreauAction {
     public void setMontant(int montant) {
         this.montant = montant;
     }
+    
+    @Override
+    public void action(Joueur j){
+         j.setCash(j.getCash()+montant);
+    }
 }

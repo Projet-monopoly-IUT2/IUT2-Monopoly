@@ -80,8 +80,8 @@ public class Monopoly {
         ResultatDes nb;
         nb = lancerDes();
         int position = j.getPositionCourante();
-        Carreau c = getCarreau(position + nb.getRes());
-        j.deplacer(c);
+            Carreau c = getCarreau(position + nb.getRes());
+            j.deplacer(c);
 
         interfaceJeu.afficherJoueur(j);
         ArrayList<Joueur> joueurs = new ArrayList<>();
