@@ -52,7 +52,9 @@ public class ProprieteAConstruire extends CarreauPropriete {
     @Override
     public void action(Joueur j) {
         super.action(j);
-        construire();
+        if (getProprietaire() == j) {
+            construire();
+        }
     }
 
     public void setGroupe(Groupe g) {
