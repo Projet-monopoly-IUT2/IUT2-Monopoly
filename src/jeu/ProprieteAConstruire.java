@@ -39,11 +39,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
 
     public void setLoyerParMaison(LinkedList<Integer> loyerParMaison) {
-        /*int i;
-        for (i = 0; i < loyerParMaison.size(); i++) {
-            this.loyerParMaison.add(loyerParMaison.get(i));
-        }*/
-        this.loyerParMaison = loyerParMaison
+        this.loyerParMaison = loyerParMaison;
     }
 
     public int calculLoyer() {
@@ -61,4 +57,14 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public void setGroupe(Groupe g) {
         groupePropriete = g;
     }
+
+    public int getNbMaisons() {
+        return nbMaisons;
+    }
+
+    public int getNbHotels() {
+        return nbHotels;
+    }
+    
+    
 }

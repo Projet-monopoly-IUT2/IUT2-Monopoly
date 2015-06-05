@@ -88,7 +88,11 @@ public class Monopoly {
         ResultatDes nb;
         nb = lancerDes();
         int position = j.getPositionCourante();
-            j.deplacer((position+nb.getRes())%41);
+        int caseCible = (position+nb.getRes())%41;
+            if (caseCible < j.getPositionCourante() && !(caseCible == 1))
+                //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. La cas ou l'on tombe directement sur la case départ est déjà géré.
+                j.ajouterCash(200);
+            j.deplacer(caseCible);
 
         interfaceJeu.afficherJoueur(j);
         interfaceJeu.afficherResDEs(nb.getRes());

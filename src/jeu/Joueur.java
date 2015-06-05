@@ -60,11 +60,10 @@ public class Joueur {
      * nom + cash + position du joueur
      */
     public String getInfosJoueur() {
-        String nomPositionCourante = positionCourante.getNomCarreau();
+        String nomPositionCourante = monopoly.getCarreau(getPositionCourante()).getNomCarreau();
         return getNomjoueur() + " - " + getCash() + "€ - Position : " + nomPositionCourante + " (case " + getPositionCourante() + ")";
-
     }          // plop - 1200€ - Position : Rue de la Paix (case 42)
-    
+
 
     public String getInfosProprietes() {
         throw new UnsupportedOperationException();
@@ -75,13 +74,13 @@ public class Joueur {
         ArrayList<CarreauPropriete> proprietes = new ArrayList<>();
         for (CarreauPropriete c : compagnies) {
             proprietes.add(c);
-        }
+    }
         for (CarreauPropriete c : proprietesAConstruire) {
             proprietes.add(c);
         }
         for (CarreauPropriete c : gares) {
             proprietes.add(c);
-           
+
         }   
         //On récupère toutes les propriétés du joueur
         return proprietes;
@@ -96,9 +95,17 @@ public class Joueur {
         return gares.size();
     }
 
-    public int calculNCash(int argent) {
-        return getCash() - argent;
+    public int calculCashApresOperation(int argent) {
+        throw new UnsupportedOperationException();
         // + ou - ?????
+    }
+    
+    public void retirerCash(int montant) {
+        setCash(getCash()-montant);
+    }
+    
+    public void ajouterCash(int montant) {
+        setCash(getCash()+montant);
     }
 
     public void recevoirLoyer(int l) {
