@@ -2,6 +2,7 @@ package jeu;
 
 import java.util.LinkedList;
 import java.util.Random;
+import Ui.Interface;
 
 public class CarreauTirage extends CarreauAction {
 
@@ -11,25 +12,15 @@ public class CarreauTirage extends CarreauAction {
     Random rand;
     
     public CarreauTirage() {
-        for (Integer i = 1 ; i<=16 ; ++i) {
-            cartesChance.add(i);
-            cartesCommu.add(i);
-        }
-        
-        // Mélange du paquet
+        cartesChance = new LinkedList<>();
+        cartesCommu = new LinkedList<>();
         rand = new Random();
-        int r,c;
-        for(Integer i = 0 ; i < 250 ; ++i) {
+        Integer r = 0;
+        for (Integer i = 0 ; i<16 ; ++i) {
             r = rand.nextInt(16)+1;
-            c = cartesChance.get(r); // sélectionner une carte au hasard
-            cartesChance.remove(r); //la retirer du paquet
-            cartesChance.offerFirst(c); //la remettre au début
-        }
-        for(Integer i = 0 ; i < 250 ; ++i) {
-            r = rand.nextInt(16)+1;
-            c = cartesCommu.get(r);
-            cartesCommu.remove(r);
-            cartesCommu.offerFirst(c);
+            cartesChance.add(r);
+            r = rand.nextInt(16);
+            cartesCommu.add(r);
         }
     }
     
@@ -59,7 +50,7 @@ public class CarreauTirage extends CarreauAction {
                     }
                     break;
                 case 4:
-                    System.out.println("Amende pour excès de vitesse : 15€");
+                    Interface.affiche("Amende pour excès de vitesse : 15€");
                     j.setCash(j.getCash()-15);
                     break;
                 case 5:

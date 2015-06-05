@@ -113,7 +113,7 @@ public class Monopoly {
             ArrayList<Groupe> groupes = new ArrayList<>();
                 for (CouleurPropriete c: CouleurPropriete.values())
                     groupes.add(new Groupe(c));
-            
+                
             for (int i = 0; i < data.size(); ++i) {
                 String typeCase = data.get(i)[0];
                 // data.get(i)[j] : récupère le jème champ de texte de la ième ligne 
@@ -127,7 +127,7 @@ public class Monopoly {
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
                     for (int j = 0; j <= 5; ++j) // for j in 0..5
                     {
-                        loyerParMaison.add(Integer.parseInt(data.get(i)[j]));
+                        loyerParMaison.add(Integer.parseInt(data.get(i)[j+5]));
                     }
                     c.setLoyerParMaison(loyerParMaison);
                     c.setPrixMaison(Integer.parseInt(data.get(i)[11]));
@@ -151,8 +151,7 @@ public class Monopoly {
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauTirage c = new CarreauTirage();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
-                    c.setNomCarreau(data.get(i)[2]);
-                    c.setTypeTirage(data.get(i)[3]);
+                    c.setTypeTirage(data.get(i)[2]);
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CA") == 0) { // Argent
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
@@ -167,7 +166,7 @@ public class Monopoly {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
             }
-
+            
         } catch (FileNotFoundException e) {
             System.err.println("[buildGamePlateau()] : File is not found!");
         } catch (IOException e) {
