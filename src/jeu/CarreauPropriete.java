@@ -64,4 +64,10 @@ public abstract class CarreauPropriete extends Carreau {
         throw new UnsupportedOperationException();
     }
 
+    public int getloyerBase(){
+        return loyerBase;
+    }
+    
+    
+    
 }
