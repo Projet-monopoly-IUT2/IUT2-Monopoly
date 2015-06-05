@@ -14,8 +14,13 @@ public class InterfaceJeu {
        System.out.println("Joueur : " + j.getInfosJoueur());
     }
    
-    public void afficherProprietes(ArrayList<CarreauPropriete> c) {
-        throw new UnsupportedOperationException();
+    public void afficherResDEs( int res) {
+       System.out.println(" Resultat des dès : " + res); 
+    }
+    public void afficherProprietes(ArrayList<CarreauPropriete> cs) {
+        for (CarreauPropriete c : cs) {
+            System.out.println("Propriété : " + c.getInfosCarreau());
+        }
     }
 
     public void AfficherLoyer(String infos) {

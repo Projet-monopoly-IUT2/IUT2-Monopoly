@@ -71,7 +71,21 @@ public class Joueur {
     }
 
     public ArrayList<CarreauPropriete> getProprietes() {
-  return null;
+        
+        ArrayList<CarreauPropriete> proprietes = new ArrayList<>();
+        for (CarreauPropriete c : compagnies) {
+            proprietes.add(c);
+        }
+        for (CarreauPropriete c : proprietesAConstruire) {
+            proprietes.add(c);
+        }
+        for (CarreauPropriete c : gares) {
+            proprietes.add(c);
+           
+        }   
+        //On récupère toutes les propriétés du joueur
+        return proprietes;
+  
     }
 
     public String getNomjoueur() {

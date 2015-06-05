@@ -16,7 +16,7 @@ public class Monopoly {
     private int nbHotels = 12;
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
-    public InterfaceJeu interfaceJeu;
+    public InterfaceJeu interfaceJeu = new InterfaceJeu();
     
 
     public Monopoly(String dataFilename) {
@@ -92,11 +92,15 @@ public class Monopoly {
             j.deplacer(c);
 
         interfaceJeu.afficherJoueur(j);
-//        ArrayList<Joueur> joueurs = new ArrayList<>();
+        interfaceJeu.afficherResDEs(nb.getRes());
+
         for (Joueur js : joueurs) {
             interfaceJeu.afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = js.getProprietes();
-            interfaceJeu.afficherProprietes(proprietes);
+            if (proprietes != null) {
+                interfaceJeu.afficherProprietes(proprietes);
+            }
+            
         }
         return nb.isDble();
     }
