@@ -88,8 +88,7 @@ public class Monopoly {
         ResultatDes nb;
         nb = lancerDes();
         int position = j.getPositionCourante();
-            Carreau c = getCarreau(position + nb.getRes());
-            j.deplacer(c);
+            j.deplacer((position+nb.getRes())%41);
 
         interfaceJeu.afficherJoueur(j);
         interfaceJeu.afficherResDEs(nb.getRes());
