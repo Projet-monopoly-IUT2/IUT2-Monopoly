@@ -92,7 +92,7 @@ public class Monopoly {
             j.deplacer(c);
 
         interfaceJeu.afficherJoueur(j);
-        ArrayList<Joueur> joueurs = new ArrayList<>();
+//        ArrayList<Joueur> joueurs = new ArrayList<>();
         for (Joueur js : joueurs) {
             interfaceJeu.afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = js.getProprietes();
