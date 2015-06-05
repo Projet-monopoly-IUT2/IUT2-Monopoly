@@ -11,14 +11,14 @@ public class InterfaceJeu {
     }
 
     public void afficherJoueur(Joueur j) {
-        throw new UnsupportedOperationException();
+       System.out.println("Joueur : " + j.getInfosJoueur());
     }
-
+   
     public void afficherProprietes(ArrayList<CarreauPropriete> c) {
         throw new UnsupportedOperationException();
     }
 
     public void AfficherLoyer(String infos) {
-        throw new UnsupportedOperationException();
+        System.out.println(infos);
     }
 }

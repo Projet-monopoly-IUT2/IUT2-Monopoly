@@ -17,11 +17,19 @@ public class Monopoly {
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     public InterfaceJeu interfaceJeu;
+    
 
     public Monopoly(String dataFilename) {
         carreaux = new HashMap<>();
         buildGamePlateau(dataFilename);
+//     4
     }
+
+    public LinkedList<Joueur> getJoueurs() {
+        return joueurs;
+    }
+    
+    
 
     public int getCashJoueur(Joueur j) {
         return j.getCash();
@@ -197,17 +205,24 @@ public class Monopoly {
     public void initialiserPartie() {
         int nbJoueurs;
         Scanner sc = new Scanner(System.in);
+        Scanner sc2 = new Scanner(System.in);
+        
         System.out.println("Inscription des joueurs : ");
         System.out.print("Nombre de joueurs (2-6) : ");
         nbJoueurs = sc.nextInt();
-        int i;
-        for (i = 0; i < nbJoueurs; ++i) {
-            joueurs.add(new Joueur());
-            Joueur j = joueurs.get(i); // récupération du dernier joueur (que l'on vient d'ajouter)
-            System.out.print("Nom du joueur " + i + 1 + " : ");
-            String nj = sc.nextLine();
+        while (nbJoueurs < 2 || nbJoueurs > 6) {
+            System.out.println("Entrez un nombre entre 2 et 6 : ");
+            nbJoueurs = sc.nextInt();
+        }
+
+        for (int i = 1; i <= nbJoueurs; i++) {
+            System.out.print("Nom du joueur " + i+ " : ");
+            String nj = sc2.nextLine();
+            Joueur j = new Joueur();
             j.setNomJoueur(nj);
-            j.setCarreau(carreaux.get(1)); //Placement sur le 1er carreau (case départ)
+            j.setCarreau(carreaux.get(1));
+            joueurs.add(j);
+            //Placement sur le 1er carreau (case départ)
         }
     }
 
