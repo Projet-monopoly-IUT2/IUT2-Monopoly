@@ -14,6 +14,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
     private LinkedList<Integer> loyerParMaison;
     private Groupe groupePropriete;
 
+    public ProprieteAConstruire(Monopoly monopoly) {
+        super(monopoly);
+    }
+
     public int CalculMontantLoyer(ArrayList<Carreau> proprietes) {
         throw new UnsupportedOperationException();
     }

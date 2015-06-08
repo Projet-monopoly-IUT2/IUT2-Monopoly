@@ -8,6 +8,10 @@ public abstract class CarreauPropriete extends Carreau {
     private int montantLoyer;
     private Joueur proprietaire;
 
+    public CarreauPropriete(Monopoly monopoly) {
+        super(monopoly);
+    }
+
     public void achatPropriete() {
         throw new UnsupportedOperationException();
     }

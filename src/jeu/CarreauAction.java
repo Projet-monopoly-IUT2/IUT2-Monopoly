@@ -1,9 +1,8 @@
 package jeu;
 
 public abstract class CarreauAction extends Carreau {
-    private Monopoly monopoly;
-    
-    protected Monopoly getMonopoly() {
-        return monopoly;
+
+    public CarreauAction(Monopoly monopoly) {
+        super(monopoly);
     }
-}
+ }

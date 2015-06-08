@@ -11,7 +11,8 @@ public class CarreauTirage extends CarreauAction {
     private LinkedList<Integer> cartesCommu;
     Random rand;
     
-    public CarreauTirage() {
+    public CarreauTirage(Monopoly mono) {
+        super(mono);
         cartesChance = new LinkedList<>();
         cartesCommu = new LinkedList<>();
         rand = new Random();
