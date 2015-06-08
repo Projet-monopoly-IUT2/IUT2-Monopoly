@@ -13,6 +13,12 @@ public class Joueur {
     private Carreau positionCourante;
     private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
     
+    public Joueur( Monopoly monopoly) {
+        this.monopoly = monopoly;
+        enPrison = false;
+        
+    }
+    
     public int getCash() {
         return this.cash;
     }

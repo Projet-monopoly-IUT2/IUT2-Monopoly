@@ -54,7 +54,7 @@ public class Monopoly {
     }
 
     public Joueur getJoueur(String nomJ) {
-        Joueur incognito = new Joueur();
+        Joueur incognito = new Joueur(this);
         for (Joueur j : joueurs) {
             if (j.getNomjoueur().equalsIgnoreCase(nomJ)) {
                 incognito = j;
@@ -98,6 +98,7 @@ public class Monopoly {
         interfaceJeu.afficherResDEs(nb.getRes());
 
         for (Joueur js : joueurs) {
+            System.out.println("Etat de tous les joueurs : ");
             interfaceJeu.afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = js.getProprietes();
             if (proprietes != null) {
@@ -133,7 +134,7 @@ public class Monopoly {
                 String typeCase = data.get(i)[0];
                 // data.get(i)[j] : récupère le jème champ de texte de la ième ligne 
                 if (typeCase.compareTo("P") == 0) { //Propriétés
-                    System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    System.out.println("Propriété :\t" + data.get(i)[2] +  "\t@ case " + data.get(i)[1]);
                     ProprieteAConstruire c = new ProprieteAConstruire();
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
@@ -224,7 +225,7 @@ public class Monopoly {
         for (int i = 1; i <= nbJoueurs; i++) {
             System.out.print("Nom du joueur " + i+ " : ");
             String nj = sc2.nextLine();
-            Joueur j = new Joueur();
+            Joueur j = new Joueur(this);
             j.setNomJoueur(nj);
             j.setCarreau(carreaux.get(1));
             joueurs.add(j);
