@@ -16,6 +16,7 @@ public class Monopoly {
     private int nbHotels = 12;
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
+    private Joueur jCourant;
     private int resultatDes;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
     
@@ -62,6 +63,10 @@ public class Monopoly {
             }
         }
         return incognito;
+    }
+    
+    public Joueur getJoueur(int numJ) {
+        return joueurs.get(numJ);
     }
 
     public void possibiliteAchat(Joueur j, CarreauPropriete c) {
@@ -247,6 +252,54 @@ public class Monopoly {
             //Placement sur le 1er carreau (case départ)
         }
     }
+
+    public Joueur getJCourant() {
+        return jCourant;
+    }
+
+    public void setjCourant(Joueur jCourant) {
+        this.jCourant = jCourant;
+    }
+    
+    //Snippet, il faudra lui trouver une place plus appropriée. Le main ?
+    
+    public void jouerPlusieursCoups() {
+        int compteurTours = 1;
+        boolean continuer = true;
+
+        while (continuer) {
+            
+            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés
+            if (compteurTours == 1) {
+                int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
+                for (int i = 1 ; i <= getJoueurs().size() ; ++i){
+                    lancer = lancerDes().getRes();
+                    if(lancer > meilleurLancer) {
+                        meilleurLancer = lancer;
+                        premierJoueur = i;
+                    }               
+                }
+                setjCourant(getJoueur(premierJoueur));
+            }
+            
+            //TODO 
+            
+            
+            int nbJoueursFaillite = 0;
+            for (Joueur j : getJoueurs()) {
+                if (j.getCash() <= 0) ++nbJoueursFaillite;
+            }
+            if (nbJoueursFaillite == getJoueurs().size()) {
+                continuer = false;
+            }
+        }
+
+    }
+
+
+    
+    
+    
 
     private ArrayList<String[]> readDataFile(String filename, String token) throws FileNotFoundException, IOException {
         ArrayList<String[]> data = new ArrayList<String[]>();
