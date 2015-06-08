@@ -22,7 +22,7 @@ public class Monopoly {
     public Monopoly(String dataFilename) {
         carreaux = new HashMap<>();
         buildGamePlateau(dataFilename);
-//     4
+
     }
 
     public LinkedList<Joueur> getJoueurs() {
@@ -135,7 +135,7 @@ public class Monopoly {
                 // data.get(i)[j] : récupère le jème champ de texte de la ième ligne 
                 if (typeCase.compareTo("P") == 0) { //Propriétés
                     System.out.println("Propriété :\t" + data.get(i)[2] +  "\t@ case " + data.get(i)[1]);
-                    ProprieteAConstruire c = new ProprieteAConstruire();
+                    ProprieteAConstruire c = new ProprieteAConstruire(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setGroupe(getGroupe(CouleurPropriete.valueOf(data.get(i)[3]),groupes));
@@ -151,27 +151,27 @@ public class Monopoly {
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("G") == 0) { //Gares
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    Gare c = new Gare();
+                    Gare c = new Gare(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("C") == 0) { //Compagnie
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    Compagnie c = new Compagnie();
+                    Compagnie c = new Compagnie(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CT") == 0) { // Tirage
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    CarreauTirage c = new CarreauTirage();
+                    CarreauTirage c = new CarreauTirage(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setTypeTirage(data.get(i)[2]);
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CA") == 0) { // Argent
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    CarreauArgent c = new CarreauArgent();
+                    CarreauArgent c = new CarreauArgent(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontant(Integer.parseInt(data.get(i)[3]));

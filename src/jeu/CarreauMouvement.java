@@ -4,6 +4,10 @@ public class CarreauMouvement extends CarreauAction {
 
     private int caseCible;
 
+    public CarreauMouvement(Monopoly monopoly) {
+        super(monopoly);
+    }
+
     public int getCaseCible() {
         return caseCible;
     }

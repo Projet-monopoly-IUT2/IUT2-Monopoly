@@ -6,6 +6,10 @@ public abstract class Carreau {
     private String nomCarreau;
     private Monopoly monopoly;
 
+    public Carreau(Monopoly monopoly){
+        this.monopoly = monopoly;
+    }
+    
     public int getNumero() {
         return this.numero;
     }
@@ -20,6 +24,10 @@ public abstract class Carreau {
 
     public String getNomCarreau() {
         return nomCarreau;
+    }
+    
+    public Monopoly getMonopoly(){
+        return this.monopoly;
     }
     
     public abstract void action(Joueur j);
