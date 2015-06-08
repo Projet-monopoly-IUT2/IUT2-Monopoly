@@ -36,30 +36,30 @@ public class CarreauTirage extends CarreauAction {
             cartesChance.offerLast(c);
             switch (c) {
                 case 1: 
-                    Interface.affiche("Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.");
+                    Interface.afficher("Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.");
                     // ???
                     break;
                 case 2:
-                    Interface.affiche("Reculez de trois cases");
+                    Interface.afficher("Reculez de trois cases");
                     j.deplacer(j.getPositionCourante()-3);
                     break;
                 case 3:
-                    Interface.affiche("Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.");
+                    Interface.afficher("Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.");
                     for (CarreauPropriete p: j.getProprietes()) {
                         
                     }
                     break;
                 case 4:
-                    Interface.affiche("Amende pour excès de vitesse : 15€");
+                    Interface.afficher("Amende pour excès de vitesse : 15€");
                     j.retirerCash(15);
                     break;
                 case 5:
-                    Interface.affiche("Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.");
+                    Interface.afficher("Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.");
                     int prix = 0;
                     for (CarreauPropriete p: j.getProprietes()) {
-                        if (p.getClass().getSimpleName() == "ProprieteAConstruire") {
-                            prix += ((ProprieteAConstruire)p.getNbMaisons()*25);
-                            prix += ((ProprieteAConstruire)p.getNbHotels()*100);
+                        if (p.getClass().getSimpleName().equalsIgnoreCase("ProprieteAConstruire")) {
+                            prix += (((ProprieteAConstruire)p).getNbMaisons()*25);
+                            prix += (((ProprieteAConstruire)p).getNbHotels()*100);
                         }
                     }
                     j.retirerCash(prix);
@@ -81,10 +81,10 @@ public class CarreauTirage extends CarreauAction {
                     j.deplacer(25);
                     break;
                 case 10: 
-                    Interface.afficher("Allez à la gare de Lyon, Si vous passez par la case départ, recevez 200€")
+                    Interface.afficher("Allez à la gare de Lyon, Si vous passez par la case départ, recevez 200€");
                     if (j.getPositionCourante() > 16)
                         j.ajouterCash(200);
-                    j.deplacer(16)
+                    j.deplacer(16);
                     break;
                 case 11:
                     Interface.afficher("Payez pour frais de scolarité : 150€");
