@@ -15,7 +15,7 @@ public class Compagnie extends CarreauPropriete {
     public int calculLoyer(Joueur j) {
           Joueur jproprio = this.getProprietaire();
           int nbCompagnies = jproprio.getNbCompagnies();
-          String nomP = jproprio.getNomJoueur();
+          
           int loyer = 0;
           int nouveauCash;
           
