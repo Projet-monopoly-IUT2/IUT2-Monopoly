@@ -166,6 +166,7 @@ public class Monopoly {
                 } else if (typeCase.compareTo("CT") == 0) { // Tirage
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauTirage c = new CarreauTirage(this);
+                    c.setNomCarreau(data.get(i)[2]);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setTypeTirage(data.get(i)[2]);
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
