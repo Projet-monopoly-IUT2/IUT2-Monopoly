@@ -110,18 +110,9 @@ public class Monopoly {
             
         interfaceJeu.afficherResDEs(nb.getRes());
         interfaceJeu.afficherJoueur(j);
-       
+        interfaceJeu.afficherEtatJoueurs(joueurs);
 
-        System.out.println("Etat de tous les joueurs : ");
-        for (Joueur js : joueurs) {
-            
-            interfaceJeu.afficherJoueur(js);
-            ArrayList<CarreauPropriete> proprietes = js.getProprietes();
-            if (proprietes != null) {
-                interfaceJeu.afficherProprietes(proprietes);
-            }
-            
-        }
+     
         return nb.isDble();
     }
 

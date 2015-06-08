@@ -1,6 +1,7 @@
 package jeu;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class InterfaceJeu {
@@ -20,15 +21,22 @@ public class InterfaceJeu {
     public void afficherJoueur(Joueur j) {
     
        String nomPositionCourante = monopoly.getCarreau(j.getPositionCourante()).getNomCarreau();
-//       ProprieteAConstruire p = new ProprieteAConstruire(monopoly);
-//        if (j.getCarreauCourant().equals(p)) {
-//            p = (ProprieteAConstruire)j.getCarreauCourant();
-//       System.out.println( "Joueur : " + j.getNomjoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + p.getGroupePropriete().getCouleur().toString()); 
-//        }
-//        else {
        System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" );      
         
     
+    }
+    
+    public void afficherEtatJoueurs(LinkedList<Joueur>joueurs) {
+         System.out.println("Etat de tous les joueurs : ");
+        for (Joueur js : joueurs) {
+            
+            afficherJoueur(js);
+            ArrayList<CarreauPropriete> proprietes = js.getProprietes();
+            if (proprietes != null) {
+                afficherProprietes(proprietes);
+            }
+            
+        }
     }
    
     public void afficherResDEs( int res) {
@@ -43,6 +51,7 @@ public class InterfaceJeu {
     }
 
     public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
+        System.out.println("Payement de loyer : ");
         System.out.println("Proprio : "+jproprio.getNomJoueur() + " Loyer : " + loyer + " Cash après payement : " +nouveauCash);
     }
    
