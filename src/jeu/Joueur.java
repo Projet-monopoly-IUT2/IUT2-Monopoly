@@ -115,11 +115,11 @@ public class Joueur {
     }
 
     public void recevoirLoyer(int l) {
-        setCash(getCash() + l);
+        ajouterCash(l);
     }
 
     public void payerLoyer(int l) {
-        setCash(getCash() - l);
+        retirerCash(l);
     }
     
     public int getNbCompagnies () {
