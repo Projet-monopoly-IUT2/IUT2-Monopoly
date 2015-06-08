@@ -80,7 +80,6 @@ public class Joueur {
     }
 
     public ArrayList<CarreauPropriete> getProprietes() {
-        
         ArrayList<CarreauPropriete> proprietes = new ArrayList<>();
         for (CarreauPropriete c : compagnies) {
             proprietes.add(c);
@@ -136,5 +135,15 @@ public class Joueur {
     
     public int getNbCompagnies () {
         return compagnies.size();
+    }
+    
+    public void setPropriete(CarreauPropriete c){
+        if (c instanceof ProprieteAConstruire)
+            proprietesAConstruire.add((ProprieteAConstruire)c);
+        else if (c instanceof Gare)
+            gares.add((Gare)c);
+        else if (c instanceof Compagnie)
+            compagnies.add((Compagnie)c);
+
     }
 }
