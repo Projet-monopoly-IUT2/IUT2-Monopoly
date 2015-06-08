@@ -3,26 +3,28 @@ package jeu;
 import java.util.LinkedList;
 import java.util.Random;
 import Ui.Interface;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class CarreauTirage extends CarreauAction {
 
     private String typeTirage;
-    private LinkedList<Integer> cartesChance;    
+    private LinkedList<Integer> cartesChance;
     private LinkedList<Integer> cartesCommu;
     Random rand;
-    
+
     public CarreauTirage(Monopoly mono) {
         super(mono);
         cartesChance = new LinkedList<>();
         cartesCommu = new LinkedList<>();
         rand = new Random();
-        Integer r = 0;
-        for (Integer i = 0 ; i<16 ; ++i) {
-            r = rand.nextInt(16)+1;
-            cartesChance.add(r);
-            r = rand.nextInt(16);
-            cartesCommu.add(r);
+        
+        for (Integer i = 1; i <= 16; ++i) {
+            cartesChance.add(i);
+            cartesCommu.add(i);
         }
+        Collections.shuffle(cartesChance);
+        Collections.shuffle(cartesCommu);
     }
     
     public void setTypeTirage(String type) {
@@ -31,8 +33,8 @@ public class CarreauTirage extends CarreauAction {
     
     @Override
     public void action(Joueur j) {
-        if (typeTirage.equals("chance")) {
-            int c;
+        int c;
+        if (typeTirage.equalsIgnoreCase("chance")) {
             c = cartesChance.poll();
             cartesChance.offerLast(c);
             switch (c) {
@@ -68,13 +70,16 @@ public class CarreauTirage extends CarreauAction {
                 case 6:
                     Interface.afficher("Amende pour ivresse : 20€");
                     j.retirerCash(20);
+                    break;
                 case 7:
                     Interface.afficher("Allez à la case départ");
                     j.deplacer(1);
+                    break;
                 case 8:
                     Interface.afficher("Allez en prison. Allez directement en prison, ne passez pas par la case départ, ne recevez pas 200€.");
                     j.deplacer(11); // Prison
                     j.setEnPrison(true);
+                    break;
                 case 9:
                     Interface.afficher("Rendez-vous à l'avenue Henri-Martin. Si vous passez par la case départ, recevez 200€.");
                     if (j.getPositionCourante() > 25)
@@ -115,7 +120,6 @@ public class CarreauTirage extends CarreauAction {
                     break;
             }  
         } else {
-            int c;
             c = cartesCommu.poll();
             cartesCommu.offerLast(c);
             switch (c) {
@@ -126,6 +130,7 @@ public class CarreauTirage extends CarreauAction {
                 case 2:
                     Interface.afficher("Payez une amende de 10€");
                     j.retirerCash(10);
+                    break;
                 case 3:
                     Interface.afficher("C'est votre anniversaire, chaque joueur doit vous donner 10€.");
                     int cagnotte = 0;
@@ -190,5 +195,12 @@ public class CarreauTirage extends CarreauAction {
             }
         }
     }
+    
+    public int getCarteChance(){ // Testing
+        return cartesChance.peek();
+    }
+    public int getCarteCommu(){ // Testing
+        return cartesCommu.peek();
+    }    
 }
 
