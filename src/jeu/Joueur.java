@@ -26,6 +26,20 @@ public class Joueur {
     public void setCash(int cash) {
         this.cash = cash;
     }
+    
+    
+    public void setProprieteCompagnie(Compagnie c) {
+        compagnies.add(c);
+    }
+    
+    public void setProprieteGare(Gare c) {
+        gares.add(c);
+    }
+        
+    public void setProprieteAConstruire(ProprieteAConstruire c) {
+        proprietesAConstruire.add(c);
+    }
+    
 
     /**
      * @return numero du carreau courant du joueur
