@@ -30,11 +30,12 @@ public class Compagnie extends CarreauPropriete {
           return loyer;
     }
     
+    
     @Override
     public void action(Joueur j) {
         Joueur jproprio = this.getProprietaire();
         if (jproprio ==  null) {
-            super.achatPropriete();
+            super.achatPropriete(j);
             }
         else {
             if (jproprio != j) {
