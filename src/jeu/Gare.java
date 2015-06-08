@@ -8,7 +8,12 @@ public class Gare extends CarreauPropriete {
     }
 
 
-       
+    /**
+     * Calcule le loyer en fonction du nombre de gares possédées par le
+     * propriétaire de cette case.
+     * @param j le joueur courant
+     * @return le montant su loyer
+     */
     @Override
     public int calculLoyer(Joueur j) {
       Joueur jproprio = this.getProprietaire();

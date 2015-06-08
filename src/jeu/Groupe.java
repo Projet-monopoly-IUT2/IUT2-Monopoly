@@ -13,10 +13,16 @@ public class Groupe {
         couleur = c;
     }
     
+    /**
+     * @return CouleurPropriete associée au groupe
+     */
     public CouleurPropriete getCouleur() {
         return couleur;
     }
     
+    /**
+     * @return propriétés du groupe 
+     */
     public ArrayList<ProprieteAConstruire> getProprietes() {
         return proprietes;
     }

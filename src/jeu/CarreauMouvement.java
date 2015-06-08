@@ -15,7 +15,10 @@ public class CarreauMouvement extends CarreauAction {
     public void setCaseCible(int caseCible) {
         this.caseCible = caseCible;
     }
-    
+    /**
+     * Déplace le joueur sur la case cible.
+     * @param j le joueur courant
+     */
     public void action(Joueur j){
         j.deplacer(caseCible);
     }

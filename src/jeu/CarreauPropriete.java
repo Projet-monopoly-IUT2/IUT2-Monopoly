@@ -11,7 +11,10 @@ public abstract class CarreauPropriete extends Carreau {
     public CarreauPropriete(Monopoly monopoly) {
         super(monopoly);
     }
-
+    /**
+     * Méthode invoquée pour l'achat d'une case par un joueur
+     * @param j le joueur achetant la propriété
+     */
     public void achatPropriete(Joueur j) {
         int cash = j.getCash();
         int PrixApayer = this.getMontantAchat();
@@ -29,7 +32,7 @@ public abstract class CarreauPropriete extends Carreau {
     }
 
     /**
-     * @return nom + numero
+     * @return chaine de caractère contenant nom et numéro de la case
      */
     public String getInfosCarreau() {
         return super.getNomCarreau() + " : " + String.valueOf(super.getNumero());
@@ -58,7 +61,8 @@ public abstract class CarreauPropriete extends Carreau {
     //public abstract int calculLoyer(Joueur j);
 
     /**
-     *
+     * Selon le propriétaire, va proposer d'acheter la case, construire 
+     * dessus ou payer le loyer à son propriétaire
      * @param j joueur courant
      */
     @Override
@@ -74,6 +78,10 @@ public abstract class CarreauPropriete extends Carreau {
         }
     }
 
+    /**
+     * Propose la construction d'une maison sur un terrain de la même couleur 
+     * que celui ou se trouve le joueur courant, et la construit si nécéssaire.
+     */
     public void construire() {
         throw new UnsupportedOperationException();
     }
@@ -87,8 +95,12 @@ public abstract class CarreauPropriete extends Carreau {
     }
     
     
-    
-   public abstract int calculLoyer(Joueur j); 
+    /**
+     * Calcule le loyer dû.
+     * @param j le joueur courant
+     * @return le loyer à payer
+     */
+    public abstract int calculLoyer(Joueur j); 
        
    
     

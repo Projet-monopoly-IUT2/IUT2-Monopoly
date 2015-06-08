@@ -15,7 +15,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public ProprieteAConstruire(Monopoly monopoly) {
         super(monopoly);
     }
-
+    /**
+     * Construit une maison sur cette propriété
+     */
+    // Nème duplicata de construire... ménage à faire.
     public void construire() {
         throw new UnsupportedOperationException();
     }
@@ -43,7 +46,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public void setLoyerParMaison(LinkedList<Integer> loyerParMaison) {
         this.loyerParMaison = loyerParMaison;
     }
-
+    /**
+     * Effectue les actions de base et propose de construire le cas échéant
+     * @param j joueur courant
+     */
     @Override
     public void action(Joueur j) {        
         if (getProprietaire() != j){
@@ -57,15 +63,26 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public void setGroupe(Groupe g) {
         groupePropriete = g;
     }
-
+    /**
+     * Retourne le nombre de maisons actuellement construites sur ce carreau
+     * @return nombre de maisons construites
+     */
     public int getNbMaisonsC() {
         return nbMaisonsC;
     }
-
+    /**
+     * Retourne le nombre d'hotels construites sur ce carreau
+     * @return nombre d'hotels
+     */
     public int getNbHotelsC() {
         return nbHotelsC;
     }
-
+    /**
+     * Calcule le loyer en fonction du nombre de maisons et du nombre de terrains
+     * du groupe appartenant au proprio de cette case.
+     * @param j joueur courant
+     * @return montant du loyer
+     */
     @Override
     public int calculLoyer(Joueur j) {
         int loyer;

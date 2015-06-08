@@ -17,7 +17,6 @@ public class Monopoly {
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     private Joueur jCourant;
-    private int resultatDes;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
     
 
@@ -32,15 +31,29 @@ public class Monopoly {
     }
     
     
-
+    /**
+     * Retourne le solde d'un joueur
+     * @param j joueur
+     * @return montant du solde du joueur
+     */
     public int getCashJoueur(Joueur j) {
         return j.getCash();
     }
-
+    
+    /**
+     * Récupère un carreau selon son numéro
+     * @param num numéro du carreau à récupérer
+     * @return carreau où numCarreau = num
+     */
     public Carreau getCarreau(int num) {
         return carreaux.get(num);
     }
 
+    /**
+     * Lance les dés et renvoie une structure contenant le résultat et 
+     * un booléen valant vrai si le lencer est un double
+     * @return résultat du lancer
+     */
     public static ResultatDes lancerDes() {
         Random rand = new Random();
         ResultatDes res = new ResultatDes();
@@ -55,6 +68,11 @@ public class Monopoly {
         return res;
     }
 
+    /**
+     * Renvoie un joueur dont le nom est nomJ
+     * @param nomJ nom du joueur à retourner
+     * @return joueur où nom = nomJ
+     */
     public Joueur getJoueur(String nomJ) {
         Joueur incognito = new Joueur(this);
         for (Joueur j : joueurs) {
@@ -65,10 +83,21 @@ public class Monopoly {
         return incognito;
     }
     
+    /**
+     * Récupère le numJème joueur 
+     * @param numJ numéro du joueur à retourner
+     * @return joueur où numero = numJ
+     */
     public Joueur getJoueur(int numJ) {
         return joueurs.get(numJ);
     }
 
+    /**
+     *  ???
+     * @param j
+     * @param c 
+     */
+    // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
     public void possibiliteAchat(Joueur j, CarreauPropriete c) {
         interfaceJeu.afficherAchat(c, j);
         if (interfaceJeu.ChoixAchat(j, c)){
@@ -80,8 +109,7 @@ public class Monopoly {
            } else if (c instanceof ProprieteAConstruire) {
                j.setPropriete(c);
            }
-           int NouvCash = j.getCash()-c.getMontantAchat();
-           j.setCash(NouvCash);
+           j.retirerCash(c.getMontantAchat());
             System.out.println("Vous venez d'acheter cette propriété, bravo !");
         }
         else {
@@ -89,19 +117,33 @@ public class Monopoly {
         }
     }
 
+    /**
+     * Procède à l'affichage d'un paiement de loyer
+     * @param jproprio propriétaire du carreau
+     * @param loyer montant du loyer à payer
+     * @param nouveauCash solde après paiement
+     */
+    // Afficher joueur qui paie ?
     public void InfosLoyer(Joueur jproprio, int loyer, int nouveauCash) {
        interfaceJeu.AfficherLoyer(jproprio, loyer, nouveauCash);
     }
 
+    /**
+     * Fait avancer le joueur et effectue l'action correspondante à la case sur laquelle il se trouve.
+     * Rejoue si le joueur a fait un double.
+     * @param j joueur courant
+     */
     public void jouerUnCoup(Joueur j) {
+        // penser à gérer cas du double !!!
         lancerDesAvancer(j);
         getCarreau(j.getPositionCourante()).action(j);
     }
 
     /**
-      * @param j joueur courant
-      * @return Vrai si le lancer est un double, faux sinon.
-      */
+     * Fait avancer le joueur selon un lancer de dés.
+     * @param j joueur courant
+     * @return Vrai si le lancer est un double, faux sinon.
+     */
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb;
         nb = lancerDes();
@@ -109,28 +151,27 @@ public class Monopoly {
         int position = j.getPositionCourante();
         int caseCible = (position+nb.getRes())%41;
             if (caseCible < j.getPositionCourante() && !(caseCible == 1))
-                //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. La cas ou l'on tombe directement sur la case départ est déjà géré.
+                //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
             j.deplacer(caseCible);
             
-        interfaceJeu.afficherResDEs(nb.getRes());
+        interfaceJeu.afficherResDes(nb);
         interfaceJeu.afficherJoueur(j);
         interfaceJeu.afficherEtatJoueurs(joueurs);
 
      
         return nb.isDble();
     }
-
-    public int getResultatDes() {
-        return resultatDes;
-    }
     
-    
-
     public int getNbMaisons() {
         return this.nbMaisons;
     }
     
+    /**
+     * Initialise le plateau de jeu en fonction du contenu du fichier de données.
+     * Le fichier de données contient le type de chaque carreau et ses attributs correcpondants.
+     * @param dataFilename chemin du dossier de données
+     */
     private void buildGamePlateau(String dataFilename) {
         /*                0    1     2    3        4    5   6   7   8  9    10        11          12       
          * P propr:     type, num, nom, couleur, prix, 0m, 1m, 2m, 3m, 4m, hotel, prixmaison, prixhotel
@@ -226,7 +267,7 @@ public class Monopoly {
     }
     /**
      * Demande à l'utilisateur d'entrer le nom des joueurs : - A chaque entrée,
-     * le joueur est créé avec le nom fournit par l'Utilisateur - Le nouveau
+     * le joueur est créé avec le nom fourni par l'utilisateur - Le nouveau
      * joueur est placé sur la case départ.
      */
     public void initialiserPartie() {

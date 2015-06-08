@@ -10,7 +10,11 @@ public class CarreauTirage extends CarreauAction {
     private LinkedList<Integer> cartesChance;
     private LinkedList<Integer> cartesCommu;
     Random rand;
-
+    
+    /**
+     * Initialise la case et les tas de cartes : population et mélange.
+     * @param mono l'instance de Monopoly
+     */
     public CarreauTirage(Monopoly mono) {
         super(mono);
         cartesChance = new LinkedList<>();
@@ -25,10 +29,18 @@ public class CarreauTirage extends CarreauAction {
         Collections.shuffle(cartesCommu);
     }
     
+    /**
+     * Définir si la case est une case Chance ou Caisse de communauté.
+     * @param type le type de case : chance ou caisse de communauté 
+     */
     public void setTypeTirage(String type) {
         this.typeTirage = type;
     }
     
+    /**
+     * Tire une carte et en applique les effets.
+     * @param j le joueur courant
+     */
     @Override
     public void action(Joueur j) {
         int c;
