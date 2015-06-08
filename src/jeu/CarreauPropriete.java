@@ -80,6 +80,10 @@ public abstract class CarreauPropriete extends Carreau {
         return loyerBase;
     }
     
+   public abstract int calculLoyer(Joueur j); 
+       
+   
+    
     
     
 }

@@ -16,7 +16,7 @@ public class Monopoly {
     private int nbHotels = 12;
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
-    private int resultatDes = 0;
+    private int resultatDes;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
     
 
@@ -57,7 +57,7 @@ public class Monopoly {
     public Joueur getJoueur(String nomJ) {
         Joueur incognito = new Joueur(this);
         for (Joueur j : joueurs) {
-            if (j.getNomjoueur().equalsIgnoreCase(nomJ)) {
+            if (j.getNomJoueur().equalsIgnoreCase(nomJ)) {
                 incognito = j;
             }
         }
@@ -69,11 +69,11 @@ public class Monopoly {
         if (interfaceJeu.ChoixAchat(j, c)){
             c.setProprietaire(j);            
            if (c instanceof Gare) {
-               j.setProprieteGare((Gare)c);               
+               j.setPropriete(c);               
            } else if (c instanceof Compagnie) {
-               j.setProprieteCompagnie((Compagnie) c);
+               j.setPropriete(c);
            } else if (c instanceof ProprieteAConstruire) {
-               j.setProprieteAConstruire((ProprieteAConstruire) c);
+               j.setPropriete(c);
            }
            int NouvCash = j.getCash()-c.getMontantAchat();
            j.setCash(NouvCash);
@@ -84,8 +84,8 @@ public class Monopoly {
         }
     }
 
-    public void InfosLoyer(String nomP, int loyer, int nouveauCash) {
-        throw new UnsupportedOperationException();
+    public void InfosLoyer(Joueur jproprio, int loyer, int nouveauCash) {
+       interfaceJeu.AfficherLoyer(jproprio, loyer, nouveauCash);
     }
 
     public void jouerUnCoup(Joueur j) {

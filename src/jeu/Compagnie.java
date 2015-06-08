@@ -15,20 +15,24 @@ public class Compagnie extends CarreauPropriete {
     public int calculLoyer(Joueur j) {
           Joueur jproprio = this.getProprietaire();
           int nbCompagnies = jproprio.getNbCompagnies();
-          String nomP = jproprio.getNomjoueur();
+          String nomP = jproprio.getNomJoueur();
           int loyer = 0;
+          int nouveauCash;
           
           if (nbCompagnies == 1) {
-              loyer = 4* super.getMonopoly().getResultatDes(); }
-          else if (nbCompagnies == 1) {
-              loyer = 10*  super.getMonopoly().getResultatDes(); }
+              loyer = 4* super.getMonopoly().getResultatDes();
+         
+          }
+          else if (nbCompagnies == 2) {
+              loyer = 10*  super.getMonopoly().getResultatDes();
           
-          int nouveauCash = j.calculCashApresOperation(loyer);
-          
-          super.getMonopoly().InfosLoyer(jproprio.getNomjoueur(), loyer, nouveauCash);
-          
-          return loyer;
-    }
+
+          }
+           nouveauCash = j.calculCashApresOperation(loyer);
+           super.getMonopoly().InfosLoyer(jproprio, loyer, nouveauCash);
+         
+         return loyer; 
+   }
     
     
     @Override

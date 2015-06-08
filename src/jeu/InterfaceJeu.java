@@ -13,7 +13,7 @@ public class InterfaceJeu {
     }
 
     public void afficherAchat(CarreauPropriete c, Joueur j) {
-        System.out.println("Joueur : " + j.getNomjoueur() + "\n  cash : " + j.getCash());
+        System.out.println("Joueur : " + j.getNomJoueur() + "\n  cash : " + j.getCash());
         System.out.println("Propriete : " + c.getNomCarreau() + "\n case : " + c.getNumero() +"\n Prix : " + c.getMontantAchat());
     }
 
@@ -26,7 +26,7 @@ public class InterfaceJeu {
 //       System.out.println( "Joueur : " + j.getNomjoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + p.getGroupePropriete().getCouleur().toString()); 
 //        }
 //        else {
-       System.out.println( "Joueur : " + j.getNomjoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" );      
+       System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" );      
         
     
     }
@@ -42,9 +42,10 @@ public class InterfaceJeu {
         }
     }
 
-    public void AfficherLoyer(String infos) {
-        System.out.println(infos);
+    public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
+        System.out.println("Proprio : "+jproprio.getNomJoueur() + " Loyer : " + loyer + " Cash après payement : " +nouveauCash);
     }
+   
     
     public void afficher(String infos) {
         System.out.println(infos);
