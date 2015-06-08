@@ -54,9 +54,11 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
 
     @Override
-    public void action(Joueur j) {
-        super.action(j);
-        if (getProprietaire() == j) {
+    public void action(Joueur j) {        
+        if (getProprietaire() != j){
+            super.action(j);
+        }
+        else {
             construire();
         }
     }

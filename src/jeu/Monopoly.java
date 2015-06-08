@@ -64,12 +64,24 @@ public class Monopoly {
         return incognito;
     }
 
-    public void possibiliteAchat(Joueur j, Carreau c) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void ChoixAchat(Joueur j, Carreau c) {
-        throw new UnsupportedOperationException();
+    public void possibiliteAchat(Joueur j, CarreauPropriete c) {
+        interfaceJeu.afficherAchat(c, j);
+        if (interfaceJeu.ChoixAchat(j, c)){
+            c.setProprietaire(j);            
+           if (c instanceof Gare) {
+               j.setProprieteGare((Gare)c);               
+           } else if (c instanceof Compagnie) {
+               j.setProprieteCompagnie((Compagnie) c);
+           } else if (c instanceof ProprieteAConstruire) {
+               j.setProprieteAConstruire((ProprieteAConstruire) c);
+           }
+           int NouvCash = j.getCash()-c.getMontantAchat();
+           j.setCash(NouvCash);
+            System.out.println("Vous venez d'acheter cette propriété, bravo !");
+        }
+        else {
+            System.out.println("Vous n'avez pas acheté cette propriete");
+        }
     }
 
     public void InfosLoyer(String nomP, int loyer, int nouveauCash) {

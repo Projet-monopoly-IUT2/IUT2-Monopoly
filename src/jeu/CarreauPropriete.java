@@ -12,8 +12,16 @@ public abstract class CarreauPropriete extends Carreau {
         super(monopoly);
     }
 
-    public void achatPropriete() {
-        throw new UnsupportedOperationException();
+    public void achatPropriete(Joueur j) {
+        int cash = j.getCash();
+        int PrixApayer = this.getMontantAchat();
+        if (cash >= PrixApayer){
+            this.getMonopoly().possibiliteAchat(j, this);
+        }
+        else {
+            System.out.println("Vous n'avez pas assez d'argent");
+        }
+        
     }
 
     public void setMontantLoyer(int montantLoyer) {
@@ -47,7 +55,7 @@ public abstract class CarreauPropriete extends Carreau {
         this.montantAchat = montantAchat;
     }
 
-    public abstract int calculLoyer(Joueur j);
+    //public abstract int calculLoyer(Joueur j);
 
     /**
      *
@@ -57,7 +65,7 @@ public abstract class CarreauPropriete extends Carreau {
     public void action(Joueur j) {
         Joueur jProprio = getProprietaire();
         if (jProprio == null) {
-            achatPropriete();
+            achatPropriete(j);
         } else if (jProprio != j) {
                 j.payerLoyer(calculLoyer(j));
                 jProprio.recevoirLoyer(calculLoyer(j));
