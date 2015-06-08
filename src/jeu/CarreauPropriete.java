@@ -67,6 +67,7 @@ public abstract class CarreauPropriete extends Carreau {
         if (jProprio == null) {
             achatPropriete(j);
         } else if (jProprio != j) {
+             
                 int loyer = calculLoyer(j);
                 j.payerLoyer(loyer);
                 jProprio.recevoirLoyer(loyer);

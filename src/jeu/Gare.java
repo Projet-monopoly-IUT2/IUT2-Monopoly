@@ -11,11 +11,11 @@ public class Gare extends CarreauPropriete {
        
     @Override
     public int calculLoyer(Joueur j) {
-      Joueur proprio = this.getProprietaire();
-      int NbGare = proprio.getNbGare();
+      Joueur jproprio = this.getProprietaire();
+      int NbGare = jproprio.getNbGare();
       int loyer = this.getloyerBase()*NbGare;
-      Joueur jproprio = super.getProprietaire();
-      int nouveauCash = jproprio.calculCashApresOperation(loyer);
+     
+      int nouveauCash = j.calculCashApresOperation(loyer);
       super.getMonopoly().InfosLoyer(jproprio, loyer, nouveauCash);
       
       return loyer;

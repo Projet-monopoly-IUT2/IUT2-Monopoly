@@ -45,10 +45,11 @@ public class InterfaceJeu {
     }
     public void afficherProprietes(ArrayList<CarreauPropriete> cs) {
         for (CarreauPropriete c : cs) {
-            System.out.println("Propriété : " + c.getInfosCarreau() + " Groupe : " 
+            System.out.println("Propriété : " + c.getInfosCarreau() + " Groupe : "  //A MODIFIER
             );
         }
     }
+  
 
     public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
         System.out.println("Payement de loyer : ");
