@@ -18,6 +18,10 @@ public class Joueur {
         enPrison = false;
         
     }
+
+    public String getNomJoueur() {
+        return nomJoueur;
+    }
     
     public int getCash() {
         return this.cash;
@@ -26,30 +30,12 @@ public class Joueur {
     public void setCash(int cash) {
         this.cash = cash;
     }
-    
-    
-    public void setProprieteCompagnie(Compagnie c) {
-        compagnies.add(c);
-    }
-    
-    public void setProprieteGare(Gare c) {
-        gares.add(c);
-    }
-        
-    public void setProprieteAConstruire(ProprieteAConstruire c) {
-        proprietesAConstruire.add(c);
-    }
-    
 
     /**
      * @return numero du carreau courant du joueur
      */
     public int getPositionCourante() {
         return positionCourante.getNumero();
-    }
-    
-    public Carreau getCarreauCourant () {
-        return positionCourante;
     }
 
     public void deplacer(Carreau c) {
@@ -80,7 +66,13 @@ public class Joueur {
         throw new UnsupportedOperationException();
     }
 
- 
+    /**
+     * nom + cash + position du joueur
+     */
+    public String getInfosJoueur() {
+        String nomPositionCourante = monopoly.getCarreau(getPositionCourante()).getNomCarreau();
+        return getNomjoueur() + " - " + getCash() + "€ - Position : " + nomPositionCourante + " (case " + getPositionCourante() + ")";
+    }          // Plop - 1200€ - Position : Rue de la Paix (case 42)
 
 
     public String getInfosProprietes() {
@@ -92,17 +84,25 @@ public class Joueur {
         ArrayList<CarreauPropriete> proprietes = new ArrayList<>();
         for (CarreauPropriete c : compagnies) {
             proprietes.add(c);
-    }
+        }
         for (CarreauPropriete c : proprietesAConstruire) {
             proprietes.add(c);
         }
         for (CarreauPropriete c : gares) {
             proprietes.add(c);
-
-        }   
+        }
         //On récupère toutes les propriétés du joueur
         return proprietes;
-  
+
+    }
+    
+    public ArrayList<ProprieteAConstruire> getProprietes(CouleurPropriete couleur) {
+        ArrayList<ProprieteAConstruire> res = new ArrayList<>();
+        for (ProprieteAConstruire p: proprietesAConstruire) {
+            if (p.getGroupePropriete().getCouleur() == couleur)
+                res.add(p);
+        }
+        return res;
     }
 
     public String getNomjoueur() {

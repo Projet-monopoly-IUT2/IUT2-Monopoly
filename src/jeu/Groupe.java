@@ -7,7 +7,7 @@ public class Groupe {
     private int prixAchatMaison;
     private int prixAchatHotel;
     private CouleurPropriete couleur;
-    private ArrayList<ProprieteAConstruire> proprietes = new ArrayList<ProprieteAConstruire>();
+    private ArrayList<ProprieteAConstruire> proprietes = new ArrayList<>();
 
     public Groupe(CouleurPropriete c) {
         couleur = c;
@@ -15,5 +15,9 @@ public class Groupe {
     
     public CouleurPropriete getCouleur() {
         return couleur;
+    }
+    
+    public ArrayList<ProprieteAConstruire> getProprietes() {
+        return proprietes;
     }
 }

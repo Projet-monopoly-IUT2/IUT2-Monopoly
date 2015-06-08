@@ -5,19 +5,16 @@ import java.util.LinkedList;
 
 public class ProprieteAConstruire extends CarreauPropriete {
 
-    private int nbMaisons = 0;
-    private int nbHotels = 0;
     private int prixMaison;
     private int prixHotel;
-    private int nbMaisonsC;
-    private int nbHotelsC;
+    private int nbMaisonsC = 0;
+    private int nbHotelsC = 0;
     private LinkedList<Integer> loyerParMaison;
     private Groupe groupePropriete;
 
     public ProprieteAConstruire(Monopoly monopoly) {
         super(monopoly);
     }
-
 
     public void construire() {
         throw new UnsupportedOperationException();
@@ -26,8 +23,6 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public Groupe getGroupePropriete() {
         return groupePropriete;
     }
-    
-    
 
     public int getPrixHotel() {
         return this.prixHotel;
@@ -49,10 +44,6 @@ public class ProprieteAConstruire extends CarreauPropriete {
         this.loyerParMaison = loyerParMaison;
     }
 
-    public int calculLoyer(  Joueur j ) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public void action(Joueur j) {        
         if (getProprietaire() != j){
@@ -67,13 +58,25 @@ public class ProprieteAConstruire extends CarreauPropriete {
         groupePropriete = g;
     }
 
-    public int getNbMaisons() {
-        return nbMaisons;
+    public int getNbMaisonsC() {
+        return nbMaisonsC;
     }
 
-    public int getNbHotels() {
-        return nbHotels;
+    public int getNbHotelsC() {
+        return nbHotelsC;
     }
-    
-    
+
+    @Override
+    public int calculLoyer(Joueur j) {
+        int loyer;
+        loyer = getNbMaisonsC() * getPrixMaison() + getNbHotelsC() + getPrixHotel();
+
+        if (getNbMaisonsC() == 0 && getNbHotelsC() == 0) { // Éviter couteuse vérification si le terrain n'est pas nu
+            int nbPropJoueur = j.getProprietes(this.getGroupePropriete().getCouleur()).size();
+            int nbPropDansGroupe = this.getGroupePropriete().getProprietes().size();
+            loyer = (nbPropJoueur == nbPropDansGroupe) ? loyer * 2 : loyer;
+        }
+        return loyer;
+    }
+
 }

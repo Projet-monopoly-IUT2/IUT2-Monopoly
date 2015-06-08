@@ -58,9 +58,9 @@ public class CarreauTirage extends CarreauAction {
                     super.getMonopoly().interfaceJeu.afficher("Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.");
                     int prix = 0;
                     for (CarreauPropriete p: j.getProprietes()) {
-                        if (p.getClass().getSimpleName().equalsIgnoreCase("ProprieteAConstruire")) {
-                            prix += (((ProprieteAConstruire)p).getNbMaisons()*25);
-                            prix += (((ProprieteAConstruire)p).getNbHotels()*100);
+                        if (p instanceof ProprieteAConstruire) {
+                            prix += (((ProprieteAConstruire)p).getNbMaisonsC()*25);
+                            prix += (((ProprieteAConstruire)p).getNbHotelsC()*100);
                         }
                     }
                     j.retirerCash(prix);
