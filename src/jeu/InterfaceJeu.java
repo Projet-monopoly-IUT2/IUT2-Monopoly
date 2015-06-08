@@ -19,11 +19,16 @@ public class InterfaceJeu {
     }
     public void afficherProprietes(ArrayList<CarreauPropriete> cs) {
         for (CarreauPropriete c : cs) {
-            System.out.println("Propriété : " + c.getInfosCarreau());
+            System.out.println("Propriété : " + c.getInfosCarreau() + " Groupe : " 
+            );
         }
     }
 
     public void AfficherLoyer(String infos) {
+        System.out.println(infos);
+    }
+    
+    public void afficher(String infos) {
         System.out.println(infos);
     }
 }

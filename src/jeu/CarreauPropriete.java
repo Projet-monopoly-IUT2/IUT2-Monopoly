@@ -47,7 +47,7 @@ public abstract class CarreauPropriete extends Carreau {
         this.montantAchat = montantAchat;
     }
 
-    public abstract int calculLoyer();
+    public abstract int calculLoyer(Joueur j);
 
     /**
      *
@@ -59,8 +59,8 @@ public abstract class CarreauPropriete extends Carreau {
         if (jProprio == null) {
             achatPropriete();
         } else if (jProprio != j) {
-                j.payerLoyer(calculLoyer());
-                jProprio.recevoirLoyer(calculLoyer());
+                j.payerLoyer(calculLoyer(j));
+                jProprio.recevoirLoyer(calculLoyer(j));
         }
     }
 

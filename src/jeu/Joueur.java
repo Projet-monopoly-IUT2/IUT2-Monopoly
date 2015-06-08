@@ -121,4 +121,8 @@ public class Joueur {
     public void payerLoyer(int l) {
         setCash(getCash() - l);
     }
+    
+    public int getNbCompagnies () {
+        return compagnies.size();
+    }
 }

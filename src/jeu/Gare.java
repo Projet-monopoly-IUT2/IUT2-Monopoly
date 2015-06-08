@@ -12,7 +12,7 @@ public class Gare extends CarreauPropriete {
     }
        
     @Override
-    public int calculLoyer() {
+    public int calculLoyer(Joueur j) {
       Joueur proprio = this.getProprietaire();
       int NbGare = proprio.getNbGare();
       int loyer = this.CalculMontantLoyer(NbGare);

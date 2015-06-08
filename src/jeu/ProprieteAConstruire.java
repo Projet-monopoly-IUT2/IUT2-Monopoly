@@ -26,6 +26,12 @@ public class ProprieteAConstruire extends CarreauPropriete {
         throw new UnsupportedOperationException();
     }
 
+    public Groupe getGroupePropriete() {
+        return groupePropriete;
+    }
+    
+    
+
     public int getPrixHotel() {
         return this.prixHotel;
     }

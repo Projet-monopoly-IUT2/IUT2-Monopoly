@@ -16,6 +16,7 @@ public class Monopoly {
     private int nbHotels = 12;
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
+    private int resultatDes = 0;
     public InterfaceJeu interfaceJeu = new InterfaceJeu();
     
 
@@ -87,6 +88,7 @@ public class Monopoly {
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb;
         nb = lancerDes();
+        resultatDes = nb.getRes();
         int position = j.getPositionCourante();
         int caseCible = (position+nb.getRes())%41;
             if (caseCible < j.getPositionCourante() && !(caseCible == 1))
@@ -97,8 +99,9 @@ public class Monopoly {
         interfaceJeu.afficherJoueur(j);
         interfaceJeu.afficherResDEs(nb.getRes());
 
+        System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
-            System.out.println("Etat de tous les joueurs : ");
+            
             interfaceJeu.afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = js.getProprietes();
             if (proprietes != null) {
@@ -108,6 +111,12 @@ public class Monopoly {
         }
         return nb.isDble();
     }
+
+    public int getResultatDes() {
+        return resultatDes;
+    }
+    
+    
 
     public int getNbMaisons() {
         return this.nbMaisons;
