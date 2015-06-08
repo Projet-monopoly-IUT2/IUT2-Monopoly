@@ -97,8 +97,9 @@ public class Monopoly {
         interfaceJeu.afficherJoueur(j);
         interfaceJeu.afficherResDEs(nb.getRes());
 
+        System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
-            System.out.println("Etat de tous les joueurs : ");
+            
             interfaceJeu.afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = js.getProprietes();
             if (proprietes != null) {
