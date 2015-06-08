@@ -18,9 +18,6 @@ public class ProprieteAConstruire extends CarreauPropriete {
         super(monopoly);
     }
 
-    public int CalculMontantLoyer(ArrayList<Carreau> proprietes) {
-        throw new UnsupportedOperationException();
-    }
 
     public void construire() {
         throw new UnsupportedOperationException();
@@ -52,7 +49,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         this.loyerParMaison = loyerParMaison;
     }
 
-    public int calculLoyer() {
+    public int calculLoyer(  Joueur j ) {
         throw new UnsupportedOperationException();
     }
 

@@ -47,6 +47,10 @@ public class Joueur {
     public int getPositionCourante() {
         return positionCourante.getNumero();
     }
+    
+    public Carreau getCarreauCourant () {
+        return positionCourante;
+    }
 
     public void deplacer(Carreau c) {
         this.setCarreau(c);
@@ -76,13 +80,7 @@ public class Joueur {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * nom + cash + position du joueur
-     */
-    public String getInfosJoueur() {
-        String nomPositionCourante = monopoly.getCarreau(getPositionCourante()).getNomCarreau();
-        return getNomjoueur() + " - " + getCash() + "€ - Position : " + nomPositionCourante + " (case " + getPositionCourante() + ")";
-    }          // plop - 1200€ - Position : Rue de la Paix (case 42)
+ 
 
 
     public String getInfosProprietes() {
