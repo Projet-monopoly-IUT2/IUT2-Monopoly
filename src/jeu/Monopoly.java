@@ -139,45 +139,71 @@ public class Monopoly {
      * @param j joueur courant
      */
     public void jouerUnCoup(Joueur j) {
-        
+
         int i = 0;
         System.out.println("Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
-        boolean dble = lancerDesAvancer(j);
-        if (dble) { i++; }
-        
-        getCarreau(j.getPositionCourante()).action(j); 
-        
-        while (lancerDesAvancer(j) && i < 3) {
-            
-            getCarreau(j.getPositionCourante()).action(j);
-            i ++;
-          
+
+        boolean rejouer = true;
+        while (rejouer && i <= 3) {
+            if (!j.isEnPrison()) {
+                rejouer = lancerDesAvancer(j);
+                getCarreau(j.getPositionCourante()).action(j);
+                i++;
+            } else {
+                rejouer = jouerPrison(j);
+            }
+
         }
-    
-        if (i == 3 ) { 
-         
+        if (i == 3) {
             j.setEnPrison(true);
             interfaceJeu.EstPrisonPourDouble(j);
             j.deplacer(11);
         }
-        
-        
-     }
-
+    }
+    
+    public boolean jouerPrison(Joueur j) {
+        if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
+            j.setEnPrison(false);
+            return true;
+        } else {
+            j.addToursEnPrison(1);
+            ResultatDes lancer = lancerDes();
+            if (lancer.isDble()) {
+                j.setEnPrison(false);
+                lancerDesAvancer(j, lancer);
+                return true;
+            }
+            else if (j.getToursEnPrison() >= 3) {
+                j.setEnPrison(false);
+                j.retirerCash(50);
+                lancerDesAvancer(j,lancer);
+                return false;
+            }
+        }
+        return false; //placeholder
+    }
+            
     /**
-     * Fait avancer le joueur selon un lancer de dés.
+     * Fait avancer le joueur selon un lancer de dés aléatoire.
      * @param j joueur courant
-     * @return Vrai si le lancer est un double, faux sinon.
+     * @return vrai si le lance de dés est un double.
      */
     public boolean lancerDesAvancer(Joueur j) {
-        ResultatDes nb;
-        nb = lancerDes();
-   
-        resultatDes = nb.getRes();
+        ResultatDes nb = lancerDes();
+        return lancerDesAvancer(j, nb);
+    }
+    
+    /**
+     * Fait avancer le joueur selon un lancer de dés passé en paramètre.
+     * @param j joueur courant
+     * @param nb lancer de dés à utiliser
+     * @return Vrai si le lancer est un double, faux sinon.
+     */
+    private boolean lancerDesAvancer(Joueur j, ResultatDes nb) { 
         int position = j.getPositionCourante();
         int caseCible = (position+nb.getRes())%41;
-            if (caseCible < j.getPositionCourante() && !(caseCible == 1))
+            if (caseCible < position && !(caseCible == 1))
                 //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
             j.deplacer(caseCible);
@@ -190,6 +216,11 @@ public class Monopoly {
         return nb.isDble();
     }
     
+    /**
+     * Testing prurposes only. Déplace le joueur sans déclencher d'action.
+     * @param j joueur a déplacer
+     * @param numeroCarreau numéro de la case cible
+     */
     public void forcerDeplacement(Joueur j, int numeroCarreau) {
         j.deplacer(numeroCarreau); //pour faire les test
         ResultatDes nb;

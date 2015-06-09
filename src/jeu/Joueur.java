@@ -6,7 +6,9 @@ public class Joueur {
 
     private String nomJoueur;
     private int cash = 1500;
-    private boolean enPrison;
+    private boolean enPrison = false;
+    private int toursEnPrison = 0;
+    private boolean carteSortiePrison;
     private Monopoly monopoly;
     private ArrayList<Compagnie> compagnies = new ArrayList<Compagnie>();
     private ArrayList<Gare> gares = new ArrayList<Gare>();
@@ -15,8 +17,6 @@ public class Joueur {
     
     public Joueur( Monopoly monopoly) {
         this.monopoly = monopoly;
-        enPrison = false;
-        
     }
 
     public String getNomJoueur() {
@@ -66,11 +66,33 @@ public class Joueur {
     }
 
     public void setEnPrison(boolean enPrison) {
+        if (enPrison == false)
+            setToursEnPrison(0);
         this.enPrison = enPrison;
     }
     
     public boolean isEnPrison() {
         return enPrison;
+    }
+
+    public int getToursEnPrison() {
+        return toursEnPrison;
+    }
+
+    public void setToursEnPrison(int toursEnPrison) {
+        this.toursEnPrison = toursEnPrison;
+    }
+
+    public void addToursEnPrison(int toursEnPrison) {
+        this.toursEnPrison += toursEnPrison;
+    }
+
+    public boolean isCarteSortiePrison() {
+        return carteSortiePrison;
+    }
+
+    public void setCarteSortiePrison(boolean carteSortiePrison) {
+        this.carteSortiePrison = carteSortiePrison;
     }
 
     /**
