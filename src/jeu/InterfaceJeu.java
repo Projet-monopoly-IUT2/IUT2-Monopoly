@@ -20,6 +20,7 @@ public class InterfaceJeu {
      * @param j le joueur souhaitant acheter
      */
     public void afficherAchat(CarreauPropriete c, Joueur j) {
+        System.out.println("***************************");
         System.out.println("Achat : ");
         System.out.println("Joueur : " + j.getNomJoueur() + "\n  cash : " + j.getCash());
         System.out.println("Propriete : " + c.getNomCarreau() + "\n case : " + c.getNumero() +"\n Prix : " + c.getMontantAchat());
@@ -32,8 +33,12 @@ public class InterfaceJeu {
     public void afficherJoueur(Joueur j) {
     
        String nomPositionCourante = monopoly.getCarreau(j.getPositionCourante()).getNomCarreau();
-       System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" );      
-        
+            
+       if (monopoly.getCarreau(j.getPositionCourante()) instanceof ProprieteAConstruire)
+            { System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + " - Groupe : " + ((ProprieteAConstruire)monopoly.getCarreau(j.getPositionCourante())).getGroupePropriete().getCouleur().toString());  }
+            else {
+              System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" ); 
+            } 
     
     }
     
@@ -42,6 +47,7 @@ public class InterfaceJeu {
      * @param joueurs liste des joueurs à afficher 
      */
     public void afficherEtatJoueurs(LinkedList<Joueur>joueurs) {
+        System.out.println("***************************");
          System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
             
@@ -70,8 +76,11 @@ public class InterfaceJeu {
      */
     public void afficherProprietes(ArrayList<CarreauPropriete> cs) {
         for (CarreauPropriete c : cs) {
-            System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()) + " Groupe : " 
-            );
+            if (c instanceof ProprieteAConstruire)
+            { System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()) + " Groupe : " + ((ProprieteAConstruire)c).getGroupePropriete().getCouleur().toString()); }
+            else {
+              System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()));  
+            }
         }
     }
   
@@ -82,6 +91,7 @@ public class InterfaceJeu {
      * @param nouveauCash argent restant au payeur
      */
     public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
+        System.out.println("***************************");
         System.out.println("Payement de loyer : ");
         System.out.println("Proprio : "+jproprio.getNomJoueur() + " Loyer : " + loyer + " Cash après payement : " +nouveauCash);
     }
@@ -99,11 +109,19 @@ public class InterfaceJeu {
       * @param c la propriété pouvant être achetée
       * @return l'accord du joueur
       */
-    public boolean ChoixAchat(Joueur j, CarreauPropriete c) {
+    public int ChoixAchat(Joueur j, CarreauPropriete c) {
         Scanner sc = new Scanner(System.in);
+        System.out.println("***************************");
         System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
+        
+     
         int rep = sc.nextInt();
-        return rep == 1;
+        while (rep < 1 && rep > 2) {
+            System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
+            rep = sc.nextInt();
+            
+        }
+        return rep;
     }
 
 }

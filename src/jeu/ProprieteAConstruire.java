@@ -52,12 +52,14 @@ public class ProprieteAConstruire extends CarreauPropriete {
      */
     @Override
     public void action(Joueur j) {        
-        if (getProprietaire() != j){
+
+            
             super.action(j);
-        }
-//        else {
-//            construire();
+       
+//       else if (getProprietaire() == j){
+//             construire();
 //        }
+        
     }
 
     public void setGroupe(Groupe g) {
@@ -87,15 +89,16 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public int calculLoyer(Joueur j) {
         int loyer;
         loyer = getNbMaisonsC() * getPrixMaison() + getNbHotelsC() * getPrixHotel();
-
+        Joueur jproprio = super.getProprietaire();
+        
         if (getNbMaisonsC() == 0 && getNbHotelsC() == 0) { // Éviter couteuse vérification si le terrain n'est pas nu
-            int nbPropJoueur = j.getProprietes(this.getGroupePropriete().getCouleur()).size();
+            int nbPropJoueur = jproprio.getProprietes(this.getGroupePropriete().getCouleur()).size();
             int nbPropDansGroupe = this.getGroupePropriete().getProprietes().size();
             loyer = (nbPropJoueur == nbPropDansGroupe) ? loyer * 2 : loyer;
         }
         
-      Joueur jproprio = super.getProprietaire();
-      int nouveauCash = jproprio.calculCashApresOperation(loyer);
+      
+      int nouveauCash = j.calculCashApresOperation(loyer);
       super.getMonopoly().InfosLoyer(jproprio, loyer, nouveauCash);
       return loyer;
     }

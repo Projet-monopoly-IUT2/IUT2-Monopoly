@@ -60,6 +60,7 @@ public class Monopoly {
         ResultatDes res = new ResultatDes();
         int d1 = rand.nextInt(6) + 1; // 0 à 5  +1
         int d2 = rand.nextInt(6) + 1;
+    
         res.setRes(d1 + d2);
         if (d1 == d2) {
             res.setDble(true);
@@ -101,14 +102,17 @@ public class Monopoly {
     // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
     public void possibiliteAchat(Joueur j, CarreauPropriete c) {
         interfaceJeu.afficherAchat(c, j);
-        if (interfaceJeu.ChoixAchat(j, c)){
+        if (interfaceJeu.ChoixAchat(j, c)==1){
             c.setProprietaire(j);            
            if (c instanceof Gare) {
-               j.setPropriete(c);               
+               j.setPropriete(c);
+               c.setProprietaire(j);
            } else if (c instanceof Compagnie) {
                j.setPropriete(c);
+               c.setProprietaire(j);
            } else if (c instanceof ProprieteAConstruire) {
                j.setPropriete(c);
+               c.setProprietaire(j);
            }
            j.retirerCash(c.getMontantAchat());
             System.out.println("Vous venez d'acheter cette propriété, bravo !");
@@ -136,8 +140,11 @@ public class Monopoly {
      */
     public void jouerUnCoup(Joueur j) {
         // penser à gérer cas du double !!!
+        System.out.println("Tour du joueur : ");
+        interfaceJeu.afficherJoueur(j);
         lancerDesAvancer(j);
         getCarreau(j.getPositionCourante()).action(j);
+        
     }
 
     /**
@@ -162,6 +169,16 @@ public class Monopoly {
 
      
         return nb.isDble();
+    }
+    
+    public void forcerDeplacement(Joueur j, int numeroCarreau) {
+        j.deplacer(numeroCarreau); //pour faire les test
+        ResultatDes nb;
+        nb = lancerDes();
+        resultatDes = nb.getRes();
+        
+        interfaceJeu.afficherJoueur(j);
+        interfaceJeu.afficherEtatJoueurs(joueurs);
     }
 
     public int getResultatDes() {
