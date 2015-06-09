@@ -24,6 +24,7 @@ public class InterfaceJeu {
         System.out.println("Achat : ");
         System.out.println("Joueur : " + j.getNomJoueur() + "\n  cash : " + j.getCash());
         System.out.println("Propriete : " + c.getNomCarreau() + "\n case : " + c.getNumero() +"\n Prix : " + c.getMontantAchat());
+        System.out.println("***************************");
     }
 
     /**
@@ -48,7 +49,7 @@ public class InterfaceJeu {
      */
     public void afficherEtatJoueurs(LinkedList<Joueur>joueurs) {
         System.out.println("***************************");
-         System.out.println("Etat de tous les joueurs : ");
+        System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
             
             afficherJoueur(js);
@@ -57,6 +58,7 @@ public class InterfaceJeu {
                 afficherProprietes(proprietes);
             }
         }
+        System.out.println("***************************");
     }
     
     /**
@@ -64,6 +66,7 @@ public class InterfaceJeu {
      * @param res le resultat du lancer de dés 
      */
     public void afficherResDes(ResultatDes res) {
+       System.out.println("***************************"); 
        System.out.print(" Resultat des dés : " + res.getRes());
        if (res.isDble()) System.out.print(" (Double !)");
        System.out.println();
@@ -93,7 +96,8 @@ public class InterfaceJeu {
     public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
         System.out.println("***************************");
         System.out.println("Payement de loyer : ");
-        System.out.println("Proprio : "+jproprio.getNomJoueur() + " Loyer : " + loyer + " Cash après payement : " +nouveauCash);
+        System.out.println("Proprio : "+jproprio.getNomJoueur() + "- Loyer : " + loyer + "- Cash après payement : " +nouveauCash);
+        System.out.println("***************************");
     }
    
     /**
@@ -121,7 +125,15 @@ public class InterfaceJeu {
             rep = sc.nextInt();
             
         }
+        System.out.println("***************************");
         return rep;
+        
+    }
+    
+    public void EstPrisonPourDouble (Joueur j ) {
+         System.out.println("***************************"); 
+         System.out.println("le joueur " + j.getNomJoueur()+ " est en prison car il a fait 3 doubles à la suite ! ");
+         System.out.println("***************************");
     }
 
 }

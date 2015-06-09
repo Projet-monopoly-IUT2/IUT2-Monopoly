@@ -60,7 +60,7 @@ public class Monopoly {
         ResultatDes res = new ResultatDes();
         int d1 = rand.nextInt(6) + 1; // 0 à 5  +1
         int d2 = rand.nextInt(6) + 1;
-    
+        d1 = d2;
         res.setRes(d1 + d2);
         if (d1 == d2) {
             res.setDble(true);
@@ -139,13 +139,31 @@ public class Monopoly {
      * @param j joueur courant
      */
     public void jouerUnCoup(Joueur j) {
-        // penser à gérer cas du double !!!
+        
+        int i = 0;
         System.out.println("Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
-        lancerDesAvancer(j);
-        getCarreau(j.getPositionCourante()).action(j);
+        boolean dble = lancerDesAvancer(j);
+        if (dble) { i++; }
         
-    }
+        getCarreau(j.getPositionCourante()).action(j); 
+        
+        while (lancerDesAvancer(j) && i < 3) {
+            
+            getCarreau(j.getPositionCourante()).action(j);
+            i ++;
+          
+        }
+    
+        if (i == 3 ) { 
+         
+            j.setEnPrison(true);
+            interfaceJeu.EstPrisonPourDouble(j);
+            j.deplacer(11);
+        }
+        
+        
+     }
 
     /**
      * Fait avancer le joueur selon un lancer de dés.
@@ -155,6 +173,7 @@ public class Monopoly {
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb;
         nb = lancerDes();
+   
         resultatDes = nb.getRes();
         int position = j.getPositionCourante();
         int caseCible = (position+nb.getRes())%41;
@@ -222,6 +241,7 @@ public class Monopoly {
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setGroupe(getGroupe(CouleurPropriete.valueOf(data.get(i)[3]),groupes));
+                    
 //                    System.out.println("Propriété :\t" + data.get(i)[2] +  "\t@ case " + data.get(i)[1] + "\t@ Groupe " + c.getGroupePropriete().getCouleur().toString());
                     c.setMontantAchat(Integer.parseInt(data.get(i)[4]));
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
@@ -329,12 +349,13 @@ public class Monopoly {
     //Snippet, il faudra lui trouver une place plus appropriée. Le main ?
     
     public void jouerPlusieursCoups() {
+      
         int compteurTours = 1;
         boolean continuer = true;
 
         while (continuer) {
             
-            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés
+            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
             if (compteurTours == 1) {
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
                 for (int i = 1 ; i <= getJoueurs().size() ; ++i){
@@ -348,13 +369,13 @@ public class Monopoly {
             }
             
             //TODO 
-            
+            //il faut penser à tester les doubles
             
             int nbJoueursFaillite = 0;
             for (Joueur j : getJoueurs()) {
                 if (j.getCash() <= 0) ++nbJoueursFaillite;
             }
-            if (nbJoueursFaillite == getJoueurs().size()) {
+            if (nbJoueursFaillite == getJoueurs().size() -1) {
                 continuer = false;
             }
         }

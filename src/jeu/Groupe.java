@@ -26,4 +26,8 @@ public class Groupe {
     public ArrayList<ProprieteAConstruire> getProprietes() {
         return proprietes;
     }
+    
+    public void addPropriete (ProprieteAConstruire p) {
+        proprietes.add(p);
+    }
 }

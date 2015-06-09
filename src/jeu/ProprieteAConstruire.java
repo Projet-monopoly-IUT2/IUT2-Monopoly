@@ -64,6 +64,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     public void setGroupe(Groupe g) {
         groupePropriete = g;
+        g.addPropriete(this);
+        
     }
     /**
      * Retourne le nombre de maisons actuellement construites sur ce carreau
@@ -88,13 +90,17 @@ public class ProprieteAConstruire extends CarreauPropriete {
     @Override
     public int calculLoyer(Joueur j) {
         int loyer;
-        loyer = getNbMaisonsC() * getPrixMaison() + getNbHotelsC() * getPrixHotel();
+        loyer = loyerParMaison.get(getNbMaisonsC());
         Joueur jproprio = super.getProprietaire();
         
         if (getNbMaisonsC() == 0 && getNbHotelsC() == 0) { // Éviter couteuse vérification si le terrain n'est pas nu
+         
             int nbPropJoueur = jproprio.getProprietes(this.getGroupePropriete().getCouleur()).size();
             int nbPropDansGroupe = this.getGroupePropriete().getProprietes().size();
-            loyer = (nbPropJoueur == nbPropDansGroupe) ? loyer * 2 : loyer;
+            if (nbPropJoueur == nbPropDansGroupe){
+          
+                loyer = loyer*2;
+            }
         }
         
       
