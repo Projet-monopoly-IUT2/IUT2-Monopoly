@@ -1,0 +1,40 @@
+CA,1,Depart,200
+P,2,Rue Brocherie,mauve,60,2,10,30,90,160,250,50,50
+CT,3,Caisse de Communauté
+P,4,Rue Chenoise,mauve,60,4,20,60,180,320,450,50,50
+CA,5,Impôt sur le revenu,-200
+G,6,Station TAG,200
+P,7,Rue de Bonne,bleuCiel,100,6,30,90,270,400,550,50,50
+CT,8,Chance
+P,9,Rue de la poste,bleuCiel,100,6,30,90,270,400,550,50,50
+P,10,Rue St-Laurent,bleuCiel,120,8,40,100,300,450,600,50,50
+CA,11,Simple Visite / En Prison,0
+P,12,Parc Paul Mistral,violet,140,10,50,150,450,625,750,100,100
+C,13,Companie de distribution d'électricité,150
+P,14,Cours Berriat,violet,160,12,60,180,500,700,900,100,100
+P,15,Polygone Scientifique,violet,140,10,50,150,450,625,750,100,100
+G,16,Aéroport St-Geoirs,200
+P,17,Rue Thiers,orange,180,14,70,200,550,750,950,100,100
+CT,18,Caisse de Communauté
+P,19,Cours Jean-Jaurès,orange,180,14,70,200,550,750,950,100,100
+P,20,Quartier Hoche,orange,200,16,80,220,600,800,1000,100,100
+CA,21,Parc Gratuit,0
+P,22,Avenue Alsace-Lorraine,rouge,220,18,90,250,700,875,1050,150,150
+CT,23,Chance
+P,24,Avenue Félix Viallet,rouge,220,18,90,250,700,875,1050,150,150
+P,25,Rue Lesdiguières,rouge,240,20,100,300,750,925,1100,150,150
+G,26,Téléphérique de la Bastille,200
+P,27,Place Notre-Dame,jaune,260,22,110,330,800,975,1150,150,150
+P,28,Place Grenette,jaune,260,22,110,330,800,975,1150,150,150
+C,29,Companie de distribution des eaux,150
+P,30,Boulevard Gambetta,jaune,280,24,120,360,850,1025,1200,150,150
+CM,31,Allez en prison
+P,32,Europole,vert,300,26,130,390,900,1100,1275,200,200
+P,33,Boulevard Agutte-Sembat,vert,300,26,130,390,900,1100,1275,200,200
+CT,34,Caisse de Communauté
+P,35,Rue Hébert,vert,320,28,150,450,1000,1200,1400,200,200
+G,36,Gare de Grenoble Université-Gières,200
+CT,37,Chance
+P,38,Place de Verdun,bleuFonce,350,35,175,500,1100,1300,1500,200,200
+CA,39,Taxe de Luxe,-100
+P,40,Place Victor Hugo,bleuFonce,400,50,200,600,1400,1700,2000,200,200
