@@ -14,6 +14,7 @@ public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
+    private int resultatDes;
     private HashMap<Integer, Carreau> carreaux;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     private Joueur jCourant;
@@ -162,6 +163,12 @@ public class Monopoly {
      
         return nb.isDble();
     }
+
+    public int getResultatDes() {
+        return resultatDes;
+    }
+    
+    
     
     public int getNbMaisons() {
         return this.nbMaisons;

@@ -34,9 +34,7 @@ public abstract class CarreauPropriete extends Carreau {
     /**
      * @return chaine de caractère contenant nom et numéro de la case
      */
-    public String getInfosCarreau() {
-        return super.getNomCarreau() + " : " + String.valueOf(super.getNumero());
-    }
+ 
 
     public void achat(Joueur j) {
         throw new UnsupportedOperationException();

@@ -20,6 +20,7 @@ public class InterfaceJeu {
      * @param j le joueur souhaitant acheter
      */
     public void afficherAchat(CarreauPropriete c, Joueur j) {
+        System.out.println("Achat : ");
         System.out.println("Joueur : " + j.getNomJoueur() + "\n  cash : " + j.getCash());
         System.out.println("Propriete : " + c.getNomCarreau() + "\n case : " + c.getNumero() +"\n Prix : " + c.getMontantAchat());
     }
@@ -69,7 +70,7 @@ public class InterfaceJeu {
      */
     public void afficherProprietes(ArrayList<CarreauPropriete> cs) {
         for (CarreauPropriete c : cs) {
-            System.out.println("Propriété : " + c.getInfosCarreau() + " Groupe : "  //A MODIFIER
+            System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()) + " Groupe : " 
             );
         }
     }
