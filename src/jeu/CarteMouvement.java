@@ -17,5 +17,15 @@ public class CarteMouvement extends Cartes {
     public CarteMouvement(Monopoly mono) {
         super(mono);
     }
+
+    public Carreau getCaseCible() {
+        return caseCible;
+    }
+
+    public void setCaseCible(Carreau caseCible) {
+        this.caseCible = caseCible;
+    }
+    
+    
     
 }

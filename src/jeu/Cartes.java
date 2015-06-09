@@ -23,5 +23,39 @@ public abstract class Cartes {
     public void action(Joueur j) {
         
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Monopoly getMonopoly() {
+        return monopoly;
+    }
+
+    public void setMonopoly(Monopoly monopoly) {
+        this.monopoly = monopoly;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+    
+    
     
 }

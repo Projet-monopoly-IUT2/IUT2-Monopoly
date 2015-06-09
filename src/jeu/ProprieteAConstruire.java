@@ -19,8 +19,49 @@ public class ProprieteAConstruire extends CarreauPropriete {
      * Construit une maison sur cette propriété
      */
     // Nème duplicata de construire... ménage à faire.
-    public void construire() {
-        throw new UnsupportedOperationException();
+    public void construire(Joueur j) {
+        boolean Sortie = false;
+        int numCarreau = 0;
+        int NbMaisonMonopoly= this.getMonopoly().getNbMaisons();
+        int NbHotelsMonopoly=this.getMonopoly().getNbHotels();
+        
+        CouleurPropriete couleur = groupePropriete.getCouleur();
+        ArrayList<ProprieteAConstruire> proprietes = j.getProprietes(couleur);
+        while(!Sortie){    
+            if (proprietes.size()==groupePropriete.getProprietes().size()){
+                 ProprieteAConstruire c = this.getMonopoly().possibiliteConstruire(j,proprietes);
+                if (c==null){
+                    Sortie = true;
+                }
+                else {
+                    if(c.getNbMaisonsC()==4 && c.getNbHotelsC()==0){
+                        NbMaisonMonopoly=NbMaisonMonopoly+4;
+                        NbHotelsMonopoly--;
+                        this.getMonopoly().setNbMaisons(NbMaisonMonopoly);
+                        this.getMonopoly().setNbHotels(NbHotelsMonopoly);
+                        c.setNbHotelsC(1);
+                        c.setNbMaisonsC(0);
+                        Sortie = true;
+                    }
+                    else if (c.getNbMaisonsC()<4 && c.getNbHotelsC()==0){
+                        NbMaisonMonopoly--;
+                        this.getMonopoly().setNbMaisons(NbMaisonMonopoly);
+                        c.setNbMaisonsC(0);
+                        Sortie = true;
+                    }
+                }
+            }
+            else {
+                this.getMonopoly().getInterfaceJeu().MessageErreur(5);
+                Sortie = true;
+            }
+        } 
+    }
+    public void setNbMaisonsC(int i) {
+        nbMaisonsC = i;
+    }
+    public void setNbHotelsC(int i) {
+        nbHotelsC = i;
     }
 
     public Groupe getGroupePropriete() {

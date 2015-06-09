@@ -135,5 +135,55 @@ public class InterfaceJeu {
          System.out.println("le joueur " + j.getNomJoueur()+ " est en prison car il a fait 3 doubles à la suite ! ");
          System.out.println("***************************");
     }
+    
+    public void MessageErreur(int i) {
+        switch (i) {
+            case 1:
+                System.out.println("Le choix n'est pas équilibré.\nChoisir une autre Propriete");
+                break;
+            case 2:
+                System.out.println("Vous n'avez pas assez d'argent !");
+                break;
+            case 3:
+                System.out.println("Le Monopoly n'as plus assez de maisons");
+                break;
+            case 4:
+                System.out.println("Le Monopoly n'as plus assez d'hotels");
+                break;
+            case 5:
+                System.out.println("Vous ne possedez pas toute les proprietes du groupe ");
+                break;
+        }
+    }
+    
+    public int affichageChoixConstruction(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {       
+        System.out.println("Voulez vous construire ? (1-oui/2-non");
+        Scanner sc = new Scanner(System.in);
+        int rep1 = sc.nextInt();
+        if (rep1== 1){
+                for(ProprieteAConstruire PaC : proprietes){
+                   
+                     System.out.println("Propriété : " + PaC.getNomCarreau() + " : " + String.valueOf(PaC.getNumero()) + " Groupe : " + PaC.getGroupePropriete().getCouleur().toString()); 
+             
+                    System.out.println("Nb Maison : " + PaC.getNbMaisonsC());
+                    System.out.println("\nNb Hotel : " + PaC.getNbHotelsC());
+                }
+        
+                System.out.println("Choisir une propriete par son numero");
+                int rep = sc.nextInt();
+        
+                while ( rep < proprietes.get(0).getNumero() && rep > proprietes.get(proprietes.size()-1).getNumero()){
+                    System.out.println("Choisir un bon numero de propriete parmi la liste proposé\n");
+                    rep = sc.nextInt();
+                }
+              
+                return rep;          
+        }
+        else {
+            return 1;
+        }
 
+
+}
+    
 }

@@ -17,5 +17,15 @@ public class CarteGain extends Cartes {
     public CarteGain(Monopoly mono) {
         super(mono);
     }
+
+    public int getMontant() {
+        return montant;
+    }
+
+    public void setMontant(int montant) {
+        this.montant = montant;
+    }
+    
+    
     
 }

@@ -399,4 +399,84 @@ public class Monopoly {
 
         return data;
     }
+    
+    private boolean ChoixConstructionEstEquilibre(ArrayList<ProprieteAConstruire> proprietes,Integer NumCarreau) {
+        int MinMaison = 4;
+        int MinHotel = 1;
+        boolean Sortie = false;
+        boolean Res = false;
+        
+        for(ProprieteAConstruire PaC : proprietes){
+            if (PaC.getNbMaisonsC()<MinMaison){
+                MinMaison=PaC.getNbMaisonsC();
+            }
+            else if (PaC.getNbHotelsC()<MinHotel && PaC.getNbMaisonsC()==4){
+                MinHotel=PaC.getNbHotelsC();
+            }
+        }
+        
+        int i = 0;
+        while (!Sortie){
+            if(proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
+                Res = true;
+            }
+            else if (proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
+                Res = true;
+            }
+        }
+        
+        return Res;
+        
+    }
+    public void setNbMaisons(int nbMaisons) {
+        this.nbMaisons = nbMaisons;
+    }
+    public void setNbHotels(int nbHotels) {
+        this.nbHotels = nbHotels;
+    }
+    public int getNbHotels() {
+        return nbHotels;
+    }
+    public InterfaceJeu getInterfaceJeu() {
+        return interfaceJeu;
+    }
+    
+    public ProprieteAConstruire possibiliteConstruire(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {
+        boolean sortie = false;
+        int numCarreau = 0;
+        ProprieteAConstruire c = null;
+        while (!sortie){
+            if(j.getCash()>=proprietes.get(0).getPrixMaison()){
+                numCarreau = interfaceJeu.affichageChoixConstruction(j,proprietes);               
+                if(numCarreau !=1 && this.ChoixConstructionEstEquilibre(proprietes,numCarreau)){
+                    c = (ProprieteAConstruire)getCarreau(numCarreau);
+                        if(this.getNbMaisons()==0){
+                            interfaceJeu.MessageErreur(3);
+                            c=null;
+                            sortie = true; 
+                        }
+                        if(this.getNbHotels()==0){
+                            interfaceJeu.MessageErreur(4);
+                            c=null;
+                            sortie = true; 
+                        }
+                        else{
+                            sortie = true; 
+                        }                  
+                    }             
+                else if (numCarreau== 1){
+                    sortie = true;
+                }
+                else {
+                    interfaceJeu.MessageErreur(1); 
+                }
+            }
+            else {
+                interfaceJeu.MessageErreur(2);
+            }
+        }
+        return c;
+    }
+
+
 }
