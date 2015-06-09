@@ -173,7 +173,7 @@ public class InterfaceJeu {
                 int rep = sc.nextInt();
         
                 while ( rep < proprietes.get(0).getNumero() && rep > proprietes.get(proprietes.size()-1).getNumero()){
-                    System.out.println("Choisir un bon numero de propriete parmi la liste proposé\n");
+                    System.out.println("Choisir un bon numero de propriete parmis la liste proposé\n");
                     rep = sc.nextInt();
                 }
               
@@ -183,7 +183,12 @@ public class InterfaceJeu {
             return 1;
         }
 
+       
 
-}
+        }
+    
+    public boolean  utiliserCarteSortiePrison() {
+           return false;
+       }
     
 }

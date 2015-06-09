@@ -145,7 +145,7 @@ public class Monopoly {
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;
-        while (rejouer && i <= 3) {
+        while (rejouer && i <= 2) {
             if (!j.isEnPrison()) {
                 rejouer = lancerDesAvancer(j);
                 getCarreau(j.getPositionCourante()).action(j);
@@ -153,13 +153,24 @@ public class Monopoly {
             } else {
                 rejouer = jouerPrison(j);
             }
-
+            
+            
         }
         if (i == 3) {
-            j.setEnPrison(true);
-            interfaceJeu.EstPrisonPourDouble(j);
-            j.deplacer(11);
+            ResultatDes nb = lancerDes();
+            if (nb.isDble() ) {
+                
+                j.setEnPrison(true);
+                interfaceJeu.EstPrisonPourDouble(j);
+                j.deplacer(11);
+            }
+            else {
+                lancerDesAvancer(j, nb);
+            }
+            
+
         }
+       
     }
     
     public boolean jouerPrison(Joueur j) {
@@ -389,7 +400,7 @@ public class Monopoly {
             //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
             if (compteurTours == 1) {
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
-                for (int i = 1 ; i <= getJoueurs().size() ; ++i){
+                for (int i = 0 ; i < getJoueurs().size() ; ++i){
                     lancer = lancerDes().getRes();
                     if(lancer > meilleurLancer) {
                         meilleurLancer = lancer;
