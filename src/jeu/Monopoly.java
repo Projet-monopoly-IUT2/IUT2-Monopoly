@@ -132,7 +132,60 @@ public class Monopoly {
     public void InfosLoyer(Joueur jproprio, int loyer, int nouveauCash) {
        interfaceJeu.AfficherLoyer(jproprio, loyer, nouveauCash);
     }
+  
+    
+    /**
+     * Sélectionne le premier joueur selon un lancer de dés, éxécute plusieurs tours
+     * de jeu jusqu'à la faillite de tous les joueurs sauf un.
+     */
+    public void jouerPlusieursCoups() {
 
+        int compteurTours = 1;
+        boolean continuer = true;
+        int nJoueur;
+        int nbJoueursFaillite = 0;
+
+        while (continuer) {
+
+            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
+            if (compteurTours == 1) {
+                int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
+                for (int i = 1; i <= getJoueurs().size(); ++i) {
+                    lancer = lancerDes().getRes();
+                    if (lancer > meilleurLancer) {
+                        meilleurLancer = lancer;
+                        premierJoueur = i;
+                    }
+                }
+                setjCourant(getJoueur(premierJoueur));
+            }
+
+            if (jCourant.getCash() > 0) {
+                jouerUnCoup(jCourant);
+            } else {
+//                interfaceJeu.faillite(jCourant);
+            }
+
+            if (jCourant == getJoueurs().getLast()) {
+                jCourant = getJoueurs().getFirst();
+            } else {
+                jCourant = getJoueur(getJoueurs().indexOf(jCourant) + 1);
+            }
+
+            //Vérifier si il reste plus d'un joueur en non-faillite
+            for (Joueur j : getJoueurs()) {
+                if (j.getCash() <= 0) {
+                    ++nbJoueursFaillite;
+                }
+            }
+            if (nbJoueursFaillite == getJoueurs().size() - 1) {
+                continuer = false;
+            }
+        }
+
+    }
+    
+    
     /**
      * Fait avancer le joueur et effectue l'action correspondante à la case sur laquelle il se trouve.
      * Rejoue si le joueur a fait un double.
@@ -388,44 +441,8 @@ public class Monopoly {
         this.jCourant = jCourant;
     }
     
+
     //Snippet, il faudra lui trouver une place plus appropriée. Le main ?
-    
-    public void jouerPlusieursCoups() {
-      
-        int compteurTours = 1;
-        boolean continuer = true;
-
-        while (continuer) {
-            
-            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
-            if (compteurTours == 1) {
-                int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
-                for (int i = 0 ; i < getJoueurs().size() ; ++i){
-                    lancer = lancerDes().getRes();
-                    if(lancer > meilleurLancer) {
-                        meilleurLancer = lancer;
-                        premierJoueur = i;
-                    }               
-                }
-                setjCourant(getJoueur(premierJoueur));
-            }
-            
-            //TODO 
-            //il faut penser à tester les doubles
-            
-            int nbJoueursFaillite = 0;
-            for (Joueur j : getJoueurs()) {
-                if (j.getCash() <= 0) ++nbJoueursFaillite;
-            }
-            if (nbJoueursFaillite == getJoueurs().size() -1) {
-                continuer = false;
-            }
-        }
-
-    }
-
-
-    
     
     
 
