@@ -50,7 +50,7 @@ public class CarreauTirage extends CarreauAction {
             switch (c) {
                 case 1: 
                    super.getMonopoly().interfaceJeu.afficher("Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.");
-                    // ???
+                    super.getMonopoly().getJCourant().setCarteSortiePrison(true);
                     break;
                 case 2:
                     super.getMonopoly().interfaceJeu.afficher("Reculez de trois cases");
@@ -177,6 +177,7 @@ public class CarreauTirage extends CarreauAction {
                     super.getMonopoly().interfaceJeu.afficher("Vous allez en prison. Avancez tout droit en prison, ne passez pas par la case départ, ne recevez pas 200€.");
                     j.deplacer(11);
                     j.setEnPrison(true);
+                    super.getMonopoly().jouerPrison(j);
                     break;
                 case 11:
                     super.getMonopoly().interfaceJeu.afficher("Payez votre police d'assurance : 50€");
@@ -189,6 +190,7 @@ public class CarreauTirage extends CarreauAction {
                 case 13:
                    super.getMonopoly().interfaceJeu.afficher("Avancez jusqu'à la case départ");
                     j.deplacer(1);
+                    j.ajouterCash(200);
                     break;
                 case 14:
                     super.getMonopoly().interfaceJeu.afficher("Recevez votre interet sur l'emprunt à 7% : 25€");

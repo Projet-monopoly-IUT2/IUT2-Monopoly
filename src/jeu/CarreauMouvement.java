@@ -20,6 +20,6 @@ public class CarreauMouvement extends CarreauAction {
      * @param j le joueur courant
      */
     public void action(Joueur j){
-        j.deplacer(caseCible);
+        j.deplacer(11);
     }
 }
