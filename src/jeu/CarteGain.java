@@ -26,6 +26,9 @@ public class CarteGain extends Cartes {
         this.montant = montant;
     }
     
-    
+    @Override
+    public void action(Joueur j){
+        
+    }
     
 }

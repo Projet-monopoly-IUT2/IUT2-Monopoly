@@ -60,6 +60,7 @@ public class CarreauTirage extends CarreauAction {
                     super.getMonopoly().interfaceJeu.afficher("Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.");
                     for (CarreauPropriete p: j.getProprietes()) {
                         
+                        
                     }
                     break;
                 case 4:

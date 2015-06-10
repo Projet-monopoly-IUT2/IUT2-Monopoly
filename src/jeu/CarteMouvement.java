@@ -26,6 +26,9 @@ public class CarteMouvement extends Cartes {
         this.caseCible = caseCible;
     }
     
+    public void action(Joueur j){
+        
+    }
     
     
 }

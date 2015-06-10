@@ -20,9 +20,7 @@ public abstract class Cartes {
         monopoly = mono;
     }
     
-    public void action(Joueur j) {
-        
-    }
+    public abstract void action(Joueur j);
 
     public String getDescription() {
         return description;
