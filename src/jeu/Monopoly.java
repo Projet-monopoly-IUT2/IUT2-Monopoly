@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -16,6 +17,8 @@ public class Monopoly {
     private int nbHotels = 12;
     private int resultatDes;
     private HashMap<Integer, Carreau> carreaux;
+    private LinkedList<Carte> cartesChance;
+    private LinkedList<Carte> cartesCommu;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     private Joueur jCourant;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
@@ -225,7 +228,11 @@ public class Monopoly {
         }
        
     }
-    
+    /**
+     * Gère un tour en prison.
+     * @param j joueur courant, doit être en prison
+     * @return vrai si le joueur doit rejouer, faux sinon.
+     */
     public boolean jouerPrison(Joueur j) {
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
@@ -388,6 +395,25 @@ public class Monopoly {
         } catch (IOException e) {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
+        
+        cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",3,true));
+        cartesChance.add(new CarteGain(this, 3,"Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.", 40, 115));
+        cartesChance.add(new CarteGain(this,4,"Amende pour excès de vitesse : 15€",-15));
+        cartesChance.add(new CarteGain(this,5,"Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.",25,100)); 
+        cartesChance.add(new CarteGain(this,6,"Amende pour ivresse : 20€",-20));
+        cartesChance.add(new CarteMouvement(this, 7, "Allez à la case départ", 1, false));
+        cartesChance.add(new CarteMouvement(this, 8,"Allez en prison. Allez directement en prison, ne passez pas par la case départ, ne recevez pas 200€.", 11, false));
+        cartesChance.add(new CarteMouvement(this, 9, "Rendez-vous à l'avenue Henri-Martin. Si vous passez par la case départ, recevez 200€.", 25, false));
+        cartesChance.add(new CarteMouvement(this, 10, "Allez à la gare de Lyon, Si vous passez par la case départ, recevez 200€", 16, false));
+        cartesChance.add(new CarteGain(this, 11, "Payez pour frais de scolarité : 150€", -150));
+        cartesChance.add(new CarteGain(this, 12, "Vous avez gagné le prix de mots croisés. Recevez 100€", 100));
+        cartesChance.add(new CarteGain(this, 13, "La banque vous verse un dividende de 50€", 50));
+        cartesChance.add(new CarteMouvement(this, 14, "Rendez-vous rue de la Paix", 40, false));
+        cartesChance.add(new CarteGain(this, 15, "Votre immeuble et votre appartement vous rapportent. Vous devez toucher 150€.", 150));
+        cartesChance.add(new CarteMouvement(this, 16, "Accédez au Boulevard de la Vilette. Si vous passez par la case départ, recevez 200€.", 12, false));
+    
+        Collections.shuffle(cartesChance);
+        Collections.shuffle(cartesCommu);
     }
     
     /**
@@ -403,6 +429,14 @@ public class Monopoly {
                 groupeCible = g;
         }
         return groupeCible;
+    }
+
+    public LinkedList<Carte> getCartesChance() {
+        return cartesChance;
+    }
+
+    public LinkedList<Carte> getCartesCommu() {
+        return cartesCommu;
     }
     /**
      * Demande à l'utilisateur d'entrer le nom des joueurs : - A chaque entrée,
