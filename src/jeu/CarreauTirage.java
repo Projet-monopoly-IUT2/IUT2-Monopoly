@@ -1,14 +1,10 @@
 package jeu;
 
-import java.util.LinkedList;
 import java.util.Random;
-import java.util.Collections;
 
 public class CarreauTirage extends CarreauAction {
 
     private String typeTirage;
-    private LinkedList<Integer> cartesChance;
-    private LinkedList<Integer> cartesCommu;
     Random rand;
     
     /**
@@ -17,16 +13,7 @@ public class CarreauTirage extends CarreauAction {
      */
     public CarreauTirage(Monopoly mono) {
         super(mono);
-        cartesChance = new LinkedList<>();
-        cartesCommu = new LinkedList<>();
         rand = new Random();
-        
-        for (Integer i = 1; i <= 16; ++i) {
-            cartesChance.add(i);
-            cartesCommu.add(i);
-        }
-        Collections.shuffle(cartesChance);
-        Collections.shuffle(cartesCommu);
     }
     
     /**
@@ -43,11 +30,13 @@ public class CarreauTirage extends CarreauAction {
      */
     @Override
     public void action(Joueur j) {
-        int c;
+        Carte c;
         if (typeTirage.equalsIgnoreCase("chance")) {
-            c = cartesChance.poll();
-            cartesChance.offerLast(c);
-            switch (c) {
+            c = getMonopoly().getCartesChance().poll();
+            c.action(j);
+            getMonopoly().getCartesChance().offerLast(c);
+            
+/*            switch (c) {
                 case 1: 
                    super.getMonopoly().interfaceJeu.afficher("Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.");
                     super.getMonopoly().getJCourant().setCarteSortiePrison(true);
@@ -206,14 +195,7 @@ public class CarreauTirage extends CarreauAction {
                     j.ajouterCash(10);
                     break;
             }
-        }
+*/        }
     }
-    
-    public int getCarteChance(){ // Testing
-        return cartesChance.peek();
-    }
-    public int getCarteCommu(){ // Testing
-        return cartesCommu.peek();
-    }    
 }
 

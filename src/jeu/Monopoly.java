@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Monopoly {
 
@@ -18,6 +19,8 @@ public class Monopoly {
     private int nbHotels = 12;
     private int resultatDes;
     private HashMap<Integer, Carreau> carreaux = new HashMap<>();
+    private LinkedList<Carte> cartesChance;
+    private LinkedList<Carte> cartesCommu;
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     private Joueur jCourant;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
@@ -26,7 +29,6 @@ public class Monopoly {
     public Monopoly(String dataFilename) {
         carreaux = new HashMap<>();
         buildGamePlateau(dataFilename);
-        jCourant = new Joueur(this);
 
     }
 
@@ -70,7 +72,6 @@ public class Monopoly {
         } else {
             res.setDble(false);
         }
-        
         return res;
     }
 
@@ -161,7 +162,7 @@ public class Monopoly {
             if (compteurTours == 1) {
                 compteurTours++;
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
-                for (int i = 0; i < getJoueurs().size(); ++i) {
+                for (int i = 1; i <= getJoueurs().size(); ++i) {
                     lancer = lancerDes().getRes();
                     if (lancer > meilleurLancer) {
                         meilleurLancer = lancer;
@@ -174,7 +175,7 @@ public class Monopoly {
             if (jCourant.getCash() > 0) {
                 jouerUnCoup(jCourant);
             } else {
-//                interfaceJeu.faillite(jCourant);
+                interfaceJeu.faillite(jCourant);
             }
 
             if (jCourant == getJoueurs().getLast()) {
@@ -209,17 +210,15 @@ public class Monopoly {
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;
-        while (rejouer && i < 3) {
+        while (rejouer && i <= 2) {
             if (!j.isEnPrison()) {
                 rejouer = lancerDesAvancer(j);
                 getCarreau(j.getPositionCourante()).action(j);
-                if (rejouer) {
-                    i++;
-                }
+                i++;
             } else {
                 rejouer = jouerPrison(j);
             }
-      
+            
             
         }
         if (i == 3) {
@@ -239,7 +238,11 @@ public class Monopoly {
         }
        
     }
-    
+    /**
+     * Gère un tour en prison.
+     * @param j joueur courant, doit être en prison
+     * @return vrai si le joueur doit rejouer, faux sinon.
+     */
     public boolean jouerPrison(Joueur j) {
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
@@ -287,9 +290,7 @@ public class Monopoly {
             if (caseCible < position && !(caseCible == 1))
                 //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
-            if (caseCible >= 1 && caseCible <= 40) {
-            j.deplacer(caseCible); }
-
+            j.deplacer(caseCible);
             
         interfaceJeu.afficherResDes(nb);
         interfaceJeu.afficherJoueur(j);
@@ -356,7 +357,7 @@ public class Monopoly {
                     c.setNomCarreau(data.get(i)[2]);
                     c.setGroupe(getGroupe(CouleurPropriete.valueOf(data.get(i)[3]),groupes));
                     
-                   System.out.println("Propriété :\t" + data.get(i)[2] +  "\t@ case " + data.get(i)[1] + "\t@ Groupe " + c.getGroupePropriete().getCouleur().toString());
+//                    System.out.println("Propriété :\t" + data.get(i)[2] +  "\t@ case " + data.get(i)[1] + "\t@ Groupe " + c.getGroupePropriete().getCouleur().toString());
                     c.setMontantAchat(Integer.parseInt(data.get(i)[4]));
                     LinkedList<Integer> loyerParMaison = new LinkedList<>();
                     for (int j = 0; j <= 5; ++j) // for j in 0..5
@@ -368,28 +369,28 @@ public class Monopoly {
                     c.setPrixHotel(Integer.parseInt(data.get(i)[12]));
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("G") == 0) { //Gares
-                 System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+//                    System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare c = new Gare(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("C") == 0) { //Compagnie
-                    System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+//                    System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie c = new Compagnie(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
                     c.setMontantAchat(Integer.parseInt(data.get(i)[3]));
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CT") == 0) { // Tirage
-                    System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+//                    System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauTirage c = new CarreauTirage(this);
                     c.setNomCarreau(data.get(i)[2]);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setTypeTirage(data.get(i)[2]);
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CA") == 0) { // Argent
-                    System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+//                    System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauArgent c = new CarreauArgent(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
@@ -397,7 +398,7 @@ public class Monopoly {
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CM") == 0) { // Mouvement
                     
-                    System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+//                    System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauMouvement c = new CarreauMouvement(this);
                     c.setNumero(Integer.parseInt(data.get(i)[1]));
                     c.setNomCarreau(data.get(i)[2]);
@@ -412,6 +413,25 @@ public class Monopoly {
         } catch (IOException e) {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
+        
+        cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",3,true));
+        cartesChance.add(new CarteGain(this, 3,"Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.", 40, 115));
+        cartesChance.add(new CarteGain(this,4,"Amende pour excès de vitesse : 15€",-15));
+        cartesChance.add(new CarteGain(this,5,"Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.",25,100)); 
+        cartesChance.add(new CarteGain(this,6,"Amende pour ivresse : 20€",-20));
+        cartesChance.add(new CarteMouvement(this, 7, "Allez à la case départ", 1, false));
+        cartesChance.add(new CarteMouvement(this, 8,"Allez en prison. Allez directement en prison, ne passez pas par la case départ, ne recevez pas 200€.", 11, false));
+        cartesChance.add(new CarteMouvement(this, 9, "Rendez-vous à l'avenue Henri-Martin. Si vous passez par la case départ, recevez 200€.", 25, false));
+        cartesChance.add(new CarteMouvement(this, 10, "Allez à la gare de Lyon, Si vous passez par la case départ, recevez 200€", 16, false));
+        cartesChance.add(new CarteGain(this, 11, "Payez pour frais de scolarité : 150€", -150));
+        cartesChance.add(new CarteGain(this, 12, "Vous avez gagné le prix de mots croisés. Recevez 100€", 100));
+        cartesChance.add(new CarteGain(this, 13, "La banque vous verse un dividende de 50€", 50));
+        cartesChance.add(new CarteMouvement(this, 14, "Rendez-vous rue de la Paix", 40, false));
+        cartesChance.add(new CarteGain(this, 15, "Votre immeuble et votre appartement vous rapportent. Vous devez toucher 150€.", 150));
+        cartesChance.add(new CarteMouvement(this, 16, "Accédez au Boulevard de la Vilette. Si vous passez par la case départ, recevez 200€.", 12, false));
+    
+        Collections.shuffle(cartesChance);
+        Collections.shuffle(cartesCommu);
     }
     
     /**
@@ -428,6 +448,14 @@ public class Monopoly {
         }
         return groupeCible;
     }
+
+    public LinkedList<Carte> getCartesChance() {
+        return cartesChance;
+    }
+
+    public LinkedList<Carte> getCartesCommu() {
+        return cartesCommu;
+    }
     /**
      * Demande à l'utilisateur d'entrer le nom des joueurs : - A chaque entrée,
      * le joueur est créé avec le nom fourni par l'utilisateur - Le nouveau
@@ -437,6 +465,7 @@ public class Monopoly {
        
         int nbJoueurs = this.interfaceJeu.SaisienbJoueurs();
         
+       
 
         for (int i = 1; i <= nbJoueurs; i++) {
             
@@ -472,10 +501,8 @@ public class Monopoly {
             j.setCarreau(carreaux.get(1));
             //Placement sur le 1er carreau (case départ)
             joueurs.add(j);
-            
-     
-            
-         }
+            //Placement sur le 1er carreau (case départ)
+        }
     }
 
     public Joueur getJCourant() {

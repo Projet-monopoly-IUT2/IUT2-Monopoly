@@ -10,14 +10,22 @@ package jeu;
  *
  * @author laugiera
  */
-public abstract class Cartes {
+public abstract class Carte {
     private String description;
-    private String type;
     private Monopoly monopoly;
     private int numero;
     
-    public Cartes(Monopoly mono) {
+    /**
+     * 
+     * @param mono instance de monopoly utilisée
+     * @param numero numéro de la carte
+     * @param description message inscrit sur la carte
+     */
+    public Carte(Monopoly mono, int numero, String description) {
         monopoly = mono;
+        this.description = description;
+        this.numero = numero;
+        this.description = description;
     }
     
     public abstract void action(Joueur j);
@@ -26,34 +34,11 @@ public abstract class Cartes {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Monopoly getMonopoly() {
         return monopoly;
     }
 
-    public void setMonopoly(Monopoly monopoly) {
-        this.monopoly = monopoly;
-    }
-
     public int getNumero() {
         return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-    
-    
-    
+    }   
 }

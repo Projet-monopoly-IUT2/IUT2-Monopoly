@@ -10,25 +10,44 @@ package jeu;
  *
  * @author laugiera
  */
-public class CarteGain extends Cartes {
+public class CarteGain extends Carte {
     
     private int montant;
-
-    public CarteGain(Monopoly mono) {
-        super(mono);
+    
+    private String casParticuler = null;
+    private int montantParMaison;
+    private int montantParHotel;
+    
+    public CarteGain(Monopoly mono, int numero, String message, int montant) {
+        super(mono,numero,message);
+        this.montant = montant;
+    }
+    //Cas particuliers :
+    public CarteGain(Monopoly mono, int numero, String message, int montantParMaison, int montantParHotel) {
+        super(mono, numero, message);
+        this.casParticuler = "prixParConstruction";
+        this.montantParMaison = montantParMaison;
+        this.montantParHotel = montantParHotel;
     }
 
     public int getMontant() {
         return montant;
     }
-
-    public void setMontant(int montant) {
-        this.montant = montant;
+    
+    public void action(Joueur j) {
+        if (casParticuler.equals("prixParConstruction")) {
+            for (CarreauPropriete c : j.getProprietes()) {
+                if (c instanceof ProprieteAConstruire) {
+                    montant += ((ProprieteAConstruire) c).getNbMaisonsC() * montantParMaison;
+                    montant += ((ProprieteAConstruire) c).getNbHotelsC() * montantParHotel;
+                }
+            }
+        } else {
+            super.getMonopoly().interfaceJeu.messageCarte(this);
+            j.ajouterCash(montant);
+        }
     }
     
-    @Override
-    public void action(Joueur j){
-        
-    }
+    
     
 }
