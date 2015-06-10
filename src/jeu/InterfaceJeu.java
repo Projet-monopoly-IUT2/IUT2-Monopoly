@@ -34,8 +34,7 @@ public class InterfaceJeu {
     public void afficherJoueur(Joueur j) {
 
        Carreau PositionCourante = monopoly.getCarreau(j.getPositionCourante());
-       String  nomPositionCourante = PositionCourante.getNomCarreau();
-        System.out.println(nomPositionCourante);   
+       String  nomPositionCourante = PositionCourante.getNomCarreau();  
        if (monopoly.getCarreau(j.getPositionCourante()) instanceof ProprieteAConstruire)
             { System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + " - Groupe : " + ((ProprieteAConstruire)monopoly.getCarreau(j.getPositionCourante())).getGroupePropriete().getCouleur().toString());  }
        else {
@@ -271,6 +270,16 @@ public void MessageErreur(int i) {
         
         }
     return nbJoueurs;  
+    }
+    
+    public void messageCarte(Carte c) {
+         System.out.println("***************************");
+        System.out.println("Carte : " + c.getDescription());
+         System.out.println("***************************");
+    }
+    
+    public void faillite(Joueur j) {
+        System.out.println("Le joueur " + j.getNomJoueur() +" a fait faillite ! ");
     }
     
 }

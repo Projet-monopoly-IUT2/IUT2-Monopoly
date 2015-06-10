@@ -14,7 +14,7 @@ public class CarteGain extends Carte {
     
     private int montant;
     
-    private String casParticuler = null;
+    private String casParticuler = new String();
     private int montantParMaison;
     private int montantParHotel;
     

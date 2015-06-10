@@ -19,8 +19,8 @@ public class Monopoly {
     private int nbHotels = 12;
     private int resultatDes;
     private HashMap<Integer, Carreau> carreaux = new HashMap<>();
-    private LinkedList<Carte> cartesChance;
-    private LinkedList<Carte> cartesCommu;
+    private LinkedList<Carte> cartesChance = new LinkedList<>();
+    private LinkedList<Carte> cartesCommu = new LinkedList<>();
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     private Joueur jCourant;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
@@ -127,9 +127,11 @@ public class Monopoly {
            }
            j.retirerCash(c.getMontantAchat());
             System.out.println("Vous venez d'acheter cette propriété, bravo !");
+            System.out.println("***************************");
         }
         else {
             System.out.println("Vous n'avez pas acheté cette propriete");
+            System.out.println("***************************");
         }
     }
 
@@ -286,7 +288,7 @@ public class Monopoly {
      */
     private boolean lancerDesAvancer(Joueur j, ResultatDes nb) { 
         int position = j.getPositionCourante();
-        int caseCible = (position+nb.getRes())%40+1;
+        int caseCible = (position+nb.getRes()-1)%40+1;
             if (caseCible < position && !(caseCible == 1))
                 //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
@@ -414,7 +416,7 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
         
-        cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",3,true));
+        cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",-3,true));
         cartesChance.add(new CarteGain(this, 3,"Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.", 40, 115));
         cartesChance.add(new CarteGain(this,4,"Amende pour excès de vitesse : 15€",-15));
         cartesChance.add(new CarteGain(this,5,"Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.",25,100)); 
