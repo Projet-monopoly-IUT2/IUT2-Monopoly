@@ -160,18 +160,21 @@ public class Monopoly {
 
         while (continuer) {
 
-            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
+            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - 
             if (compteurTours == 1) {
                 compteurTours++;
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
                 for (int i = 1; i <= getJoueurs().size(); ++i) {
                     lancer = lancerDes().getRes();
+                    System.out.println("Le joueur " + i + " a fait " + lancer);
                     if (lancer > meilleurLancer) {
                         meilleurLancer = lancer;
                         premierJoueur = i;
                     }
                 }
-                setjCourant(getJoueur(premierJoueur));
+                setjCourant(getJoueur(premierJoueur-1));
+                System.out.println("Le joueur qui commence est : " + jCourant.getNomJoueur());
+                System.out.println();
             }
 
             if (jCourant.getCash() > 0) {
@@ -198,6 +201,7 @@ public class Monopoly {
         }
 
     }
+    
     
     
     /**
