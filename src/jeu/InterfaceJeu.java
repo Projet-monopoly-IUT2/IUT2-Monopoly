@@ -230,4 +230,47 @@ public void MessageErreur(int i) {
            return sortie;
        }
     
+    public String SaisieNomJ () {
+      
+            Scanner sc2 = new Scanner(System.in);
+            System.out.print("Nom du joueur :" );
+            String nj = sc2.nextLine();
+            return nj;
+        
+    }
+    
+    public int SaisienbJoueurs() {
+         int nbJoueurs;
+        Scanner sc = new Scanner(System.in);
+        
+        
+        System.out.println(" Inscription des joueurs : ");
+
+        
+        nbJoueurs = 0;
+        boolean saisieIncorrecte = true;
+        
+        while (saisieIncorrecte && (nbJoueurs < 2 || nbJoueurs > 6)) {
+            try {
+                System.out.print("Nombre de joueurs (2-6) : ");
+                nbJoueurs = sc.nextInt();
+                sc.nextLine();
+                if (nbJoueurs >= 2 && nbJoueurs <= 6) { saisieIncorrecte = false; }
+                else {
+                    System.out.println(" Saisie Incorrecte :");
+                }
+                
+            }
+            catch (Exception InputMismatchException){
+                System.out.println(" Saisie Incorrecte :");
+                System.out.println(" Entrez un nombre entre 2 et 6 : ");
+                sc.nextLine();
+               
+            }
+         
+        
+        }
+    return nbJoueurs;  
+    }
+    
 }

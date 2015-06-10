@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Monopoly {
 
@@ -281,7 +283,7 @@ public class Monopoly {
      */
     private boolean lancerDesAvancer(Joueur j, ResultatDes nb) { 
         int position = j.getPositionCourante();
-        int caseCible = (position+nb.getRes())%41;
+        int caseCible = (position+nb.getRes())%40+1;
             if (caseCible < position && !(caseCible == 1))
                 //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
@@ -432,27 +434,48 @@ public class Monopoly {
      * joueur est placé sur la case départ.
      */
     public void initialiserPartie() {
-        int nbJoueurs;
-        Scanner sc = new Scanner(System.in);
-        Scanner sc2 = new Scanner(System.in);
+       
+        int nbJoueurs = this.interfaceJeu.SaisienbJoueurs();
         
-        System.out.println(" Inscription des joueurs : ");
-        System.out.print("Nombre de joueurs (2-6) : ");
-        nbJoueurs = sc.nextInt();
-        while (nbJoueurs < 2 || nbJoueurs > 6) {
-            System.out.println("Entrez un nombre entre 2 et 6 : ");
-            nbJoueurs = sc.nextInt();
-        }
 
         for (int i = 1; i <= nbJoueurs; i++) {
-            System.out.print("Nom du joueur " + i+ " : ");
-            String nj = sc2.nextLine();
-            Joueur j = new Joueur(this);
+            
+            System.out.println("Joueur " + i);
+            String nj = this.interfaceJeu.SaisieNomJ();
+         //On ajoute un premier joueur
+           Joueur j = new Joueur(this);  
+            
+//            while (NomJoueurDejaExistant) {
+//                
+//                    for (Joueur joTest : joueurs) {
+//                                //on vérifie dans la liste de joueurs que le nom saisi n'est pas déjà pris. 
+//                       if (nj == joTest.getNomJoueur()) {
+//                           NomJoueurDejaExistant = true;
+//
+//                       }
+//                       else {
+//                           NomJoueurDejaExistant = false;
+//                           j = new Joueur(this);
+//                           j.setNomJoueur(nj);
+//                           j.setCarreau(carreaux.get(1)); 
+//               //Placement sur le 1er carreau (case départ)
+//                           joueurs.add(j);
+//                       }
+//                    }
+//                if (NomJoueurDejaExistant) {
+//                    System.out.println("Ce nom existe déjà");
+//                    nj = this.interfaceJeu.SaisieNomJ();
+//                }
+//             }
+//           
             j.setNomJoueur(nj);
             j.setCarreau(carreaux.get(1));
-            joueurs.add(j);
             //Placement sur le 1er carreau (case départ)
-        }
+            joueurs.add(j);
+            
+     
+            
+         }
     }
 
     public Joueur getJCourant() {
