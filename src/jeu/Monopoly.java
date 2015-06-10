@@ -416,6 +416,7 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
         
+        cartesChance.add(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));
         cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",-3,true));
         cartesChance.add(new CarteGain(this, 3,"Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.", 40, 115));
         cartesChance.add(new CarteGain(this,4,"Amende pour excès de vitesse : 15€",-15));
@@ -431,7 +432,24 @@ public class Monopoly {
         cartesChance.add(new CarteMouvement(this, 14, "Rendez-vous rue de la Paix", 40, false));
         cartesChance.add(new CarteGain(this, 15, "Votre immeuble et votre appartement vous rapportent. Vous devez toucher 150€.", 150));
         cartesChance.add(new CarteMouvement(this, 16, "Accédez au Boulevard de la Vilette. Si vous passez par la case départ, recevez 200€.", 12, false));
-    
+        
+        cartesCommu.add(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));        
+        cartesCommu.add(new CarteGain(this, 2, "Payez une amende de 10€", -10));
+        cartesCommu.add(new CarteGain(this, 3, "C'est votre Anniversaire ! Chaque joueur vous donne 10€", (this.getJoueurs().size()*10)));
+        cartesCommu.add(new CarteGain(this, 4, "Erreur de la Banque en votre faveur, reçevez 200€", 200));
+        cartesCommu.add(new CarteMouvement(this, 5, "Retournez à BelleVille", 2, false));
+        cartesCommu.add(new CarteGain(this, 6, "Payez la note du médecin : 50€", -50));
+        cartesCommu.add(new CarteGain(this, 7, "Les contributions vous remboursent la somme de 20€", 20));
+        cartesCommu.add(new CarteGain(this, 8, "Payez à l'hopital 100€", -100));
+        cartesCommu.add(new CarteGain(this, 9, "Vous héritez : 100€", 100));
+        cartesCommu.add(new CarteMouvement(this, 10, "Allez en Prisons, Ne Passez pas par la case Départ, Ne reçevez pas 200€", 11, false));
+        cartesCommu.add(new CarteGain(this, 11, "Payez votre police d'assurance : 50€", -50));
+        cartesCommu.add(new CarteGain(this, 12, "La vente de votre stock vous apporte la somme de 50€", 50));
+        cartesCommu.add(new CarteMouvement(this, 13, "Aller jusqu'à la case départ", 1, false));
+        cartesCommu.add(new CarteGain(this, 14, "Recevez votre interêt sur l'emprunt à 7% : 25€", 25));
+        cartesCommu.add(new CarteGain(this, 15, "Reçevez votre revenu annuel : 100€", 100));
+        cartesCommu.add(new CarteGain(this, 16, "Vous gagnez le deuxième prix de beauté derrière Emma Watson : reçevez 10€", 10));
+        
         Collections.shuffle(cartesChance);
         Collections.shuffle(cartesCommu);
     }
