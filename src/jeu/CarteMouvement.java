@@ -10,7 +10,7 @@ package jeu;
  *
  * @author laugiera
  */
-public class CarteMouvement extends Cartes {
+public class CarteMouvement extends Carte {
 
     private int caseCible;
     private boolean relatif;
@@ -37,15 +37,12 @@ public class CarteMouvement extends Cartes {
         super.getMonopoly().interfaceJeu.messageCarte(this);
         
         if (relatif)
-            caseCible = (j.getPositionCourante()+caseCible)%40 +1;
+            caseCible = (j.getPositionCourante()+caseCible-1)%40 +1;
         
         if (caseCible < j.getPositionCourante() && caseCible != 1) // Passage par la case départ
             j.ajouterCash(200);
         
         j.deplacer(caseCible);
-        getMonopoly().getCarreau(j.getPositionCourante()).action(j);
-    }
-    
-    
-    
+        super.getMonopoly().getCarreau(j.getPositionCourante()).action(j);
+    } 
 }

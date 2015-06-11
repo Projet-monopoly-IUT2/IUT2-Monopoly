@@ -598,38 +598,37 @@ public class Monopoly {
         return interfaceJeu;
     }
     
-    public ProprieteAConstruire possibiliteConstruire(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {
+   public ProprieteAConstruire possibiliteConstruire(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {
         boolean sortie = false;
         int numCarreau = 0;
         ProprieteAConstruire c = null;
         while (!sortie){
-            if(j.getCash()>=proprietes.get(0).getPrixMaison()){
-                numCarreau = interfaceJeu.affichageChoixConstruction(j,proprietes);               
-                if(numCarreau !=1 && this.ChoixConstructionEstEquilibre(proprietes,numCarreau)){
-                    c = (ProprieteAConstruire)getCarreau(numCarreau);
+            if (interfaceJeu.MessageConstruction(1)==2){
+                if(j.getCash()>=proprietes.get(1).getPrixMaison()){                
+                    numCarreau = interfaceJeu.affichageChoixConstruction(j,proprietes);               
+                    if(this.ChoixConstructionEstEquilibre(proprietes,numCarreau)){
+                        c = (ProprieteAConstruire)getCarreau(numCarreau);
                         if(this.getNbMaisons()==0){
                             interfaceJeu.MessageErreur(3);
                             c=null;
-                            sortie = true; 
                         }
                         if(this.getNbHotels()==0){
                             interfaceJeu.MessageErreur(4);
-                            c=null;
-                            sortie = true; 
+                            c=null;   
                         }
-                        else{
-                            sortie = true; 
-                        }                  
-                    }             
-                else if (numCarreau== 1){
-                    sortie = true;
-                }
-                else {
+                        sortie = true;                  
+                    }
+                    else {
                     interfaceJeu.MessageErreur(1); 
+                    }
+                }                             
+                else{                  
+                    interfaceJeu.MessageErreur(2);
+                    sortie = true;
                 }
             }
             else {
-                interfaceJeu.MessageErreur(2);
+                sortie = true;
             }
         }
         return c;

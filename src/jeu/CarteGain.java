@@ -10,7 +10,7 @@ package jeu;
  *
  * @author laugiera
  */
-public class CarteGain extends Cartes {
+public class CarteGain extends Carte {
     
     private int montant;
     
