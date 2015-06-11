@@ -143,7 +143,11 @@ public class InterfaceJeu {
         return choix;
 
     }
-    
+    /**
+     * Informe l'utilisateur qu'il est en prison pour avoir fait 3 doubles de suite
+     * @param j Joueur courant
+     * @param nb Résultat du 3e lancer.
+     */
     public void EstPrisonPourDouble (Joueur j, ResultatDes nb ) {
          System.out.println("***************************"); 
          System.out.println("Résultat des dés : "+ nb.getRes());
@@ -171,6 +175,12 @@ public void MessageErreur(int i) {
         }
     }
     
+/**
+ * Demande de choisir la propriété du groupe sur laquelle construire
+ * @param j joueur courant
+ * @param proprietes Liste de propriétés sur lesquelles j peut construire.
+ * @return 
+ */
     public int affichageChoixConstruction(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {       
         Scanner sc = new Scanner(System.in);
         for(ProprieteAConstruire PaC : proprietes){
@@ -195,11 +205,20 @@ public void MessageErreur(int i) {
             if (!Vrai){
                 System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
                 rep = sc.nextInt();
-            }    
+            }   
+            else {
+                Vrai = true;
+            }
         }
               
         return rep;          
     }
+    
+    /**
+     * Demande à l'utilisateur s'il veut construire.
+     * @param i 1: demande si l'utilisateur veut construire.<br/>2: signale la complétion de la construction.
+     * @return 1 si l'utilisateur accepte, 2 si l'utilisateur refuse.
+     */
     public int MessageConstruction(int i) {
         if (i==1){
             System.out.println("Voulez vous construire ? (1-oui/2-non)");
@@ -222,7 +241,10 @@ public void MessageErreur(int i) {
         }        
     }
 
-    
+    /**
+     * Propose à l'utilisateur d'utiliser sa carte sortie de prison.
+     * @return Vrai si l'utilisateur utilise sa carte, faux sinon. 
+     */
     public boolean  utiliserCarteSortiePrison() {
            Scanner sc = new Scanner(System.in);
            boolean sortie = false;
@@ -247,6 +269,10 @@ public void MessageErreur(int i) {
            return sortie;
        }
     
+    /**
+     * Demande le nom d'un joueur.
+     * @return Le nom du joueur
+     */
     public String SaisieNomJ () {
       
             Scanner sc2 = new Scanner(System.in);
@@ -256,6 +282,10 @@ public void MessageErreur(int i) {
         
     }
     
+    /**
+     * Demande de saisir le nombre de joueurs.
+     * @return Le nombre de joueurs, (2 <= nbJoueurs <= 6).
+     */
     public int SaisienbJoueurs() {
         int nbJoueurs = 0;
         Scanner sc = new Scanner(System.in);
@@ -283,22 +313,34 @@ public void MessageErreur(int i) {
     return nbJoueurs;  
     }
     
-    public void messageCarte(Carte c) {
-         System.out.println("***************************");
-        System.out.println("Carte : " + c.getDescription());
-         System.out.println("***************************");
+    public void messageCarte(Carte c, String typeTirage) {
+        System.out.println("***************************");
+        System.out.println("Carte " + typeTirage + " n° " + c.getNumero() + " : " + c.getDescription());
+        System.out.println("***************************");
     }
     
+    /**
+     * Informe de la faillite d'un joueur. (pas de chance)
+     * @param j le joueur faisant faillite.
+     */
     public void faillite(Joueur j) {
         System.out.println("\033[31m Le joueur " + j.getNomJoueur() + " a fait faillite ! \u001B[0m");
     }
     
+    /**
+     * Informe que la partie est finie et donne le joueur gagnant.
+     * @param j joueur gagnant
+     */
     public void afficherFinJeu( Joueur j) {
         System.out.println();
         System.out.println("\033[31m Le joueur gagnant est " + j.getNomJoueur() + " Bravo ! \u001B[0m");
         System.out.println("▁ ▂ ▃ ▄ ▅ ▆ ▇ Fin du jeu █ ▇ ▆ ▅ ▄ ▂ ▁ ");   
     }
     
+    /**
+     * Message remplaçant le jeu normal pour les joueurs en faillite.
+     * @param j 
+     */
     public void jouerFaillite(Joueur j) {
         System.out.println(j.getNomJoueur() +" est en faillite !");
     }

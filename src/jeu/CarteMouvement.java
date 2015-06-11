@@ -28,21 +28,46 @@ public class CarteMouvement extends Carte {
         this.relatif = relatif;
     }
 
+    /**
+     * 
+     * @return Case sur laquelle pointe la carte. 
+     */
     public int getCaseCible() {
         return caseCible;
     }
     
+    /**
+     * Déplace un joueur et éxécute l'action de la case cible.
+     * @param j Joueur courant
+     * @throws Faillite Si le joueur est en faillite suite à l'action.
+     */
     @Override
-    public void action(Joueur j) throws Faillite {
-        super.getMonopoly().interfaceJeu.messageCarte(this);
+    public void action(Joueur j) {        
+        if (estRelatif()){
+                int nouvPos = j.getPositionCourante() + getCaseCible();
+                if(nouvPos <= 0 ){
+                    nouvPos = nouvPos +40;
+                    j.setCarreau(this.getMonopoly().getCarreau(nouvPos));
+                }
+                else {
+                    j.setCarreau(this.getMonopoly().getCarreau(nouvPos));                  
+                }
+            } 
         
-        if (relatif)
-            caseCible = (j.getPositionCourante()+caseCible-1)%40 +1;
-        
-        if (caseCible < j.getPositionCourante() && caseCible != 1) // Passage par la case départ
-            j.ajouterCash(200);
-        
-        j.deplacer(caseCible);
-        super.getMonopoly().getCarreau(j.getPositionCourante()).action(j);
-    } 
+        else {
+                if (getCaseCible() < j.getPositionCourante() && !(getCaseCible() == 1) && getCaseCible()!=11) {
+                    //Si le n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
+                    j.ajouterCash(200);
+                }
+                if (getCaseCible()!=11){
+                    j.setEnPrison(true);
+                }
+                j.deplacer(getCaseCible());
+            }
+    }
+    
+    public boolean estRelatif(){
+        return relatif;
+    }
+    
 }
