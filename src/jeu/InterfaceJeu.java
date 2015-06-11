@@ -131,6 +131,7 @@ public class InterfaceJeu {
             System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
             try {
                 choix = sc.nextInt();
+                entreeCorrecte = true;
             } catch (InputMismatchException e) {
                 entreeCorrecte = false;
             }
@@ -184,12 +185,17 @@ public void MessageErreur(int i) {
         int rep = sc.nextInt();
         boolean Vrai = false;
         
-        while(!Vrai){        
-                if (rep < proprietes.get(1).getNumero() || rep > proprietes.get(proprietes.size()-1).getNumero()){
-                    System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
-                    rep = sc.nextInt();
+        while(!Vrai){
+                
+            for  (ProprieteAConstruire p : proprietes) {
+                if (p.getNumero() == rep) {
                     Vrai = true;
-                }    
+                }
+            }
+            if (!Vrai){
+                System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
+                rep = sc.nextInt();
+            }    
         }
               
         return rep;          
@@ -261,12 +267,13 @@ public void MessageErreur(int i) {
             try {
                 System.out.print("Nombre de joueurs (2-6) : ");
                 nbJoueurs = sc.nextInt();
-                sc.nextLine();
+                
                 
                 if (nbJoueurs >= 2 && nbJoueurs <= 6) { saisieCorrecte = true; }                
             }
             catch (InputMismatchException e){
                 saisieCorrecte = false;
+                sc.nextLine();
             }
             
             if (!saisieCorrecte) {

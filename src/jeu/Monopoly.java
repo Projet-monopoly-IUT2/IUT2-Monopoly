@@ -27,9 +27,7 @@ public class Monopoly {
     public Monopoly(String dataFilename) {
         carreaux = new HashMap<>();
         buildGamePlateau(dataFilename);
-        cartesChance = new LinkedList<>();
-        cartesCommu = new LinkedList<>();
-
+   
     }
 
     public LinkedList<Joueur> getJoueurs() {
