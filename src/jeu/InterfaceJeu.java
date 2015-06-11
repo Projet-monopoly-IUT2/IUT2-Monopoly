@@ -1,6 +1,7 @@
 package jeu;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -116,19 +117,24 @@ public class InterfaceJeu {
       */
     public int ChoixAchat(Joueur j, CarreauPropriete c) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("***************************");
-        System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
+        boolean entreeCorrecte = false;
+        int choix = 1;
         
-     
-        int rep = sc.nextInt();
-        while (rep < 1 && rep > 2) {
+        System.out.println("***************************");
+        while (!entreeCorrecte) {
             System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
-            rep = sc.nextInt();
-            
+            try {
+                choix = sc.nextInt();
+            } catch (InputMismatchException e) {
+                entreeCorrecte = false;
+            }
+                if (choix != 1 && choix != 2) {
+                entreeCorrecte = false;
+            }
         }
         System.out.println("***************************");
-        return rep;
-        
+        return choix;
+
     }
     
     public void EstPrisonPourDouble (Joueur j, ResultatDes nb ) {
