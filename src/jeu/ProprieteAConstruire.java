@@ -17,6 +17,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
     /**
      * Construit une maison sur cette propriété
+     * @param j Joueur souhaitant construire
      */
     // Nème duplicata de construire... ménage à faire.
     public void construire(Joueur j) {
@@ -95,14 +96,12 @@ public class ProprieteAConstruire extends CarreauPropriete {
      * @param j joueur courant
      */
     @Override
-    public void action(Joueur j) {              
-        if (getProprietaire() == j){
+    public void action(Joueur j) throws Faillite {
+        if (getProprietaire() == j) {
             construire(j);
-        }
-        else {
+        } else {
             super.action(j);
         }
-        
     }
 
     public void setGroupe(Groupe g) {
@@ -152,4 +151,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
       return loyer;
     }
 
+    @Override
+    public void resetPropriete() {
+        super.resetPropriete();
+        monopoly.setNbMaisons(monopoly.getNbMaisons() + getNbMaisonsC());
+        monopoly.setNbHotels(monopoly.getNbHotels() + getNbHotelsC());
+    }
 }

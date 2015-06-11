@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Random;
@@ -29,7 +27,6 @@ public class Monopoly {
     public Monopoly(String dataFilename) {
         carreaux = new HashMap<>();
         buildGamePlateau(dataFilename);
-
     }
 
     public LinkedList<Joueur> getJoueurs() {
@@ -112,6 +109,7 @@ public class Monopoly {
      */
     // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
     public void possibiliteAchat(Joueur j, CarreauPropriete c) {
+        if (j.testFaillite(c.getMontantAchat()) == false) {
         interfaceJeu.afficherAchat(c, j);
         if (interfaceJeu.ChoixAchat(j, c)==1){
             c.setProprietaire(j);            
@@ -125,13 +123,16 @@ public class Monopoly {
                j.setPropriete(c);
                c.setProprietaire(j);
            }
-           j.retirerCash(c.getMontantAchat());
+           boolean paiement = j.retirerCash(c.getMontantAchat());
             System.out.println("Vous venez d'acheter cette propriété, bravo !");
             System.out.println("***************************");
         }
         else {
             System.out.println("Vous n'avez pas acheté cette propriete");
             System.out.println("***************************");
+        }
+        } else {
+            interfaceJeu.MessageErreur(2);
         }
     }
 
@@ -160,40 +161,53 @@ public class Monopoly {
 
         while (continuer) {
 
-            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
+            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - 
             if (compteurTours == 1) {
                 compteurTours++;
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
-                for (int i = 1; i <= getJoueurs().size(); ++i) {
+                for (int i = 1; i <= getJoueurs().size(); i++) {
                     lancer = lancerDes().getRes();
                     if (lancer > meilleurLancer) {
                         meilleurLancer = lancer;
                         premierJoueur = i;
                     }
+                    else if (lancer == meilleurLancer) {
+                        //A FAIRE pour gérer le cas où deux joueurs font le même meilleur lancer
+
+                    }
                 }
                 setjCourant(getJoueur(premierJoueur));
             }
-
-            if (jCourant.getCash() > 0) {
-                jouerUnCoup(jCourant);
-            } else {
+            
+            //Tour de jeu
+            try {
+                if (jCourant.enFaillite()) {
+                    interfaceJeu.jouerFaillite(jCourant);  
+                } else if (jCourant.isEnPrison()) {
+                    jouerPrison(jCourant);
+                } else {
+                    jouerUnCoup(jCourant);
+                }
+            } catch (Faillite f) {
                 interfaceJeu.faillite(jCourant);
+                jCourant.setFaillite();
             }
-
-            if (jCourant == getJoueurs().getLast()) {
-                jCourant = getJoueurs().getFirst();
-            } else {
-                jCourant = getJoueur(getJoueurs().indexOf(jCourant) + 1);
-            }
-
+            
+            compteurTours++;
+            
             //Vérifier si il reste plus d'un joueur en non-faillite
             for (Joueur j : getJoueurs()) {
-                if (j.getCash() <= 0) {
+                if (j.enFaillite()) {
                     ++nbJoueursFaillite;
                 }
             }
             if (nbJoueursFaillite == getJoueurs().size() - 1) {
                 continuer = false;
+                for(Joueur j: getJoueurs()) {
+                    if (!j.enFaillite())
+                interfaceJeu.afficherFinJeu(j);
+                }
+                
             }
         }
 
@@ -204,11 +218,15 @@ public class Monopoly {
      * Fait avancer le joueur et effectue l'action correspondante à la case sur laquelle il se trouve.
      * Rejoue si le joueur a fait un double.
      * @param j joueur courant
+     * @throws Faillite si un joueur entre en faillite durant son tour de jeu.
      */
-    public void jouerUnCoup(Joueur j) {
+    public void jouerUnCoup(Joueur j) throws Faillite {
+
+            
 
         int i = 1;
-        System.out.println("Tour du joueur : ");
+        System.out.println();
+        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;
@@ -216,7 +234,7 @@ public class Monopoly {
             if (!j.isEnPrison()) {
                 rejouer = lancerDesAvancer(j);
                 getCarreau(j.getPositionCourante()).action(j);
-                i++;
+                if (rejouer)i++;
             } else {
                 rejouer = jouerPrison(j);
             }
@@ -243,9 +261,10 @@ public class Monopoly {
     /**
      * Gère un tour en prison.
      * @param j joueur courant, doit être en prison
+     * @throws Faillite si le joueur n'a pas assez d'argent pour sortir.
      * @return vrai si le joueur doit rejouer, faux sinon.
      */
-    public boolean jouerPrison(Joueur j) {
+    public boolean jouerPrison(Joueur j) throws Faillite{
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
             j.setCarteSortiePrison(false);
@@ -261,7 +280,8 @@ public class Monopoly {
             }
             else if (j.getToursEnPrison() >= 3) {
                 j.setEnPrison(false);
-                j.retirerCash(50);
+                boolean paiement = j.retirerCash(50);
+                if (!paiement) throw new Faillite();
                 lancerDesAvancer(j,lancer);
                 return false;
             }
@@ -521,7 +541,7 @@ public class Monopoly {
             j.setCarreau(carreaux.get(1));
             //Placement sur le 1er carreau (case départ)
             joueurs.add(j);
-            //Placement sur le 1er carreau (case départ)
+
         }
     }
 
@@ -598,13 +618,13 @@ public class Monopoly {
         return interfaceJeu;
     }
     
-    public ProprieteAConstruire possibiliteConstruire(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {
+   public ProprieteAConstruire possibiliteConstruire(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {
         boolean sortie = false;
         int numCarreau = 0;
         ProprieteAConstruire c = null;
         while (!sortie){
             if (interfaceJeu.MessageConstruction(1)==2){
-                if(j.getCash()>=proprietes.get(1).getPrixMaison()){                
+                if(!j.testFaillite(proprietes.get(1).getPrixMaison())){                
                     numCarreau = interfaceJeu.affichageChoixConstruction(j,proprietes);               
                     if(this.ChoixConstructionEstEquilibre(proprietes,numCarreau)){
                         c = (ProprieteAConstruire)getCarreau(numCarreau);
@@ -636,13 +656,16 @@ public class Monopoly {
 
     public Carte tirerCarte(String typeTirage) {
         if (typeTirage.equalsIgnoreCase("Chance")){
-            return cartesChance.getFirst();
+            return cartesChance.peek();
         } else {
-            return cartesCommu.getFirst();
+            return cartesCommu.peek();
         }
         
     }
-    
+    /**
+     * Remet la carte du dessus de la pile qui vient d'être tirée au dessous de la pile.
+     * @param typeTirage 
+     */
     public void RemettreCarte(String typeTirage){
         if (typeTirage.equalsIgnoreCase("Chance")){
 //            cartesChance.addLast(cartesChance.getFirst());

@@ -16,6 +16,7 @@ public class Joueur {
     private ArrayList<Gare> gares = new ArrayList<Gare>();
     private Carreau positionCourante;
     private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
+    private boolean faillite = false;
     private ArrayList<CarteGain> cartesSortiePrison = new ArrayList<>();
     
     public Joueur( Monopoly monopoly) {
@@ -35,7 +36,7 @@ public class Joueur {
      * /!\ Utiliser les méthodes ajouterCash et retirerCash autant que possible /!\
      * @param cash nouveau solde du joueur
      */
-    private void setCash(int cash) {
+    public void setCash(int cash) {
         this.cash = cash;
     }
 
@@ -191,9 +192,24 @@ public class Joueur {
     /**
      * Effectue un retrait sur le cash du joueur
      * @param montant montant du retrait
+     * @return vrai si le paiement a été effectué (false = faillite ou pas assez d'argent)
      */
-    public void retirerCash(int montant) {
-        setCash(getCash()-montant);
+    public boolean retirerCash(int montant) {
+        if (getCash()-montant > 0) {    
+            setCash(getCash()-montant);
+            return true;
+        } else {
+            return false;
+        }   
+    }
+    
+    /**
+     * 
+     * @param montant
+     * @return vrai si le joueur serait en faillite après le paiement
+     */
+    public boolean testFaillite(int montant) {
+        return (getCash()-montant <= 0);
     }
     
     /**
@@ -208,10 +224,27 @@ public class Joueur {
         ajouterCash(l);
     }
 
-    public void payerLoyer(int l) {
-        retirerCash(l);
+    public void payerLoyer(int l) throws Faillite {
+        boolean paiement = retirerCash(l);
+        if (!paiement) {
+            throw new Faillite();
+        }
     }
     
+    public void setFaillite() {
+        this.faillite = true;
+        // Abandonner toutes les propriétés
+        for (CarreauPropriete c : getProprietes()) {
+            if (c instanceof ProprieteAConstruire) {
+                ((ProprieteAConstruire) c).resetPropriete();
+            }
+            c.resetPropriete();
+        }
+    }
+    
+    public boolean enFaillite() {
+        return faillite;
+    }
     /**
      * Retourne le nombre de compagnies
      * @return nombre de compagnies

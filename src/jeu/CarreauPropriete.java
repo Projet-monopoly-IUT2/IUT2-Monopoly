@@ -2,8 +2,7 @@ package jeu;
 
 public abstract class CarreauPropriete extends Carreau {
 
-    private int loyerBase;
-    private int prixAchat;
+ 
     private int montantAchat;
     private int montantLoyer;
     private Joueur proprietaire;
@@ -16,13 +15,12 @@ public abstract class CarreauPropriete extends Carreau {
      * @param j le joueur achetant la propriété
      */
     public void achatPropriete(Joueur j) {
-        int cash = j.getCash();
         int PrixApayer = this.getMontantAchat();
-        if (cash >= PrixApayer){
+        if (!j.testFaillite(montantAchat)){
             this.getMonopoly().possibiliteAchat(j, this);
         }
         else {
-            System.out.println("Vous n'avez pas assez d'argent");
+            getMonopoly().interfaceJeu.MessageErreur(2);
         }
         
     }
@@ -31,13 +29,8 @@ public abstract class CarreauPropriete extends Carreau {
         this.montantLoyer = montantLoyer;
     }
 
-    /**
-     * @return chaine de caractère contenant nom et numéro de la case
-     */
- 
-
-    public void achat(Joueur j) {
-        throw new UnsupportedOperationException();
+    public int getMontantLoyer() {
+        return montantLoyer;
     }
 
     public void setProprietaire(Joueur j) {
@@ -56,23 +49,23 @@ public abstract class CarreauPropriete extends Carreau {
         this.montantAchat = montantAchat;
     }
 
-    //public abstract int calculLoyer(Joueur j);
 
     /**
      * Selon le propriétaire, va proposer d'acheter la case, construire 
      * dessus ou payer le loyer à son propriétaire
      * @param j joueur courant
+     * @throws Faillite si j est en faillite et ne peut payer.
      */
     @Override
-    public void action(Joueur j) {
+    public void action(Joueur j) throws Faillite {
         Joueur jProprio = getProprietaire();
         if (jProprio == null) {
             achatPropriete(j);
         } else if (jProprio != j) {
              
                 int loyer = calculLoyer(j);
-                j.payerLoyer(loyer);
-                jProprio.recevoirLoyer(loyer);
+                j.payerLoyer(loyer); //throws Faillite
+                jProprio.recevoirLoyer(loyer); // Ne recevra pas de loyer si Faillite est lancée avant.
         }
     }
 
@@ -81,13 +74,8 @@ public abstract class CarreauPropriete extends Carreau {
      * que celui ou se trouve le joueur courant, et la construit si nécéssaire.
      */
 
-    public int getloyerBase(){
-        return loyerBase;
-    }
 
-    public void setLoyerBase(int loyerBase) {
-        this.loyerBase = loyerBase;
-    }
+
     
     
     /**
@@ -97,7 +85,9 @@ public abstract class CarreauPropriete extends Carreau {
      */
     public abstract int calculLoyer(Joueur j); 
        
-   
+   public void resetPropriete() {
+       setProprietaire(null);
+   }
     
     
     

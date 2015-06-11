@@ -1,6 +1,7 @@
 package jeu;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -32,30 +33,36 @@ public class InterfaceJeu {
      * @param j le joueur a afficher
      */
     public void afficherJoueur(Joueur j) {
-
-       Carreau PositionCourante = monopoly.getCarreau(j.getPositionCourante());
-       String  nomPositionCourante = PositionCourante.getNomCarreau();  
-       if (monopoly.getCarreau(j.getPositionCourante()) instanceof ProprieteAConstruire)
-            { System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + " - Groupe : " + ((ProprieteAConstruire)monopoly.getCarreau(j.getPositionCourante())).getGroupePropriete().getCouleur().toString());  }
-       else {
-              System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" ); 
-            } 
-    
+        
+        if (j.enFaillite()) {
+            System.out.println(j.getNomJoueur() + " est en faillite !");
+        } else {
+            Carreau PositionCourante = monopoly.getCarreau(j.getPositionCourante());
+            String nomPositionCourante = PositionCourante.getNomCarreau();
+            if (monopoly.getCarreau(j.getPositionCourante()) instanceof ProprieteAConstruire) {
+                System.out.println("Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + " - Groupe : " + ((ProprieteAConstruire) monopoly.getCarreau(j.getPositionCourante())).getGroupePropriete().getCouleur().toString());
+            } else {
+                System.out.println("Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")");
+            }
+        }
     }
     
     /**
      * Afficher l'état d'un groupe de joueurs ainsi que leurs propriétés.
      * @param joueurs liste des joueurs à afficher 
      */
-    public void afficherEtatJoueurs(LinkedList<Joueur>joueurs) {
+    public void afficherEtatJoueurs(LinkedList<Joueur> joueurs) {
         System.out.println("***************************");
         System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
-           
-            afficherJoueur(js);
-            ArrayList<CarreauPropriete> proprietes = js.getProprietes();
-            if (proprietes != null) {
-                afficherProprietes(proprietes);
+            if (js.enFaillite()) {
+                System.out.println(js.getNomJoueur() + " est en faillite !");
+            } else {
+                afficherJoueur(js);
+                ArrayList<CarreauPropriete> proprietes = js.getProprietes();
+                if (proprietes != null) {
+                    afficherProprietes(proprietes);
+                }
             }
         }
         System.out.println("***************************");
@@ -97,7 +104,7 @@ public class InterfaceJeu {
     public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
         System.out.println("***************************");
         System.out.println("Payement de loyer : ");
-        System.out.println("Proprio : "+jproprio.getNomJoueur() + "- Loyer : " + loyer + "- Cash après payement : " +nouveauCash);
+        System.out.println("Paiement à : "+jproprio.getNomJoueur() + "- Loyer : " + loyer + "- Cash après payement : " +nouveauCash);
         System.out.println("***************************");
     }
    
@@ -116,19 +123,24 @@ public class InterfaceJeu {
       */
     public int ChoixAchat(Joueur j, CarreauPropriete c) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("***************************");
-        System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
+        boolean entreeCorrecte = false;
+        int choix = 1;
         
-     
-        int rep = sc.nextInt();
-        while (rep < 1 && rep > 2) {
+        System.out.println("***************************");
+        while (!entreeCorrecte) {
             System.out.println("Voulez vous acheter cette propriete (1 - oui/ 2 - non)?");
-            rep = sc.nextInt();
-            
+            try {
+                choix = sc.nextInt();
+            } catch (InputMismatchException e) {
+                entreeCorrecte = false;
+            }
+                if (choix != 1 && choix != 2) {
+                entreeCorrecte = false;
+            }
         }
         System.out.println("***************************");
-        return rep;
-        
+        return choix;
+
     }
     
     public void EstPrisonPourDouble (Joueur j, ResultatDes nb ) {
@@ -241,35 +253,27 @@ public void MessageErreur(int i) {
     }
     
     public int SaisienbJoueurs() {
-         int nbJoueurs;
+        int nbJoueurs = 0;
         Scanner sc = new Scanner(System.in);
         
-        
         System.out.println(" Inscription des joueurs : ");
-
         
-        nbJoueurs = 0;
-        boolean saisieIncorrecte = true;
-        
-        while (saisieIncorrecte && (nbJoueurs < 2 || nbJoueurs > 6)) {
+        boolean saisieCorrecte = false;
+        while (!saisieCorrecte) {
             try {
                 System.out.print("Nombre de joueurs (2-6) : ");
                 nbJoueurs = sc.nextInt();
                 sc.nextLine();
-                if (nbJoueurs >= 2 && nbJoueurs <= 6) { saisieIncorrecte = false; }
-                else {
-                    System.out.println(" Saisie Incorrecte :");
-                }
                 
+                if (nbJoueurs >= 2 && nbJoueurs <= 6) { saisieCorrecte = true; }                
             }
-            catch (Exception InputMismatchException){
+            catch (InputMismatchException e){
+                saisieCorrecte = false;
+            }
+            
+            if (!saisieCorrecte) {
                 System.out.println(" Saisie Incorrecte :");
-                System.out.println(" Entrez un nombre entre 2 et 6 : ");
-                sc.nextLine();
-               
             }
-         
-        
         }
     return nbJoueurs;  
     }
@@ -281,7 +285,17 @@ public void MessageErreur(int i) {
     }
     
     public void faillite(Joueur j) {
-        System.out.println("Le joueur " + j.getNomJoueur() +" a fait faillite ! ");
+        System.out.println("\033[31m Le joueur " + j.getNomJoueur() + " a fait faillite ! \u001B[0m");
+    }
+    
+    public void afficherFinJeu( Joueur j) {
+        System.out.println();
+        System.out.println("\033[31m Le joueur gagnant est " + j.getNomJoueur() + " Bravo ! \u001B[0m");
+        System.out.println("▁ ▂ ▃ ▄ ▅ ▆ ▇ Fin du jeu █ ▇ ▆ ▅ ▄ ▂ ▁ ");   
+    }
+    
+    public void jouerFaillite(Joueur j) {
+        System.out.println(j.getNomJoueur() +" est en faillite !");
     }
     
 }
