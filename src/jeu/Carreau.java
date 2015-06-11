@@ -35,7 +35,9 @@ public abstract class Carreau {
      * @return le nom du carreau, soit le nom de la proporiété, de la taxe, ou du type de tirage 
      */
     public String getNomCarreau() {
-        return nomCarreau;
+        if (this.nomCarreau != null) {
+        return nomCarreau; }
+        return "ERREUR";
     }
     
     /**

@@ -10,11 +10,11 @@ package jeu;
  *
  * @author laugiera
  */
-public class CarteGain extends Carte {
+public class CarteGain extends Cartes {
     
     private int montant;
     
-    private String casParticuler = null;
+    private String casParticuler = new String();
     private int montantParMaison;
     private int montantParHotel;
     
@@ -47,5 +47,7 @@ public class CarteGain extends Carte {
             j.ajouterCash(montant);
         }
     }
+    
+    
     
 }

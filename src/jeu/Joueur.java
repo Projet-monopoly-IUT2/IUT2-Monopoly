@@ -17,6 +17,8 @@ public class Joueur {
     
     public Joueur( Monopoly monopoly) {
         this.monopoly = monopoly;
+        
+        
     }
 
     public String getNomJoueur() {
@@ -38,22 +40,25 @@ public class Joueur {
      * @return numero du carreau courant du joueur
      */
     public int getPositionCourante() {
-        return positionCourante.getNumero();
+        if (this.positionCourante != null) {
+        return positionCourante.getNumero(); }
+        return 0;
     }
 
     /**
      * Déplace au carreau passé en paramètre
      * @param c carreau sur lequel se déplacer
      */
-    public void deplacer(Carreau c) {
-        this.setCarreau(c);
-    }
+    //public void deplacer(Carreau c) {
+    //    this.setCarreau(c);
+    //}
     
     /**
      * Déplace au carreau dont le numéro est passé en paramètre.
      * @param numc numéro de la case sur laquelle se déplacer.
      */
     public void deplacer(int numc) {
+      
         setCarreau(monopoly.getCarreau(numc));
     }
     

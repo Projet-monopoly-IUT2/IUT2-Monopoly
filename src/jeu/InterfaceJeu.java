@@ -32,12 +32,12 @@ public class InterfaceJeu {
      * @param j le joueur a afficher
      */
     public void afficherJoueur(Joueur j) {
-    
-       String nomPositionCourante = monopoly.getCarreau(j.getPositionCourante()).getNomCarreau();
-            
+
+       Carreau PositionCourante = monopoly.getCarreau(j.getPositionCourante());
+       String  nomPositionCourante = PositionCourante.getNomCarreau();  
        if (monopoly.getCarreau(j.getPositionCourante()) instanceof ProprieteAConstruire)
             { System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" + " - Groupe : " + ((ProprieteAConstruire)monopoly.getCarreau(j.getPositionCourante())).getGroupePropriete().getCouleur().toString());  }
-            else {
+       else {
               System.out.println( "Joueur : " + j.getNomJoueur() + " - " + j.getCash() + "€ - Position : " + nomPositionCourante + " (case " + j.getPositionCourante() + ")" ); 
             } 
     
@@ -51,7 +51,7 @@ public class InterfaceJeu {
         System.out.println("***************************");
         System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
-            
+           
             afficherJoueur(js);
             ArrayList<CarreauPropriete> proprietes = js.getProprietes();
             if (proprietes != null) {
@@ -68,7 +68,7 @@ public class InterfaceJeu {
     public void afficherResDes(ResultatDes res) {
        System.out.println("***************************"); 
        System.out.print(" Resultat des dés : " + res.getRes());
-       if (res.isDble()) System.out.print(" (Double !)");
+       if (res.isDble())  System.out.println("\033[31m Double !\u001B[0m");
        System.out.println();
        
     }
@@ -85,6 +85,7 @@ public class InterfaceJeu {
               System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()));  
             }
         }
+        System.out.println("--------------------------------------");
     }
   
     /**
@@ -130,13 +131,14 @@ public class InterfaceJeu {
         
     }
     
-    public void EstPrisonPourDouble (Joueur j ) {
+    public void EstPrisonPourDouble (Joueur j, ResultatDes nb ) {
          System.out.println("***************************"); 
-         System.out.println("le joueur " + j.getNomJoueur()+ " est en prison car il a fait 3 doubles à la suite ! ");
+         System.out.println("Résultat des dés : "+ nb.getRes());
+          System.out.println("\033[31m le joueur " + j.getNomJoueur()+ " est en prison car il a fait 3 doubles à la suite ! \u001B[0m");
          System.out.println("***************************");
     }
     
-    public void MessageErreur(int i) {
+public void MessageErreur(int i) {
         switch (i) {
             case 1:
                 System.out.println("Le choix n'est pas équilibré.\nChoisir une autre Propriete");
@@ -157,38 +159,133 @@ public class InterfaceJeu {
     }
     
     public int affichageChoixConstruction(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {       
-        System.out.println("Voulez vous construire ? (1-oui/2-non");
         Scanner sc = new Scanner(System.in);
-        int rep1 = sc.nextInt();
-        if (rep1== 1){
-                for(ProprieteAConstruire PaC : proprietes){
+        for(ProprieteAConstruire PaC : proprietes){
                    
-                     System.out.println("Propriété : " + PaC.getNomCarreau() + " : " + String.valueOf(PaC.getNumero()) + " Groupe : " + PaC.getGroupePropriete().getCouleur().toString()); 
-             
-                    System.out.println("Nb Maison : " + PaC.getNbMaisonsC());
-                    System.out.println("\nNb Hotel : " + PaC.getNbHotelsC());
-                }
+            System.out.println("Propriété : " + PaC.getNomCarreau() + " : " + String.valueOf(PaC.getNumero()) + " Groupe : " + PaC.getGroupePropriete().getCouleur().toString());             
+            System.out.println("Nb Maison : " + PaC.getNbMaisonsC());
+            System.out.println("Nb Hotel : " + PaC.getNbHotelsC());
+        }
+                
+        System.out.println("Cash Joueur : " + j.getCash());
+        System.out.println("Choisir une propriete par son numero");
+        int rep = sc.nextInt();
+        boolean Vrai = false;
         
-                System.out.println("Choisir une propriete par son numero");
-                int rep = sc.nextInt();
-        
-                while ( rep < proprietes.get(0).getNumero() && rep > proprietes.get(proprietes.size()-1).getNumero()){
-                    System.out.println("Choisir un bon numero de propriete parmis la liste proposé\n");
+        while(!Vrai){        
+                if (rep < proprietes.get(1).getNumero() || rep > proprietes.get(proprietes.size()-1).getNumero()){
+                    System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
                     rep = sc.nextInt();
-                }
+                    Vrai = true;
+                }    
+        }
               
-                return rep;          
-        }
-        else {
-            return 1;
-        }
+        return rep;          
+    }
+    public int MessageConstruction(int i) {
+        if (i==1){
+            System.out.println("Voulez vous construire ? (1-oui/2-non)");
+            Scanner sc = new Scanner(System.in);
+            String rep1 = sc.nextLine();
+            while(!rep1.equalsIgnoreCase("oui") && !rep1.equalsIgnoreCase("non")){
+                System.out.println("Saisir oui/non :");
+                rep1 = sc.nextLine();
+            }
+            if (rep1.equalsIgnoreCase("oui")){
+                return 2;
+            }
+            else{
+                return 1;
+            }
+        }        
+        else{
+            System.out.println("Construction faite"); 
+            return 2;
+        }        
+    }
 
-       
-
-        }
     
     public boolean  utiliserCarteSortiePrison() {
-           return false;
+           Scanner sc = new Scanner(System.in);
+           boolean sortie = false;
+           System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
+           int rep = sc.nextInt();
+           while (rep < 1 && rep > 2) {
+             rep = sc.nextInt();  
+             System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");  
+           }   
+             
+            if (rep == 1) {
+                    System.out.println("Vous êtes libéré de prison");
+                    sortie = true;
+                }
+             else if (rep == 2) {
+                    sortie = false;
+                }
+            
+            
+            
+           System.out.println(sortie);
+           return sortie;
        }
+    
+    public String SaisieNomJ () {
+      
+            Scanner sc2 = new Scanner(System.in);
+            System.out.print("Nom du joueur :" );
+            String nj = sc2.nextLine();
+            return nj;
+        
+    }
+    
+    public int SaisienbJoueurs() {
+         int nbJoueurs;
+        Scanner sc = new Scanner(System.in);
+        
+        
+        System.out.println(" Inscription des joueurs : ");
+
+        
+        nbJoueurs = 0;
+        boolean saisieIncorrecte = true;
+        
+        while (saisieIncorrecte && (nbJoueurs < 2 || nbJoueurs > 6)) {
+            try {
+                System.out.print("Nombre de joueurs (2-6) : ");
+                nbJoueurs = sc.nextInt();
+                sc.nextLine();
+                if (nbJoueurs >= 2 && nbJoueurs <= 6) { saisieIncorrecte = false; }
+                else {
+                    System.out.println(" Saisie Incorrecte :");
+                }
+                
+            }
+            catch (Exception InputMismatchException){
+                System.out.println(" Saisie Incorrecte :");
+                System.out.println(" Entrez un nombre entre 2 et 6 : ");
+                sc.nextLine();
+               
+            }
+         
+        
+        }
+    return nbJoueurs;  
+    }
+    
+    public void messageCarte(Carte c) {
+         System.out.println("***************************");
+        System.out.println("Carte : " + c.getDescription());
+         System.out.println("***************************");
+    }
+    
+    public void faillite(Joueur j) {
+        System.out.println("\033[31m Le joueur " + j.getNomJoueur() + " a fait faillite ! \u001B[0m");
+    }
+    
+    public void afficherFinJeu( Joueur j) {
+        System.out.println();
+        System.out.println("\033[31m Le joueur gagnant est " + j.getNomJoueur() + " Bravo ! \u001B[0m");
+        System.out.println("▁ ▂ ▃ ▄ ▅ ▆ ▇ Fin du jeu █ ▇ ▆ ▅ ▄ ▂ ▁ ");   
+    }
     
 }

@@ -41,14 +41,16 @@ public class ProprieteAConstruire extends CarreauPropriete {
                         this.getMonopoly().setNbHotels(NbHotelsMonopoly);
                         c.setNbHotelsC(1);
                         c.setNbMaisonsC(0);
-                        Sortie = true;
+                        j.retirerCash(c.prixMaison);
                     }
                     else if (c.getNbMaisonsC()<4 && c.getNbHotelsC()==0){
                         NbMaisonMonopoly--;
                         this.getMonopoly().setNbMaisons(NbMaisonMonopoly);
-                        c.setNbMaisonsC(0);
-                        Sortie = true;
+                        int NbMaison = c.getNbMaisonsC()+1; 
+                        c.setNbMaisonsC(NbMaison);
+                        j.retirerCash(c.prixMaison);
                     }
+                this.getMonopoly().getInterfaceJeu().MessageConstruction(2);  
                 }
             }
             else {
@@ -57,6 +59,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
             }
         } 
     }
+
     public void setNbMaisonsC(int i) {
         nbMaisonsC = i;
     }

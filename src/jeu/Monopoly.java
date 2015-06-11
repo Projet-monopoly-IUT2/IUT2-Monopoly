@@ -16,9 +16,9 @@ public class Monopoly {
     private int nbMaisons = 32;
     private int nbHotels = 12;
     private int resultatDes;
-    private HashMap<Integer, Carreau> carreaux;
-    private LinkedList<Carte> cartesChance;
-    private LinkedList<Carte> cartesCommu;
+    private HashMap<Integer, Carreau> carreaux = new HashMap<>();
+    private LinkedList<Carte> cartesChance = new LinkedList<>();
+    private LinkedList<Carte> cartesCommu = new LinkedList<>();
     private LinkedList<Joueur> joueurs = new LinkedList<Joueur>();
     private Joueur jCourant;
     public InterfaceJeu interfaceJeu = new InterfaceJeu(this);
@@ -65,7 +65,7 @@ public class Monopoly {
         ResultatDes res = new ResultatDes();
         int d1 = rand.nextInt(6) + 1; // 0 à 5  +1
         int d2 = rand.nextInt(6) + 1;
-        d1 = d2;
+     
         res.setRes(d1 + d2);
         if (d1 == d2) {
             res.setDble(true);
@@ -89,6 +89,12 @@ public class Monopoly {
         }
         return incognito;
     }
+
+    public HashMap<Integer, Carreau> getCarreaux() {
+        return carreaux;
+    }
+    
+    
     
     /**
      * Récupère le numJème joueur 
@@ -121,9 +127,11 @@ public class Monopoly {
            }
            j.retirerCash(c.getMontantAchat());
             System.out.println("Vous venez d'acheter cette propriété, bravo !");
+            System.out.println("***************************");
         }
         else {
             System.out.println("Vous n'avez pas acheté cette propriete");
+            System.out.println("***************************");
         }
     }
 
@@ -152,39 +160,43 @@ public class Monopoly {
 
         while (continuer) {
 
-            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - A TESTER
+            //Déterminer le joueur qui va commencer à l'aide d'un lancer de dés - 
             if (compteurTours == 1) {
+                compteurTours++;
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
-                for (int i = 1; i <= getJoueurs().size(); ++i) {
+                for (int i = 1; i <= getJoueurs().size(); i++) {
                     lancer = lancerDes().getRes();
                     if (lancer > meilleurLancer) {
                         meilleurLancer = lancer;
                         premierJoueur = i;
                     }
+                    else if (lancer == meilleurLancer) {
+                        //A FAIRE pour gérer le cas où deux joueurs font le même meilleur lancer
+                        
+                    }
                 }
                 setjCourant(getJoueur(premierJoueur));
             }
-
-            if (jCourant.getCash() > 0) {
-                jouerUnCoup(jCourant);
-            } else {
-//                interfaceJeu.faillite(jCourant);
-            }
-
-            if (jCourant == getJoueurs().getLast()) {
-                jCourant = getJoueurs().getFirst();
-            } else {
-                jCourant = getJoueur(getJoueurs().indexOf(jCourant) + 1);
-            }
-
+            
+                                
+           for (int i = 0; i < getJoueurs().size(); i++) {
+               Joueur joueur = this.getJoueur(i);
+                if (joueur.getCash() <= 0 ) {
+                    interfaceJeu.faillite(joueur);
+                    this.getJoueurs().remove(joueur);
+                }
+           } // pour ne pas afficher les joueurs autre que le jCourant ayant perdu
+            
             //Vérifier si il reste plus d'un joueur en non-faillite
             for (Joueur j : getJoueurs()) {
                 if (j.getCash() <= 0) {
                     ++nbJoueursFaillite;
                 }
             }
+            
             if (nbJoueursFaillite == getJoueurs().size() - 1) {
                 continuer = false;
+                interfaceJeu.afficherFinJeu(this.getJoueurs().getFirst());
             }
         }
 
@@ -198,8 +210,11 @@ public class Monopoly {
      */
     public void jouerUnCoup(Joueur j) {
 
-        int i = 0;
-        System.out.println("Tour du joueur : ");
+            
+
+        int i = 1;
+        System.out.println();
+        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;
@@ -216,10 +231,11 @@ public class Monopoly {
         }
         if (i == 3) {
             ResultatDes nb = lancerDes();
+            resultatDes = nb.getRes();
             if (nb.isDble() ) {
                 
                 j.setEnPrison(true);
-                interfaceJeu.EstPrisonPourDouble(j);
+                interfaceJeu.EstPrisonPourDouble(j, nb);
                 j.deplacer(11);
             }
             else {
@@ -238,10 +254,12 @@ public class Monopoly {
     public boolean jouerPrison(Joueur j) {
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
+            j.setCarteSortiePrison(false);
             return true;
         } else {
             j.addToursEnPrison(1);
             ResultatDes lancer = lancerDes();
+            resultatDes = lancer.getRes();
             if (lancer.isDble()) {
                 j.setEnPrison(false);
                 lancerDesAvancer(j, lancer);
@@ -264,6 +282,7 @@ public class Monopoly {
      */
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb = lancerDes();
+        
         return lancerDesAvancer(j, nb);
     }
     
@@ -275,7 +294,7 @@ public class Monopoly {
      */
     private boolean lancerDesAvancer(Joueur j, ResultatDes nb) { 
         int position = j.getPositionCourante();
-        int caseCible = (position+nb.getRes())%41;
+        int caseCible = (position+nb.getRes()-1)%40+1;
             if (caseCible < position && !(caseCible == 1))
                 //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
@@ -386,7 +405,12 @@ public class Monopoly {
                     c.setMontant(Integer.parseInt(data.get(i)[3]));
                     this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else if (typeCase.compareTo("CM") == 0) { // Mouvement
+                    
 //                    System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    CarreauMouvement c = new CarreauMouvement(this);
+                    c.setNumero(Integer.parseInt(data.get(i)[1]));
+                    c.setNomCarreau(data.get(i)[2]);
+                    this.carreaux.put(Integer.parseInt(data.get(i)[1]), c);
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
@@ -398,7 +422,8 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
         
-        cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",3,true));
+        cartesChance.add(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));
+        cartesChance.add(new CarteMouvement(this,2,"Reculez de trois cases",-3,true));
         cartesChance.add(new CarteGain(this, 3,"Vous êtes imposé pour des réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.", 40, 115));
         cartesChance.add(new CarteGain(this,4,"Amende pour excès de vitesse : 15€",-15));
         cartesChance.add(new CarteGain(this,5,"Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hotel 100€.",25,100)); 
@@ -413,7 +438,24 @@ public class Monopoly {
         cartesChance.add(new CarteMouvement(this, 14, "Rendez-vous rue de la Paix", 40, false));
         cartesChance.add(new CarteGain(this, 15, "Votre immeuble et votre appartement vous rapportent. Vous devez toucher 150€.", 150));
         cartesChance.add(new CarteMouvement(this, 16, "Accédez au Boulevard de la Vilette. Si vous passez par la case départ, recevez 200€.", 12, false));
-    
+        
+        cartesCommu.add(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));        
+        cartesCommu.add(new CarteGain(this, 2, "Payez une amende de 10€", -10));
+        cartesCommu.add(new CarteGain(this, 3, "C'est votre Anniversaire ! Chaque joueur vous donne 10€", (this.getJoueurs().size()*10)));
+        cartesCommu.add(new CarteGain(this, 4, "Erreur de la Banque en votre faveur, reçevez 200€", 200));
+        cartesCommu.add(new CarteMouvement(this, 5, "Retournez à BelleVille", 2, false));
+        cartesCommu.add(new CarteGain(this, 6, "Payez la note du médecin : 50€", -50));
+        cartesCommu.add(new CarteGain(this, 7, "Les contributions vous remboursent la somme de 20€", 20));
+        cartesCommu.add(new CarteGain(this, 8, "Payez à l'hopital 100€", -100));
+        cartesCommu.add(new CarteGain(this, 9, "Vous héritez : 100€", 100));
+        cartesCommu.add(new CarteMouvement(this, 10, "Allez en Prisons, Ne Passez pas par la case Départ, Ne reçevez pas 200€", 11, false));
+        cartesCommu.add(new CarteGain(this, 11, "Payez votre police d'assurance : 50€", -50));
+        cartesCommu.add(new CarteGain(this, 12, "La vente de votre stock vous apporte la somme de 50€", 50));
+        cartesCommu.add(new CarteMouvement(this, 13, "Aller jusqu'à la case départ", 1, false));
+        cartesCommu.add(new CarteGain(this, 14, "Recevez votre interêt sur l'emprunt à 7% : 25€", 25));
+        cartesCommu.add(new CarteGain(this, 15, "Reçevez votre revenu annuel : 100€", 100));
+        cartesCommu.add(new CarteGain(this, 16, "Vous gagnez le deuxième prix de beauté derrière Emma Watson : reçevez 10€", 10));
+        
         Collections.shuffle(cartesChance);
         Collections.shuffle(cartesCommu);
     }
@@ -446,26 +488,46 @@ public class Monopoly {
      * joueur est placé sur la case départ.
      */
     public void initialiserPartie() {
-        int nbJoueurs;
-        Scanner sc = new Scanner(System.in);
-        Scanner sc2 = new Scanner(System.in);
+       
+        int nbJoueurs = this.interfaceJeu.SaisienbJoueurs();
         
-        System.out.println("Inscription des joueurs : ");
-        System.out.print("Nombre de joueurs (2-6) : ");
-        nbJoueurs = sc.nextInt();
-        while (nbJoueurs < 2 || nbJoueurs > 6) {
-            System.out.println("Entrez un nombre entre 2 et 6 : ");
-            nbJoueurs = sc.nextInt();
-        }
+       
 
         for (int i = 1; i <= nbJoueurs; i++) {
-            System.out.print("Nom du joueur " + i+ " : ");
-            String nj = sc2.nextLine();
-            Joueur j = new Joueur(this);
+            
+            System.out.println("Joueur " + i);
+            String nj = this.interfaceJeu.SaisieNomJ();
+         //On ajoute un premier joueur
+           Joueur j = new Joueur(this);  
+            
+//            while (NomJoueurDejaExistant) {
+//                
+//                    for (Joueur joTest : joueurs) {
+//                                //on vérifie dans la liste de joueurs que le nom saisi n'est pas déjà pris. 
+//                       if (nj == joTest.getNomJoueur()) {
+//                           NomJoueurDejaExistant = true;
+//
+//                       }
+//                       else {
+//                           NomJoueurDejaExistant = false;
+//                           j = new Joueur(this);
+//                           j.setNomJoueur(nj);
+//                           j.setCarreau(carreaux.get(1)); 
+//               //Placement sur le 1er carreau (case départ)
+//                           joueurs.add(j);
+//                       }
+//                    }
+//                if (NomJoueurDejaExistant) {
+//                    System.out.println("Ce nom existe déjà");
+//                    nj = this.interfaceJeu.SaisieNomJ();
+//                }
+//             }
+//           
             j.setNomJoueur(nj);
             j.setCarreau(carreaux.get(1));
-            joueurs.add(j);
             //Placement sur le 1er carreau (case départ)
+            joueurs.add(j);
+
         }
     }
 
