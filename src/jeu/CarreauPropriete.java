@@ -81,7 +81,9 @@ public abstract class CarreauPropriete extends Carreau {
      */
     public abstract int calculLoyer(Joueur j); 
        
-   
+   public void resetPropriete() {
+       setProprietaire(null);
+   }
     
     
     

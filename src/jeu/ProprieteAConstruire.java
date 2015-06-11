@@ -151,4 +151,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
       return loyer;
     }
 
+    @Override
+    public void resetPropriete() {
+        super.resetPropriete();
+        monopoly.setNbMaisons(monopoly.getNbMaisons() + getNbMaisonsC());
+        monopoly.setNbHotels(monopoly.getNbHotels() + getNbHotelsC());
+    }
 }
