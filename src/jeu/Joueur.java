@@ -32,7 +32,7 @@ public class Joueur {
      * /!\ Utiliser les méthodes ajouterCash et retirerCash autant que possible /!\
      * @param cash nouveau solde du joueur
      */
-    private void setCash(int cash) {
+    public void setCash(int cash) {
         this.cash = cash;
     }
 
