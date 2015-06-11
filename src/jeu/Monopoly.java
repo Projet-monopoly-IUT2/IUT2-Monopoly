@@ -435,7 +435,7 @@ public class Monopoly {
         
         cartesCommu.add(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));        
         cartesCommu.add(new CarteGain(this, 2, "Payez une amende de 10€", -10));
-        cartesCommu.add(new CarteGain(this, 3, "C'est votre Anniversaire ! Chaque joueur vous donne 10€", (this.getJoueurs().size()*10)));
+        cartesCommu.add(new CarteGain(this, 3, "C'est votre Anniversaire ! Chaque joueur vous donne 10€",0));
         cartesCommu.add(new CarteGain(this, 4, "Erreur de la Banque en votre faveur, reçevez 200€", 200));
         cartesCommu.add(new CarteMouvement(this, 5, "Retournez à BelleVille", 2, false));
         cartesCommu.add(new CarteGain(this, 6, "Payez la note du médecin : 50€", -50));
@@ -569,11 +569,17 @@ public class Monopoly {
         int i = 0;
         while (!Sortie){
             if(proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
+                Sortie = true;
                 Res = true;
             }
             else if (proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
+                Sortie = true;
                 Res = true;
             }
+            if (i == proprietes.size()-1){
+                Sortie = true;
+            }
+            i++;
         }
         
         return Res;
@@ -628,5 +634,63 @@ public class Monopoly {
         return c;
     }
 
+    public Carte tirerCarte(String typeTirage) {
+        if (typeTirage.equalsIgnoreCase("Chance")){
+            return cartesChance.getFirst();
+        } else {
+            return cartesCommu.getFirst();
+        }
+        
+    }
+    
+    public void RemettreCarte(String typeTirage){
+        if (typeTirage.equalsIgnoreCase("Chance")){
+//            cartesChance.addLast(cartesChance.getFirst());
+//            cartesChance.removeFirst();
+              cartesChance.offerLast(cartesChance.pollFirst());
+        } else {
+//            cartesCommu.addLast(cartesCommu.getFirst());
+//            cartesCommu.removeFirst();
+              cartesCommu.offerLast(cartesCommu.pollFirst());
+
+        }
+        
+    }
+    /**
+     * Retire la carte prison après avoir été tirée par le joueur qui souhaite la conserver.
+     * @param typeTirage 
+     */
+    public void retirerCartePrison(String typeTirage){
+            removeCartePrison(typeTirage);
+    }
+    
+    private void removeCartePrison(String typeTirage){
+        if (typeTirage.equalsIgnoreCase("chance")) {
+            cartesChance.removeFirst();
+        } else {
+            cartesCommu.removeFirst();
+        }
+    }
+    /**
+     * Remet dans le bon tas la carte Sortie de Prison après avoir été utilisée par un joueur.
+     */
+    public void remettreCartePrison(){
+        addCartePrison();
+    }
+    
+    private void addCartePrison(){
+        boolean presenceCartePrison = false;
+        for (Carte c : cartesChance){
+            if (c.getNumero() == 1){
+                presenceCartePrison = true;
+            }
+        }
+        
+        if (presenceCartePrison){
+            cartesChance.addLast(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));
+        } else {
+            cartesCommu.addLast(new CarteGain(this, 1, "Vous êtes libérés de prison, cette carte peut être conservée jusqu'à ce que vous l'utilisiez", 0));
+        }
+    }
 
 }

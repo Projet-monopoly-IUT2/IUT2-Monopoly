@@ -95,14 +95,13 @@ public class ProprieteAConstruire extends CarreauPropriete {
      * @param j joueur courant
      */
     @Override
-    public void action(Joueur j) {        
-
-            
+    public void action(Joueur j) {              
+        if (getProprietaire() == j){
+            construire(j);
+        }
+        else {
             super.action(j);
-       
-//       else if (getProprietaire() == j){
-//             construire();
-//        }
+        }
         
     }
 

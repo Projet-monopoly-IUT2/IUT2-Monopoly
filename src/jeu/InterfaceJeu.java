@@ -173,11 +173,13 @@ public void MessageErreur(int i) {
         boolean Vrai = false;
         
         while(!Vrai){        
-                if (rep < proprietes.get(1).getNumero() || rep > proprietes.get(proprietes.size()-1).getNumero()){
-                    System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
-                    rep = sc.nextInt();
-                    Vrai = true;
-                }    
+            if (rep < proprietes.get(0).getNumero() || rep > proprietes.get(proprietes.size()-1).getNumero()){
+                System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
+                rep = sc.nextInt();
+            }   
+            else {
+                Vrai = true;
+            }
         }
               
         return rep;          
@@ -272,10 +274,10 @@ public void MessageErreur(int i) {
     return nbJoueurs;  
     }
     
-    public void messageCarte(Carte c) {
-         System.out.println("***************************");
-        System.out.println("Carte : " + c.getDescription());
-         System.out.println("***************************");
+    public void messageCarte(Carte c, String typeTirage) {
+        System.out.println("***************************");
+        System.out.println("Carte " + typeTirage + " n° " + c.getNumero() + " : " + c.getDescription());
+        System.out.println("***************************");
     }
     
     public void faillite(Joueur j) {

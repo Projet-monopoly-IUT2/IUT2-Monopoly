@@ -1,6 +1,8 @@
 package jeu;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Joueur {
 
@@ -14,6 +16,7 @@ public class Joueur {
     private ArrayList<Gare> gares = new ArrayList<Gare>();
     private Carreau positionCourante;
     private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
+    private ArrayList<CarteGain> cartesSortiePrison = new ArrayList<>();
     
     public Joueur( Monopoly monopoly) {
         this.monopoly = monopoly;
@@ -100,6 +103,27 @@ public class Joueur {
         this.carteSortiePrison = carteSortiePrison;
     }
 
+    /**
+     * Ajoute la carte Sortie de Prison que le joueur à tiré à sa collection
+     * @param c 
+     */
+    public void ajouterCarteSortiePrison(CarteGain c){
+        addCarteSortiePrison(c);
+    }
+    
+    private void addCarteSortiePrison(CarteGain c){
+        cartesSortiePrison.add(c);
+    }
+    /**
+     * retire la dernière carte de la liste des Cartes de Sortie de Prison que le joueur possède
+     */
+    public void retirerCarteSortiePrison(){
+        removeCarteSortiePrison();
+    }
+    
+    private void removeCarteSortiePrison(){
+        cartesSortiePrison.remove(cartesSortiePrison.size() - 1);
+    }
     /**
      *  ???
      * @param c 
@@ -208,6 +232,6 @@ public class Joueur {
             gares.add((Gare)c);
         else if (c instanceof Compagnie)
             compagnies.add((Compagnie)c);
-
+        
     }
 }

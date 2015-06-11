@@ -80,9 +80,6 @@ public abstract class CarreauPropriete extends Carreau {
      * Propose la construction d'une maison sur un terrain de la même couleur 
      * que celui ou se trouve le joueur courant, et la construit si nécéssaire.
      */
-    public void construire() {
-        throw new UnsupportedOperationException();
-    }
 
     public int getloyerBase(){
         return loyerBase;

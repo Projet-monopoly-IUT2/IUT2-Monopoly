@@ -25,7 +25,6 @@ public class CarteGain extends Carte {
     //Cas particuliers :
     public CarteGain(Monopoly mono, int numero, String message, int montantParMaison, int montantParHotel) {
         super(mono, numero, message);
-        this.casParticuler = "prixParConstruction";
         this.montantParMaison = montantParMaison;
         this.montantParHotel = montantParHotel;
     }
@@ -34,20 +33,40 @@ public class CarteGain extends Carte {
         return montant;
     }
     
+    @Override
     public void action(Joueur j) {
-        if (casParticuler.equals("prixParConstruction")) {
+        if (casParticuler.equalsIgnoreCase("prixParConstruction")) {
             for (CarreauPropriete c : j.getProprietes()) {
                 if (c instanceof ProprieteAConstruire) {
                     montant += ((ProprieteAConstruire) c).getNbMaisonsC() * montantParMaison;
                     montant += ((ProprieteAConstruire) c).getNbHotelsC() * montantParHotel;
                 }
             }
-        } else {
-            super.getMonopoly().interfaceJeu.messageCarte(this);
+            j.retirerCash(montant);
+        }
+        
+        else if(montant>0){
             j.ajouterCash(montant);
         }
+        
+        else if (casParticuler.equalsIgnoreCase("anniversaire")){
+            for(Joueur jo : this.getMonopoly().getJoueurs() ){
+                    if(jo!=j){
+                        jo.retirerCash(10);
+                        montant += 10;
+                    }
+                }        
+            j.ajouterCash(montant);
+        }
+        
+        else{
+            j.retirerCash(-montant);
+        }
+        
     }
     
-    
+    public void setcasParticuler(String casParticuler){
+        this.casParticuler = casParticuler;
+    }
     
 }
