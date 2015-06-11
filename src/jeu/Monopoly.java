@@ -152,7 +152,8 @@ public class Monopoly {
      * de jeu jusqu'à la faillite de tous les joueurs sauf un.
      */
     public void jouerPlusieursCoups() {
-
+     
+        
         int compteurTours = 1;
         boolean continuer = true;
         int nJoueur;
@@ -164,40 +165,57 @@ public class Monopoly {
             if (compteurTours == 1) {
                 compteurTours++;
                 int premierJoueur = 0, lancer = 0, meilleurLancer = 0;
-                for (int i = 1; i <= getJoueurs().size(); ++i) {
+                for (int i = 1; i <= getJoueurs().size(); i++) {
                     lancer = lancerDes().getRes();
                     System.out.println("Le joueur " + i + " a fait " + lancer);
                     if (lancer > meilleurLancer) {
                         meilleurLancer = lancer;
                         premierJoueur = i;
                     }
+                    else if (lancer == meilleurLancer) {
+                        //A FAIRE pour gérer le cas où deux joueurs font le même meilleur lancer
+                        
+                    }
                 }
                 setjCourant(getJoueur(premierJoueur-1));
                 System.out.println("Le joueur qui commence est : " + jCourant.getNomJoueur());
                 System.out.println();
             }
-
-            if (jCourant.getCash() > 0) {
-                jouerUnCoup(jCourant);
-            } else {
-                interfaceJeu.faillite(jCourant);
-            }
-
-            if (jCourant == getJoueurs().getLast()) {
-                jCourant = getJoueurs().getFirst();
-            } else {
-                jCourant = getJoueur(getJoueurs().indexOf(jCourant) + 1);
-            }
-
+            
+                                
+           for (int i = 0; i < getJoueurs().size(); i++) {
+               Joueur joueur = this.getJoueur(i);
+                if (joueur.getCash() <= 0 ) {
+                    interfaceJeu.faillite(joueur);
+                    this.getJoueurs().remove(joueur);
+                }
+           } // pour ne pas afficher les joueurs autre que le jCourant ayant perdu
+            
             //Vérifier si il reste plus d'un joueur en non-faillite
             for (Joueur j : getJoueurs()) {
                 if (j.getCash() <= 0) {
                     ++nbJoueursFaillite;
                 }
             }
+            
             if (nbJoueursFaillite == getJoueurs().size() - 1) {
                 continuer = false;
+                interfaceJeu.afficherFinJeu(this.getJoueurs().getFirst());
             }
+            
+            //s'il reste encore des joueurs en non-faillite, on continue de jouer : 
+            if (jCourant.getCash() > 0 && continuer) {
+              
+                jouerUnCoup(jCourant);
+            } 
+
+            if (jCourant == getJoueurs().getLast()) {
+                jCourant = getJoueurs().getFirst();
+            } else {
+                jCourant = getJoueur(getJoueurs().indexOf(jCourant) + 1);
+            }
+      
+            
         }
 
     }
@@ -211,8 +229,11 @@ public class Monopoly {
      */
     public void jouerUnCoup(Joueur j) {
 
+            
+
         int i = 1;
-        System.out.println("Tour du joueur : ");
+        System.out.println();
+        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;

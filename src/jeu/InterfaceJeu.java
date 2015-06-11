@@ -279,7 +279,13 @@ public void MessageErreur(int i) {
     }
     
     public void faillite(Joueur j) {
-        System.out.println("Le joueur " + j.getNomJoueur() +" a fait faillite ! ");
+        System.out.println("\033[31m Le joueur " + j.getNomJoueur() + " a fait faillite ! \u001B[0m");
+    }
+    
+    public void afficherFinJeu( Joueur j) {
+        System.out.println();
+        System.out.println("\033[31m Le joueur gagnant est " + j.getNomJoueur() + " Bravo ! \u001B[0m");
+        System.out.println("▁ ▂ ▃ ▄ ▅ ▆ ▇ Fin du jeu █ ▇ ▆ ▅ ▄ ▂ ▁ ");   
     }
     
 }
