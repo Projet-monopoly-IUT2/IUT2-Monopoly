@@ -112,6 +112,7 @@ public class Monopoly {
      */
     // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
     public void possibiliteAchat(Joueur j, CarreauPropriete c) {
+        if (j.testFaillite(c.getMontantAchat()) == false) {
         interfaceJeu.afficherAchat(c, j);
         if (interfaceJeu.ChoixAchat(j, c)==1){
             c.setProprietaire(j);            
@@ -125,13 +126,16 @@ public class Monopoly {
                j.setPropriete(c);
                c.setProprietaire(j);
            }
-           j.retirerCash(c.getMontantAchat());
+           boolean paiement = j.retirerCash(c.getMontantAchat());
             System.out.println("Vous venez d'acheter cette propriété, bravo !");
             System.out.println("***************************");
         }
         else {
             System.out.println("Vous n'avez pas acheté cette propriete");
             System.out.println("***************************");
+        }
+        } else {
+            interfaceJeu.MessageErreur(2);
         }
     }
 
@@ -172,31 +176,41 @@ public class Monopoly {
                     }
                     else if (lancer == meilleurLancer) {
                         //A FAIRE pour gérer le cas où deux joueurs font le même meilleur lancer
-                        
+
                     }
                 }
                 setjCourant(getJoueur(premierJoueur));
             }
             
-                                
-           for (int i = 0; i < getJoueurs().size(); i++) {
-               Joueur joueur = this.getJoueur(i);
-                if (joueur.getCash() <= 0 ) {
-                    interfaceJeu.faillite(joueur);
-                    this.getJoueurs().remove(joueur);
+            //Tour de jeu
+            try {
+                if (jCourant.enFaillite()) {
+                    interfaceJeu.jouerFaillite(jCourant);  
+                } else if (jCourant.isEnPrison()) {
+                    jouerPrison(jCourant);
+                } else {
+                    jouerUnCoup(jCourant);
                 }
-           } // pour ne pas afficher les joueurs autre que le jCourant ayant perdu
+            } catch (Faillite f) {
+                interfaceJeu.faillite(jCourant);
+                jCourant.setFaillite();
+            }
+            
+            compteurTours++;
             
             //Vérifier si il reste plus d'un joueur en non-faillite
             for (Joueur j : getJoueurs()) {
-                if (j.getCash() <= 0) {
+                if (j.enFaillite()) {
                     ++nbJoueursFaillite;
                 }
             }
-            
             if (nbJoueursFaillite == getJoueurs().size() - 1) {
                 continuer = false;
-                interfaceJeu.afficherFinJeu(this.getJoueurs().getFirst());
+                for(Joueur j: getJoueurs()) {
+                    if (!j.enFaillite())
+                interfaceJeu.afficherFinJeu(j);
+                }
+                
             }
         }
 
@@ -207,8 +221,9 @@ public class Monopoly {
      * Fait avancer le joueur et effectue l'action correspondante à la case sur laquelle il se trouve.
      * Rejoue si le joueur a fait un double.
      * @param j joueur courant
+     * @throws Faillite si un joueur entre en faillite durant son tour de jeu.
      */
-    public void jouerUnCoup(Joueur j) {
+    public void jouerUnCoup(Joueur j) throws Faillite {
 
             
 
@@ -249,9 +264,10 @@ public class Monopoly {
     /**
      * Gère un tour en prison.
      * @param j joueur courant, doit être en prison
+     * @throws Faillite si le joueur n'a pas assez d'argent pour sortir.
      * @return vrai si le joueur doit rejouer, faux sinon.
      */
-    public boolean jouerPrison(Joueur j) {
+    public boolean jouerPrison(Joueur j) throws Faillite{
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
             j.setCarteSortiePrison(false);
@@ -267,7 +283,8 @@ public class Monopoly {
             }
             else if (j.getToursEnPrison() >= 3) {
                 j.setEnPrison(false);
-                j.retirerCash(50);
+                boolean paiement = j.retirerCash(50);
+                if (!paiement) throw new Faillite();
                 lancerDesAvancer(j,lancer);
                 return false;
             }
@@ -604,7 +621,7 @@ public class Monopoly {
         ProprieteAConstruire c = null;
         while (!sortie){
             if (interfaceJeu.MessageConstruction(1)==2){
-                if(j.getCash()>=proprietes.get(1).getPrixMaison()){                
+                if(!j.testFaillite(proprietes.get(1).getPrixMaison())){                
                     numCarreau = interfaceJeu.affichageChoixConstruction(j,proprietes);               
                     if(this.ChoixConstructionEstEquilibre(proprietes,numCarreau)){
                         c = (ProprieteAConstruire)getCarreau(numCarreau);

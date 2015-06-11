@@ -51,6 +51,7 @@ public abstract class Carreau {
     /**
      * Effectue l'action prévue par le type de carreau.
      * @param j le joueur courant 
+     * @throws Faillite si le joueur ne peut pas payer
      */
-    public abstract void action(Joueur j);
+    public abstract void action(Joueur j) throws Faillite;
 }

@@ -294,4 +294,8 @@ public void MessageErreur(int i) {
         System.out.println("▁ ▂ ▃ ▄ ▅ ▆ ▇ Fin du jeu █ ▇ ▆ ▅ ▄ ▂ ▁ ");   
     }
     
+    public void jouerFaillite(Joueur j) {
+        System.out.println(j.getNomJoueur() +" est en faillite !");
+    }
+    
 }

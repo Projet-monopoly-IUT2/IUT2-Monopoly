@@ -45,7 +45,7 @@ public class Compagnie extends CarreauPropriete {
      * @param j le joueur courant
      */
     @Override
-    public void action(Joueur j) {
+    public void action(Joueur j) throws Faillite {
         Joueur jproprio = this.getProprietaire();
         if (jproprio ==  null) {
             super.achatPropriete(j);

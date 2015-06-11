@@ -16,7 +16,7 @@ public class JeuTests {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Faillite {
         Monopoly m = new Monopoly("./src/data/data.txt");
         CarreauPropriete c;
         Joueur j;

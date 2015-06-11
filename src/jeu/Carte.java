@@ -28,7 +28,7 @@ public abstract class Carte {
         this.description = description;
     }
     
-    public abstract void action(Joueur j);
+    public abstract void action(Joueur j) throws Faillite ;
 
     public String getDescription() {
         return description;

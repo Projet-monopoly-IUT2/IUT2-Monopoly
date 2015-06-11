@@ -33,7 +33,7 @@ public class CarteMouvement extends Carte {
     }
     
     @Override
-    public void action(Joueur j) {
+    public void action(Joueur j) throws Faillite {
         super.getMonopoly().interfaceJeu.messageCarte(this);
         
         if (relatif)
