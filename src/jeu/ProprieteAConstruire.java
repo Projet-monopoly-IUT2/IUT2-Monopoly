@@ -98,7 +98,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     @Override
     public void action(Joueur j) throws Faillite {
         if (getProprietaire() == j) {
-            construire();
+            construire(j);
         } else {
             super.action(j);
         }
