@@ -31,14 +31,17 @@ public class Monopoly {
         cartesCommu = new LinkedList<>();
 
     }
-
+    /**
+     * 
+     * @return Liste des joueurs 
+     */
     public LinkedList<Joueur> getJoueurs() {
         return joueurs;
     }
     
     
     /**
-     * Retourne le solde d'un joueur
+     *
      * @param j joueur
      * @return montant du solde du joueur
      */
@@ -47,7 +50,7 @@ public class Monopoly {
     }
     
     /**
-     * Récupère un carreau selon son numéro
+     * 
      * @param num numéro du carreau à récupérer
      * @return carreau où numCarreau = num
      */
@@ -57,7 +60,7 @@ public class Monopoly {
 
     /**
      * Lance les dés et renvoie une structure contenant le résultat et 
-     * un booléen valant vrai si le lencer est un double
+     * un booléen valant vrai si le lancer est un double
      * @return résultat du lancer
      */
     public static ResultatDes lancerDes() {
@@ -76,12 +79,12 @@ public class Monopoly {
     }
 
     /**
-     * Renvoie un joueur dont le nom est nomJ
+     * 
      * @param nomJ nom du joueur à retourner
      * @return joueur où nom = nomJ
      */
     public Joueur getJoueur(String nomJ) {
-        Joueur incognito = new Joueur(this);
+        Joueur incognito = null;
         for (Joueur j : joueurs) {
             if (j.getNomJoueur().equalsIgnoreCase(nomJ)) {
                 incognito = j;
@@ -97,7 +100,7 @@ public class Monopoly {
     
     
     /**
-     * Récupère le numJème joueur 
+     *  
      * @param numJ numéro du joueur à retourner
      * @return joueur où numero = numJ
      */
@@ -106,12 +109,11 @@ public class Monopoly {
     }
 
     /**
-     *  ???
-     * @param j
-     * @param c 
+     * Achète une propriété avec l'accord du joueur, et si celui-ci en a les ressources.
+     * @param j Joueur acheteur
+     * @param c Propriété à acheter
      */
-    // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
-    public void possibiliteAchat(Joueur j, CarreauPropriete c) {
+    public void achat(Joueur j, CarreauPropriete c) {
         if (j.testFaillite(c.getMontantAchat()) == false) {
         interfaceJeu.afficherAchat(c, j);
         if (interfaceJeu.ChoixAchat(j, c)==1){
@@ -153,7 +155,7 @@ public class Monopoly {
     
     /**
      * Sélectionne le premier joueur selon un lancer de dés, éxécute plusieurs tours
-     * de jeu jusqu'à la faillite de tous les joueurs sauf un.
+     * de jeu jusqu'à la fin de la partie via faillite.
      */
     public void jouerPlusieursCoups() {
 
@@ -340,12 +342,16 @@ public class Monopoly {
         interfaceJeu.afficherEtatJoueurs(joueurs);
     }
 
+    
     public int getResultatDes() {
         return resultatDes;
     }
     
     
-    
+    /**
+     * 
+     * @return Nombre de maisons à construire restantes
+     */
     public int getNbMaisons() {
         return this.nbMaisons;
     }
@@ -492,17 +498,24 @@ public class Monopoly {
         return groupeCible;
     }
 
+    /**
+     * 
+     * @return Liste des cartes Chance
+     */
     public LinkedList<Carte> getCartesChance() {
         return cartesChance;
     }
 
+    /**
+     * 
+     * @return Liste des cartes de communauté. 
+     */
     public LinkedList<Carte> getCartesCommu() {
         return cartesCommu;
     }
+    
     /**
-     * Demande à l'utilisateur d'entrer le nom des joueurs : - A chaque entrée,
-     * le joueur est créé avec le nom fourni par l'utilisateur - Le nouveau
-     * joueur est placé sur la case départ.
+     * Crée les joueurs et les place sur la case départ.
      */
     public void initialiserPartie() {
        
@@ -548,19 +561,26 @@ public class Monopoly {
         }
     }
 
+    /**
+     * 
+     * @return Joueur en train de jouer 
+     */
     public Joueur getJCourant() {
         return jCourant;
     }
 
+    /**
+     * 
+     * @param jCourant Nouveau joueur en train de jouer 
+     */
     public void setjCourant(Joueur jCourant) {
         this.jCourant = jCourant;
     }
     
 
-    //Snippet, il faudra lui trouver une place plus appropriée. Le main ?
     
     
-
+    
     private ArrayList<String[]> readDataFile(String filename, String token) throws FileNotFoundException, IOException {
         ArrayList<String[]> data = new ArrayList<String[]>();
 
@@ -574,11 +594,17 @@ public class Monopoly {
         return data;
     }
     
-    private boolean ChoixConstructionEstEquilibre(ArrayList<ProprieteAConstruire> proprietes,Integer NumCarreau) {
+    /**
+     * Vérifie si toutes les propriété à construire d'un groupe possèdent le même nombre de maisons construites
+     * @param proprietes Liste de propriétés à vérifier
+     * @param numCarreau 
+     * @return vrai si les propriétés ont toutes le même nombre de maisons construites
+     */
+    private boolean ChoixConstructionEstEquilibre(ArrayList<ProprieteAConstruire> proprietes,Integer numCarreau) {
         int MinMaison = 4;
         int MinHotel = 1;
         boolean Sortie = false;
-        boolean Res = false;
+        boolean res = false;
         
         for(ProprieteAConstruire PaC : proprietes){
             if (PaC.getNbMaisonsC()<MinMaison){
@@ -591,30 +617,56 @@ public class Monopoly {
         
         int i = 0;
         while (!Sortie){
-            if(proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
-                Res = true;
+            if(proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
+                res = true;
             }
-            else if (proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
-                Res = true;
+            else if (proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
+                res = true;
             }
         }
         
-        return Res;
+        return res;
         
     }
+    
+    /**
+     * 
+     * @param nbMaisons Nouveau nombre de maisons à construire restantes 
+     */
     public void setNbMaisons(int nbMaisons) {
         this.nbMaisons = nbMaisons;
     }
+    
+    /**
+     * 
+     * @param nbHotels Nouveau nombre d'hotels à construire restantes 
+     */
     public void setNbHotels(int nbHotels) {
         this.nbHotels = nbHotels;
     }
+    
+    /**
+     * 
+     * @return Nombre d'hotels à construire restants 
+     */
     public int getNbHotels() {
         return nbHotels;
     }
+    
+    /**
+     * 
+     * @return L'interface du jeu
+     */
     public InterfaceJeu getInterfaceJeu() {
         return interfaceJeu;
     }
     
+    /**
+     * Vérifie s'il est possible de construire sur un groupe de cases.
+     * @param j Le joueur souhaitant construire
+     * @param proprietes Liste de cases où vérifier la constructibilité
+     * @return vrai si les propriétés sont constructibles.
+     */
    public ProprieteAConstruire possibiliteConstruire(Joueur j, ArrayList<ProprieteAConstruire> proprietes) {
         boolean sortie = false;
         int numCarreau = 0;

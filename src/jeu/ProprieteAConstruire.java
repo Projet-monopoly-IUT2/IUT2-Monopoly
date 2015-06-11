@@ -15,11 +15,11 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public ProprieteAConstruire(Monopoly monopoly) {
         super(monopoly);
     }
+    
     /**
      * Construit une maison sur cette propriété
      * @param j Joueur souhaitant construire
      */
-    // Nème duplicata de construire... ménage à faire.
     public void construire(Joueur j) {
         boolean Sortie = false;
         int numCarreau = 0;
@@ -91,14 +91,16 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public void setLoyerParMaison(LinkedList<Integer> loyerParMaison) {
         this.loyerParMaison = loyerParMaison;
     }
+    
     /**
      * Effectue les actions de base et propose de construire le cas échéant
      * @param j joueur courant
+     * @throws Faillite Si le joueur est incapable de payer un loyer.
      */
     @Override
     public void action(Joueur j) throws Faillite {
         if (getProprietaire() == j) {
-            construire();
+            construire(j);
         } else {
             super.action(j);
         }
@@ -151,6 +153,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
       return loyer;
     }
 
+    /**
+     * Enlève le propriétaire et démolit les maisons / hotels d'une propriété.
+     * Utilisé lors d'un faillite.
+     */
     @Override
     public void resetPropriete() {
         super.resetPropriete();

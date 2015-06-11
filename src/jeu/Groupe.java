@@ -27,6 +27,10 @@ public class Groupe {
         return proprietes;
     }
     
+    /**
+     * 
+     * @param p Propriété à ajouter au groupe. 
+     */
     public void addPropriete (ProprieteAConstruire p) {
         proprietes.add(p);
     }
