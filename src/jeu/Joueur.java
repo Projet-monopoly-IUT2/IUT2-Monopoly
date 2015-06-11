@@ -25,10 +25,17 @@ public class Joueur {
         
     }
 
+    /**
+     * 
+     * @return Le nom du joueur 
+     */
     public String getNomJoueur() {
         return nomJoueur;
     }
-    
+    /**
+     * 
+     * @return L'argent restant au joueur 
+     */
     public int getCash() {
         return this.cash;
     }
@@ -48,14 +55,6 @@ public class Joueur {
         return positionCourante.getNumero(); }
         return 0;
     }
-
-    /**
-     * Déplace au carreau passé en paramètre
-     * @param c carreau sur lequel se déplacer
-     */
-    //public void deplacer(Carreau c) {
-    //    this.setCarreau(c);
-    //}
     
     /**
      * Déplace au carreau dont le numéro est passé en paramètre.
@@ -66,40 +65,75 @@ public class Joueur {
         setCarreau(monopoly.getCarreau(numc));
     }
     
+    /**
+     * 
+     * @param c nouvelle position du joueur 
+     */
     public void setCarreau(Carreau c) {
         positionCourante = c;
     }
     
+    /**
+     * 
+     * @param nomJ nouveau nom du joueur
+     */
     public void setNomJoueur(String nomJ) {
         nomJoueur = nomJ;
     }
-
+    
+    /**
+     * Emprisonne le joueur et réinitialise son compteur de jours en prison.
+     * @param enPrison vrai si le joueur doit être emprisonné, faux s'il doit être libéré.
+     */
     public void setEnPrison(boolean enPrison) {
-        if (enPrison == false)
-            setToursEnPrison(0);
+        setToursEnPrison(0);
         this.enPrison = enPrison;
     }
     
+    /**
+     * 
+     * @return vrai si le joueur est en prison 
+     */
     public boolean isEnPrison() {
         return enPrison;
     }
 
+    /**
+     * 
+     * @return Le nombre de tours passés en prison. 
+     */
     public int getToursEnPrison() {
         return toursEnPrison;
     }
 
+    /**
+     * 
+     * @param toursEnPrison nouveau nombre de tours en prison. 
+     */
     public void setToursEnPrison(int toursEnPrison) {
         this.toursEnPrison = toursEnPrison;
     }
 
+    /**
+     * 
+     * @param toursEnPrison Nombre de tours en prison à ajouter. 
+     */
     public void addToursEnPrison(int toursEnPrison) {
         this.toursEnPrison += toursEnPrison;
     }
 
+    /**
+     * 
+     * @return vrai si le joueur a une carte "sortie de prison", faux sinon 
+     */
     public boolean isCarteSortiePrison() {
         return carteSortiePrison;
     }
 
+    /**
+     * 
+     * @param carteSortiePrison vrai si le joueur obtient une carte, faux si on la lui retire. 
+     */
     public void setCarteSortiePrison(boolean carteSortiePrison) {
         this.carteSortiePrison = carteSortiePrison;
     }
@@ -220,14 +254,37 @@ public class Joueur {
         setCash(getCash()+montant);
     }
 
+    /**
+     * Recoit le loyer d'u montant l.
+     * @param l Montant du loyer à recevoir
+     */
     public void recevoirLoyer(int l) {
         ajouterCash(l);
     }
 
+    /**
+     * Paie le loyer.
+     * @param l Montant du loyer à payer
+     * @throws Faillite Si le joueur ne peut pas payer son loyer.
+     */
     public void payerLoyer(int l) throws Faillite {
         boolean paiement = retirerCash(l);
         if (!paiement) {
             throw new Faillite();
+        }
+    }
+    
+    /**
+     * Déclare le joueur comme étant en faillite et abandonne toutes ses propriétés.
+     */
+    public void setFaillite() {
+        this.faillite = true;
+        // Abandonner toutes les propriétés
+        for (CarreauPropriete c : getProprietes()) {
+            if (c instanceof ProprieteAConstruire) {
+                ((ProprieteAConstruire) c).resetPropriete();
+            }
+            c.resetPropriete();
         }
     }
     
@@ -246,8 +303,15 @@ public class Joueur {
         return faillite;
     }
     /**
-     * Retourne le nombre de compagnies
-     * @return nombre de compagnies
+     * 
+     * @return Vrai si le joueur est en faillite.
+     */
+    public boolean enFaillite() {
+        return faillite;
+    }
+    /**
+     * 
+     * @return nombre de compagnies appartenant au joueur.
      */
     public int getNbCompagnies () {
         return compagnies.size();

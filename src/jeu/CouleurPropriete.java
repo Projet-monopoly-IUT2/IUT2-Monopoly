@@ -3,6 +3,10 @@ package jeu;
 public enum CouleurPropriete {
     bleuFonce, orange, mauve, violet, bleuCiel, jaune, vert, rouge;
     
+    /**
+     * Affiche les labels, colorés avec la couleur qu'ils désignent.
+     * @return Nom du label coloré
+     */
         @Override
     public String toString() {
         // 34 bleu 31 rouge

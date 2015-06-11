@@ -28,10 +28,19 @@ public class CarteMouvement extends Carte {
         this.relatif = relatif;
     }
 
+    /**
+     * 
+     * @return Case sur laquelle pointe la carte. 
+     */
     public int getCaseCible() {
         return caseCible;
     }
     
+    /**
+     * Déplace un joueur et éxécute l'action de la case cible.
+     * @param j Joueur courant
+     * @throws Faillite Si le joueur est en faillite suite à l'action.
+     */
     @Override
     public void action(Joueur j) {        
         if (estRelatif()){

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jeu;
 
 /**
@@ -11,28 +10,50 @@ package jeu;
  * @author laugiera
  */
 public class CarteGain extends Carte {
-    
+
     private int montant;
     
     private String casParticuler = new String();
     private int montantParMaison;
     private int montantParHotel;
-    
+
+    /**
+     * 
+     * @param mono Instance de monopoly de la partie en cours.
+     * @param numero Numéro de la carte
+     * @param message Message communiqué au joueur
+     * @param montant Montant crédité sur le solde du joueur
+     */
     public CarteGain(Monopoly mono, int numero, String message, int montant) {
-        super(mono,numero,message);
+        super(mono, numero, message);
         this.montant = montant;
     }
-    //Cas particuliers :
+
+    /**
+     * Gère le cas particuliers d'un montant en fonction du nombre de maisons/hotels.
+     * @param mono Instance de monopoly de la partie en cours.
+     * @param numero Numéro de la carte
+     * @param message Message communiqué au joueur
+     * @param montantParMaison
+     * @param montantParHotel 
+     */
     public CarteGain(Monopoly mono, int numero, String message, int montantParMaison, int montantParHotel) {
         super(mono, numero, message);
         this.montantParMaison = montantParMaison;
         this.montantParHotel = montantParHotel;
     }
 
+    /**
+     * 
+     * @return le montant <em>crédité</em> sur le solde du joueur. 
+     */
     public int getMontant() {
         return montant;
     }
-    
+    /**
+     * 
+     * @param j le joueur courant. 
+     */
     @Override
     public void action(Joueur j) {
         if (casParticuler.equalsIgnoreCase("prixParConstruction")) {
