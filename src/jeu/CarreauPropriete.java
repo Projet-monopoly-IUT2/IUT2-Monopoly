@@ -2,8 +2,7 @@ package jeu;
 
 public abstract class CarreauPropriete extends Carreau {
 
-    private int loyerBase;
-    private int prixAchat;
+ 
     private int montantAchat;
     private int montantLoyer;
     private Joueur proprietaire;
@@ -31,14 +30,13 @@ public abstract class CarreauPropriete extends Carreau {
         this.montantLoyer = montantLoyer;
     }
 
-    /**
-     * @return chaine de caractère contenant nom et numéro de la case
-     */
- 
-
-    public void achat(Joueur j) {
-        throw new UnsupportedOperationException();
+    public int getMontantLoyer() {
+        return montantLoyer;
     }
+    
+
+
+  
 
     public void setProprietaire(Joueur j) {
         this.proprietaire = j;
@@ -56,7 +54,6 @@ public abstract class CarreauPropriete extends Carreau {
         this.montantAchat = montantAchat;
     }
 
-    //public abstract int calculLoyer(Joueur j);
 
     /**
      * Selon le propriétaire, va proposer d'acheter la case, construire 
@@ -76,21 +73,9 @@ public abstract class CarreauPropriete extends Carreau {
         }
     }
 
-    /**
-     * Propose la construction d'une maison sur un terrain de la même couleur 
-     * que celui ou se trouve le joueur courant, et la construit si nécéssaire.
-     */
-    public void construire() {
-        throw new UnsupportedOperationException();
-    }
 
-    public int getloyerBase(){
-        return loyerBase;
-    }
 
-    public void setLoyerBase(int loyerBase) {
-        this.loyerBase = loyerBase;
-    }
+
     
     
     /**

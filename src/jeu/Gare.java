@@ -4,7 +4,7 @@ public class Gare extends CarreauPropriete {
 
     public Gare(Monopoly monopoly) {
         super(monopoly);
-        super.setLoyerBase(25);
+        super.setMontantLoyer(25);
     }
 
 
@@ -18,7 +18,7 @@ public class Gare extends CarreauPropriete {
     public int calculLoyer(Joueur j) {
       Joueur jproprio = this.getProprietaire();
       int NbGare = jproprio.getNbGare();
-      int loyer = this.getloyerBase()*NbGare;
+      int loyer = this.getMontantLoyer()*NbGare;
      
       int nouveauCash = j.calculCashApresOperation(loyer);
       super.getMonopoly().InfosLoyer(jproprio, loyer, nouveauCash);

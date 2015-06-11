@@ -222,7 +222,7 @@ public class Monopoly {
             if (!j.isEnPrison()) {
                 rejouer = lancerDesAvancer(j);
                 getCarreau(j.getPositionCourante()).action(j);
-                i++;
+                if (rejouer)i++;
             } else {
                 rejouer = jouerPrison(j);
             }

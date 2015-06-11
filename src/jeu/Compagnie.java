@@ -39,24 +39,26 @@ public class Compagnie extends CarreauPropriete {
          return loyer; 
    }
     
+    //INUTILE !!
+    
     /**
      * En fonction du propriétaire actuel, ne rien faire, proposer l'achat de
      * la case ou faire payer le loyer.
      * @param j le joueur courant
      */
-    @Override
-    public void action(Joueur j) {
-        Joueur jproprio = this.getProprietaire();
-        if (jproprio ==  null) {
-            super.achatPropriete(j);
-            }
-        else {
-            if (jproprio != j) {
-                int loyer = calculLoyer(j);
-                j.payerLoyer(loyer);
-                jproprio.recevoirLoyer(loyer);
-                
-            }
-        }
-    }
+//    @Override
+//    public void action(Joueur j) {
+//        Joueur jproprio = this.getProprietaire();
+//        if (jproprio ==  null) {
+//            super.achatPropriete(j);
+//            }
+//        else {
+//            if (jproprio != j) {
+//                int loyer = calculLoyer(j);
+//                j.payerLoyer(loyer);
+//                jproprio.recevoirLoyer(loyer);
+//                
+//            }
+//        }
+//    }
 }
