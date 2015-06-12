@@ -128,15 +128,13 @@ public class Monopoly {
                c.setProprietaire(j);
            }
            boolean paiement = j.retirerCash(c.getMontantAchat());
-            System.out.println("Vous venez d'acheter cette propriété, bravo !");
-            System.out.println("***************************");
+           interfaceJeu.MessageAchat(1);
         }
-        else {
-            System.out.println("Vous n'avez pas acheté cette propriete");
-            System.out.println("***************************");
-        }
+            else {
+           interfaceJeu.MessageAchat(2);
+            }
         } else {
-            interfaceJeu.MessageErreur(2);
+           interfaceJeu.MessageErreur(2);
         }
     }
 
@@ -180,7 +178,7 @@ public class Monopoly {
 
                     }
                 }
-                setjCourant(getJoueur(premierJoueur));
+                setjCourant(getJoueur(premierJoueur-1));
             }
             
             //Tour de jeu
@@ -207,12 +205,13 @@ public class Monopoly {
             }
             if (nbJoueursFaillite == getJoueurs().size() - 1) {
                 continuer = false;
-                for(Joueur j: getJoueurs()) {
-                    if (!j.enFaillite())
-                interfaceJeu.afficherFinJeu(j);
-                }
+     
+                interfaceJeu.afficherFinJeu(jCourant);
+                
                 
             }
+          
+           
         }
 
     }
@@ -229,8 +228,6 @@ public class Monopoly {
             
 
         int i = 1;
-        System.out.println();
-        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;
@@ -271,6 +268,7 @@ public class Monopoly {
     public boolean jouerPrison(Joueur j) throws Faillite{
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
+            j.retirerCarteSortiePrison();
             j.setCarteSortiePrison(false);
             return true;
         } else {
@@ -300,7 +298,7 @@ public class Monopoly {
      */
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb = lancerDes();
-        
+        resultatDes = nb.getRes(); //important pour le calcul loyer
         return lancerDesAvancer(j, nb);
     }
     
@@ -310,13 +308,15 @@ public class Monopoly {
      * @param nb lancer de dés à utiliser
      * @return Vrai si le lancer est un double, faux sinon.
      */
-    private boolean lancerDesAvancer(Joueur j, ResultatDes nb) { 
+    private boolean lancerDesAvancer(Joueur j, ResultatDes nb) {
+        
         int position = j.getPositionCourante();
         int caseCible = (position+nb.getRes()-1)%40+1;
             if (caseCible < position && !(caseCible == 1))
                 //Si la n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                 j.ajouterCash(200);
             j.deplacer(caseCible);
+         
             
         interfaceJeu.afficherResDes(nb);
         interfaceJeu.afficherJoueur(j);
@@ -524,8 +524,7 @@ public class Monopoly {
 
         for (int i = 1; i <= nbJoueurs; i++) {
             
-            System.out.println("Joueur " + i);
-            String nj = this.interfaceJeu.SaisieNomJ();
+            String nj = this.interfaceJeu.SaisieNomJ(i);
          //On ajoute un premier joueur
            Joueur j = new Joueur(this);  
             
@@ -616,10 +615,10 @@ public class Monopoly {
         
         int i = 0;
         while (!Sortie){
-            if(proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
+            if(proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
                 res = true;
             }
-            else if (proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
+            else if (proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
                 res = true;
             }
         }

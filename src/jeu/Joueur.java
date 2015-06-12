@@ -32,6 +32,10 @@ public class Joueur {
     public String getNomJoueur() {
         return nomJoueur;
     }
+    
+    
+   
+    
     /**
      * 
      * @return L'argent restant au joueur 
@@ -229,8 +233,8 @@ public class Joueur {
      * @return vrai si le paiement a été effectué (false = faillite ou pas assez d'argent)
      */
     public boolean retirerCash(int montant) {
-        if (getCash()-montant > 0) {    
-            setCash(getCash()-montant);
+        if (getCash() + montant > 0) {    
+            setCash(getCash()+ montant);
             return true;
         } else {
             return false;
@@ -287,21 +291,9 @@ public class Joueur {
             c.resetPropriete();
         }
     }
+   
     
-    public void setFaillite() {
-        this.faillite = true;
-        // Abandonner toutes les propriétés
-        for (CarreauPropriete c : getProprietes()) {
-            if (c instanceof ProprieteAConstruire) {
-                ((ProprieteAConstruire) c).resetPropriete();
-            }
-            c.resetPropriete();
-        }
-    }
-    
-    public boolean enFaillite() {
-        return faillite;
-    }
+   
     /**
      * 
      * @return Vrai si le joueur est en faillite.
