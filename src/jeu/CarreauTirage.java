@@ -52,7 +52,7 @@ public class CarreauTirage extends CarreauAction {
             } 
             
             else if (prix==0) {    // prix = 0, ce qui veut dire que la carte est une carte sortie de prison
-                j.ajouterCarteSortiePrison(carte);
+                j.ajouterCarteSortiePrison();
                 this.getMonopoly().retirerCartePrison(typeTirage);
             }
             

@@ -186,7 +186,9 @@ public class Monopoly {
                 if (jCourant.enFaillite()) {
                     interfaceJeu.jouerFaillite(jCourant);  
                 } else if (jCourant.isEnPrison()) {
-                    jouerPrison(jCourant);
+                    boolean rejouer = jouerPrison(jCourant);
+                    if (rejouer)
+                        jouerUnCoup(jCourant);
                 } else {
                     jouerUnCoup(jCourant);
                 }
@@ -270,12 +272,12 @@ public class Monopoly {
      * @throws Faillite si le joueur n'a pas assez d'argent pour sortir.
      * @return vrai si le joueur doit rejouer, faux sinon.
      */
-    public boolean jouerPrison(Joueur j) throws Faillite{
-        if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
+    public boolean jouerPrison(Joueur j) throws Faillite {
+        boolean res = false;
+        if (j.getCarteSortiePrison()>0 && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
             j.retirerCarteSortiePrison();
-            j.setCarteSortiePrison(false);
-            return true;
+            res = true;
         } else {
             j.addToursEnPrison(1);
             ResultatDes lancer = lancerDes();
@@ -283,17 +285,18 @@ public class Monopoly {
             if (lancer.isDble()) {
                 j.setEnPrison(false);
                 lancerDesAvancer(j, lancer);
-                return true;
-            }
-            else if (j.getToursEnPrison() >= 3) {
+                res = true;
+            } else if (j.getToursEnPrison() >= 3) {
                 j.setEnPrison(false);
                 boolean paiement = j.retirerCash(50);
-                if (!paiement) throw new Faillite();
-                lancerDesAvancer(j,lancer);
-                return false;
+                if (!paiement) {
+                    throw new Faillite();
+                }
+                lancerDesAvancer(j, lancer);
+                res = false;
             }
         }
-        return false; //placeholder
+        return res; //placeholder
     }
             
     /**

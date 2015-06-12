@@ -136,9 +136,11 @@ public class InterfaceJeu {
                 entreeCorrecte = true;
             } catch (InputMismatchException e) {
                 entreeCorrecte = false;
+                sc.nextLine();
             }
                 if (choix != 1 && choix != 2) {
                 entreeCorrecte = false;
+                sc.nextLine();
             }
         }
         System.out.println("***************************");
@@ -247,30 +249,40 @@ public void MessageErreur(int i) {
      * Propose à l'utilisateur d'utiliser sa carte sortie de prison.
      * @return Vrai si l'utilisateur utilise sa carte, faux sinon. 
      */
-    public boolean  utiliserCarteSortiePrison() {
-           Scanner sc = new Scanner(System.in);
-           boolean sortie = false;
-           System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
-           int rep = sc.nextInt();
-           while (rep < 1 && rep > 2) {
-             rep = sc.nextInt();  
-             System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");  
-           }   
-             
-            if (rep == 1) {
+    public boolean utiliserCarteSortiePrison() {
+        Scanner sc = new Scanner(System.in);
+        boolean sortie = false;
+        int rep;
+        boolean saisieIncorrecte = true;
+        while (saisieIncorrecte) {
+            try {
+                System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
+
+                rep = sc.nextInt();
+                System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
+
+                if (rep == 1) {
                     System.out.println("Vous êtes libéré de prison");
                     sortie = true;
-                }
-             else if (rep == 2) {
+                    saisieIncorrecte = false;
+                } else if (rep == 2) {
                     sortie = false;
+                    saisieIncorrecte = false;
+                } else {
+                    System.out.println("Saisie incorrecte !");
+                    sc.nextLine();
+                    saisieIncorrecte = true;
                 }
-            
-            
-            
-           System.out.println(sortie);
-           return sortie;
-       }
-    
+            } catch (InputMismatchException e) {
+                System.out.println("Saisie incorrecte !");
+                sc.nextLine();
+                saisieIncorrecte = true;
+            }
+        }
+
+        return sortie;
+    }
+
     /**
      * Demande le nom d'un joueur.
      * @return Le nom du joueur

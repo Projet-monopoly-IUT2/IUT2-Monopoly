@@ -1,8 +1,7 @@
 package jeu;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedList;
 
 public class Joueur {
 
@@ -10,14 +9,13 @@ public class Joueur {
     private int cash = 1500;
     private boolean enPrison = false;
     private int toursEnPrison = 0;
-    private boolean carteSortiePrison;
+    private int carteSortiePrison = 0;
     private Monopoly monopoly;
     private ArrayList<Compagnie> compagnies = new ArrayList<Compagnie>();
     private ArrayList<Gare> gares = new ArrayList<Gare>();
     private Carreau positionCourante;
     private ArrayList<ProprieteAConstruire> proprietesAConstruire = new ArrayList<ProprieteAConstruire>();
     private boolean faillite = false;
-    private ArrayList<CarteGain> cartesSortiePrison = new ArrayList<>();
     
     public Joueur( Monopoly monopoly) {
         this.monopoly = monopoly;
@@ -130,29 +128,26 @@ public class Joueur {
      * 
      * @return vrai si le joueur a une carte "sortie de prison", faux sinon 
      */
-    public boolean isCarteSortiePrison() {
+    public int getCarteSortiePrison() {
         return carteSortiePrison;
     }
 
     /**
-     * 
-     * @param carteSortiePrison vrai si le joueur obtient une carte, faux si on la lui retire. 
+     * Ajoute une carte sortie de priso au joueur.
+     *  
      */
-    public void setCarteSortiePrison(boolean carteSortiePrison) {
-        this.carteSortiePrison = carteSortiePrison;
+    public void addCarteSortiePrison() {
+        carteSortiePrison++;
     }
 
     /**
      * Ajoute la carte Sortie de Prison que le joueur à tiré à sa collection
      * @param c 
      */
-    public void ajouterCarteSortiePrison(CarteGain c){
-        addCarteSortiePrison(c);
+    public void ajouterCarteSortiePrison(){
+        addCarteSortiePrison();
     }
     
-    private void addCarteSortiePrison(CarteGain c){
-        cartesSortiePrison.add(c);
-    }
     /**
      * retire la dernière carte de la liste des Cartes de Sortie de Prison que le joueur possède
      */
@@ -161,7 +156,7 @@ public class Joueur {
     }
     
     private void removeCarteSortiePrison(){
-        cartesSortiePrison.remove(cartesSortiePrison.size() - 1);
+        carteSortiePrison--;
     }
     /**
      *  ???
