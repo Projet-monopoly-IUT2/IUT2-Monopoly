@@ -25,8 +25,8 @@ public class CarreauArgent extends CarreauAction {
      */
     @Override
     public void action(Joueur j) throws Faillite {
-        if (montant > 0) {
-            j.ajouterCash(montant);
+        if (-montant > 0) {
+            j.retirerCash(0-montant);
         } else if (!j.retirerCash(montant)) {
             throw new Faillite();
         }

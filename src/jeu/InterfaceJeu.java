@@ -210,9 +210,7 @@ public void MessageErreur(int i) {
                 System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
                 rep = sc.nextInt();
             }   
-            else {
-                Vrai = true;
-            }
+          
         }
               
         return rep;          

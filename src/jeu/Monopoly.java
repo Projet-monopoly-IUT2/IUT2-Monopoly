@@ -296,7 +296,7 @@ public class Monopoly {
                 res = false;
             }
         }
-        return res; //placeholder
+        return res;
     }
             
     /**
@@ -623,9 +623,15 @@ public class Monopoly {
         while (!Sortie){
             if(proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
                 res = true;
+                Sortie =true;
             }
             else if (proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
                 res = true;
+                Sortie = true;
+            }
+            i++;
+            if(i==proprietes.size()-1){
+                Sortie=true;
             }
         }
         
