@@ -33,7 +33,9 @@ public class InterfaceJeu {
      * @param j le joueur a afficher
      */
     public void afficherJoueur(Joueur j) {
-        
+ 
+        System.out.println();
+//        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         if (j.enFaillite()) {
             System.out.println(j.getNomJoueur() + " est en faillite !");
         } else {
@@ -101,7 +103,7 @@ public class InterfaceJeu {
      * @param loyer montant du loyer
      * @param nouveauCash argent restant au payeur
      */
-    public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
+   public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
         System.out.println("***************************");
         System.out.println("Payement de loyer : ");
         System.out.println("Paiement à : "+jproprio.getNomJoueur() + "- Loyer : " + loyer + "- Cash après payement : " +nouveauCash);
@@ -273,8 +275,9 @@ public void MessageErreur(int i) {
      * Demande le nom d'un joueur.
      * @return Le nom du joueur
      */
-    public String SaisieNomJ () {
+    public String SaisieNomJ (int i) {
       
+            System.out.println("Joueur " + i);
             Scanner sc2 = new Scanner(System.in);
             System.out.print("Nom du joueur :" );
             String nj = sc2.nextLine();
@@ -343,6 +346,17 @@ public void MessageErreur(int i) {
      */
     public void jouerFaillite(Joueur j) {
         System.out.println(j.getNomJoueur() +" est en faillite !");
+    }
+ 
+    public void MessageAchat(int i){
+        if(i==1){
+            System.out.println("Vous venez d'acheter cette propriété, bravo !");
+            System.out.println("***************************");
+        }
+        else{
+            System.out.println("Vous n'avez pas acheté cette propriete");
+            System.out.println("***************************");
+        }
     }
     
 }
