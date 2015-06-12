@@ -293,20 +293,6 @@ public class Joueur {
     }
    
     
-    public void setFaillite() {
-        this.faillite = true;
-        // Abandonner toutes les propriétés
-        for (CarreauPropriete c : getProprietes()) {
-            if (c instanceof ProprieteAConstruire) {
-                ((ProprieteAConstruire) c).resetPropriete();
-            }
-            c.resetPropriete();
-        }
-    }
-    
-    public boolean enFaillite() {
-        return faillite;
-    }
     /**
      * 
      * @return Vrai si le joueur est en faillite.
