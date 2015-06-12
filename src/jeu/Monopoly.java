@@ -232,8 +232,8 @@ public class Monopoly {
      */
     public void jouerUnCoup(Joueur j) throws Faillite {
 
-            
-
+        System.out.println();   
+        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         int i = 1;
         interfaceJeu.afficherJoueur(j);
 
@@ -243,7 +243,7 @@ public class Monopoly {
                 rejouer = lancerDesAvancer(j);
                 getCarreau(j.getPositionCourante()).action(j);
                 if (rejouer)i++;
-            } else {
+            } else if (j.isEnPrison()){
                 rejouer = jouerPrison(j);
             }
             
@@ -630,7 +630,7 @@ public class Monopoly {
                 Sortie = true;
             }
             i++;
-            if(i==proprietes.size()-1){
+            if(i==proprietes.size()){
                 Sortie=true;
             }
         }

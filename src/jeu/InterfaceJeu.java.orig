@@ -33,9 +33,7 @@ public class InterfaceJeu {
      * @param j le joueur a afficher
      */
     public void afficherJoueur(Joueur j) {
- 
-        System.out.println();
-
+        
         if (j.enFaillite()) {
             System.out.println(j.getNomJoueur() + " est en faillite !");
         } else {
@@ -54,9 +52,8 @@ public class InterfaceJeu {
      * @param joueurs liste des joueurs à afficher 
      */
     public void afficherEtatJoueurs(LinkedList<Joueur> joueurs) {
-        System.out.println();
-        System.out.println("*****************************************");
-        System.out.println("ETAT DE TOUS LES JOUEURS : ");
+        System.out.println("***************************");
+        System.out.println("Etat de tous les joueurs : ");
         for (Joueur js : joueurs) {
             if (js.enFaillite()) {
                 System.out.println(js.getNomJoueur() + " est en faillite !");
@@ -68,7 +65,7 @@ public class InterfaceJeu {
                 }
             }
         }
-        System.out.println("******************************************\n");
+        System.out.println("***************************");
     }
     
     /**
@@ -104,7 +101,7 @@ public class InterfaceJeu {
      * @param loyer montant du loyer
      * @param nouveauCash argent restant au payeur
      */
-   public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
+    public void AfficherLoyer(Joueur jproprio, int loyer, int nouveauCash) {
         System.out.println("***************************");
         System.out.println("Payement de loyer : ");
         System.out.println("Paiement à : "+jproprio.getNomJoueur() + "- Loyer : " + loyer + "- Cash après payement : " +nouveauCash);
@@ -137,11 +134,9 @@ public class InterfaceJeu {
                 entreeCorrecte = true;
             } catch (InputMismatchException e) {
                 entreeCorrecte = false;
-                sc.nextLine();
             }
                 if (choix != 1 && choix != 2) {
                 entreeCorrecte = false;
-                sc.nextLine();
             }
         }
         System.out.println("***************************");
@@ -175,7 +170,7 @@ public void MessageErreur(int i) {
                 System.out.println("Le Monopoly n'as plus assez d'hotels");
                 break;
             case 5:
-                System.out.println("Vous ne possedez pas toutes les proprietes du groupe ");
+                System.out.println("Vous ne possedez pas toute les proprietes du groupe ");
                 break;
         }
     }
@@ -200,6 +195,7 @@ public void MessageErreur(int i) {
         int rep = sc.nextInt();
         boolean Vrai = false;
         
+<<<<<<< HEAD
         while(!Vrai){
                 
             for  (ProprieteAConstruire p : proprietes) {
@@ -210,8 +206,17 @@ public void MessageErreur(int i) {
             if (!Vrai){
                 System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
                 rep = sc.nextInt();
+            }    
+=======
+        while(!Vrai){        
+            if (rep < proprietes.get(0).getNumero() || rep > proprietes.get(proprietes.size()-1).getNumero()){
+                System.out.println("Choisir un bon numero de propriete parmi la liste proposé");
+                rep = sc.nextInt();
             }   
-          
+            else {
+                Vrai = true;
+            }
+>>>>>>> 6352c0f7cba678c13004464edc14a15e9f4e7f0b
         }
               
         return rep;          
@@ -248,47 +253,36 @@ public void MessageErreur(int i) {
      * Propose à l'utilisateur d'utiliser sa carte sortie de prison.
      * @return Vrai si l'utilisateur utilise sa carte, faux sinon. 
      */
-    public boolean utiliserCarteSortiePrison() {
-        Scanner sc = new Scanner(System.in);
-        boolean sortie = false;
-        int rep;
-        boolean saisieIncorrecte = true;
-        while (saisieIncorrecte) {
-            try {
-                System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
-
-                rep = sc.nextInt();
-                System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
-
-                if (rep == 1) {
+    public boolean  utiliserCarteSortiePrison() {
+           Scanner sc = new Scanner(System.in);
+           boolean sortie = false;
+           System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");
+           int rep = sc.nextInt();
+           while (rep < 1 && rep > 2) {
+             rep = sc.nextInt();  
+             System.out.println("Voulez vous utiliser votre carte libéré de prison ?  - 1/Oui 2/Non");  
+           }   
+             
+            if (rep == 1) {
                     System.out.println("Vous êtes libéré de prison");
                     sortie = true;
-                    saisieIncorrecte = false;
-                } else if (rep == 2) {
-                    sortie = false;
-                    saisieIncorrecte = false;
-                } else {
-                    System.out.println("Saisie incorrecte !");
-                    sc.nextLine();
-                    saisieIncorrecte = true;
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Saisie incorrecte !");
-                sc.nextLine();
-                saisieIncorrecte = true;
-            }
-        }
-
-        return sortie;
-    }
-
+             else if (rep == 2) {
+                    sortie = false;
+                }
+            
+            
+            
+           System.out.println(sortie);
+           return sortie;
+       }
+    
     /**
      * Demande le nom d'un joueur.
      * @return Le nom du joueur
      */
-    public String SaisieNomJ (int i) {
+    public String SaisieNomJ () {
       
-            System.out.println("Joueur " + i);
             Scanner sc2 = new Scanner(System.in);
             System.out.print("Nom du joueur :" );
             String nj = sc2.nextLine();
@@ -357,17 +351,6 @@ public void MessageErreur(int i) {
      */
     public void jouerFaillite(Joueur j) {
         System.out.println(j.getNomJoueur() +" est en faillite !");
-    }
- 
-    public void MessageAchat(int i){
-        if(i==1){
-            System.out.println("Vous venez d'acheter cette propriété, bravo !");
-            System.out.println("***************************");
-        }
-        else{
-            System.out.println("Vous n'avez pas acheté cette propriete");
-            System.out.println("***************************");
-        }
     }
     
 }

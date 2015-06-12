@@ -59,7 +59,7 @@ public class CarteMouvement extends Carte {
                     //Si le n° de case après le déplacement est < à celui avant, on est passé par la case départ. Le cas ou l'on tombe directement sur la case départ est déjà géré.
                     j.ajouterCash(200);
                 }
-                if (getCaseCible()!=11){
+                if (getCaseCible()==11){
                     j.setEnPrison(true);
                 }
                 j.deplacer(getCaseCible());

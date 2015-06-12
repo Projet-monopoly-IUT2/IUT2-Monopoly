@@ -41,8 +41,9 @@ public class JeuTests {
             System.out.println("8 - Jouer un coup sur propriete ne nous appartenant pas (loyer)");
             System.out.println("9 - Jouer un coup sur propriete nous appartenant");
             System.out.println("10 - Jouer un coup sur une propriété a construire nous appartenant  ");
-            System.out.println("11 - Aller en prison");
-            System.out.println("12 - Faillite et fin du jeu   ");
+            System.out.println("11 - Jouer un coup sur une propriété a construire nous appartenant avec possibilité de construire");
+            System.out.println("12 - Aller en prison");
+            System.out.println("13 - Faillite et fin du jeu   ");
             System.out.println("********************************************************");
             System.out.println("Note : le plateau n'est pas réinitialisé entre chaque test !");;
 
@@ -160,13 +161,28 @@ public class JeuTests {
                     //Jouer un coup sur une propriété a construire nous appartenant
                     System.out.println("Éxécuter pour quel joueur ?");
                     j = m.getJoueur(sc.nextInt()-1);
-                    c = (CarreauPropriete) m.getCarreau(2);
-                    c.setProprietaire(j);
-                    j.setCarreau(c);
-                    c.action(j);
+                    ProprieteAConstruire p2 = (ProprieteAConstruire)m.getCarreau(40);
+                    p2.setProprietaire(j);
+                    j.setPropriete(p2);
+                    j.setCarreau(p2);
+                    p2.action(j);
                     break;
 
                 case 11:
+                    //Jouer un coup sur une propriété a construire nous appartenant
+                    System.out.println("Éxécuter pour quel joueur ?");
+                    j = m.getJoueur(sc.nextInt()-1);
+                    ProprieteAConstruire p1 = (ProprieteAConstruire)m.getCarreau(2);
+                    ProprieteAConstruire p3 = (ProprieteAConstruire)m.getCarreau(4);
+                    p1.setProprietaire(j);
+                    p3.setProprietaire(j);
+                    j.setPropriete(p1);
+                    j.setPropriete(p3);
+                    j.setCarreau(p1);
+                    p1.action(j);
+                    break;
+                    
+                case 12:
                     System.out.println("Éxécuter pour quel joueur ?");
                     j = m.getJoueur(sc.nextInt()-1);
                     System.out.println("Donner une carte sortie de prison au joueur ? (O/N)");
@@ -187,7 +203,7 @@ public class JeuTests {
                     m.jouerPlusieursCoups();
                     break;
                     
-                case 12:
+                case 13:
                     //Faillite et fin du jeu
                     Joueur j1 = m.getJoueur(0);
                     Joueur j2 = m.getJoueur(1);
