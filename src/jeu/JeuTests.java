@@ -49,6 +49,7 @@ public class JeuTests {
                     break;
                 case 1:
                     //afficher etat
+                    m.getInterfaceJeu().afficherEtatJoueurs(m.getJoueurs());
                     break;
                 case 2:
                     System.out.println("Exemples : \n"
