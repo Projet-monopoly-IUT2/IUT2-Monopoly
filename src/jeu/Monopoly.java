@@ -112,7 +112,7 @@ public class Monopoly {
      * @param c Propriété à acheter
      */
     // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
-    public void possibiliteAchat(Joueur j, CarreauPropriete c) {
+    public void achat(Joueur j, CarreauPropriete c) {
         if (j.testFaillite(c.getMontantAchat()) == false) {
         interfaceJeu.afficherAchat(c, j);
         if (interfaceJeu.ChoixAchat(j, c)==1){
@@ -616,10 +616,10 @@ public class Monopoly {
         
         int i = 0;
         while (!Sortie){
-            if(proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
+            if(proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==MinMaison){
                 res = true;
             }
-            else if (proprietes.get(i).getNumero()==NumCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
+            else if (proprietes.get(i).getNumero()==numCarreau && proprietes.get(i).getNbMaisonsC()==4 && proprietes.get(i).getNbHotelsC()==0){
                 res = true;
             }
         }
