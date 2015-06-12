@@ -81,7 +81,7 @@ public class CarteGain extends Carte {
         }
         
         else{
-            j.retirerCash(-montant);
+            j.retirerCash(montant);
         }
         
     }

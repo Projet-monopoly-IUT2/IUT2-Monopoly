@@ -30,6 +30,7 @@ public class CarreauMouvement extends CarreauAction {
      * @param j le joueur courant
      */
     public void action(Joueur j) {
+        j.setEnPrison(true);
         j.deplacer(11);
     }
 }
