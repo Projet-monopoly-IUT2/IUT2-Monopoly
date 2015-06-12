@@ -17,11 +17,16 @@ public class JeuTests {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Faillite {
+        Scanner sc = new Scanner(System.in);
+
         Monopoly m = new Monopoly("./src/data/data.txt");
         CarreauPropriete c;
         Joueur j;
 
         while (true) {
+            System.out.println("");
+            System.out.println("");
+            
             System.out.println("Menu de test : ");
             System.out.println("************* ACTIONS DE BASE *****************************");
             System.out.println("0 - (Ré)Initialiser la partie  ");
@@ -40,16 +45,19 @@ public class JeuTests {
 
             Scanner sc = new Scanner(System.in);
             int scenario = sc.nextInt();
-
+            
+            System.out.println("");
+            System.out.println("");
+            
             switch (scenario) {
                 case 0:
                     System.out.println("/!\\ Pour les besoins du test, merci de ne déclarer que 2 joueurs /!\\");
+                    m = new Monopoly("src/data/data.txt");
                     m.initialiserPartie();
 
                     break;
                 case 1:
-                    //afficher etat
-                    m.getInterfaceJeu().afficherEtatJoueurs(m.getJoueurs());
+                    m.getInterfaceJeu().afficherEtatJoueurs(m.getJoueurs());//afficher etat
                     break;
                 case 2:
                     System.out.println("Exemples : \n"
@@ -59,31 +67,31 @@ public class JeuTests {
                             + "Case Tirage..............8 (chance)");
 
                     System.out.println("Éxécuter pour quel joueur ?");
-                    j = m.getJoueur(sc.nextInt());
+                    j = m.getJoueur(sc.nextInt()-1);
 
                     System.out.print("Case sur laquelle se déplacer : ");
                     Carreau caseCible = m.getCarreau(sc.nextInt());
 
                     j.setCarreau(caseCible);
-                    caseCible.action(j);
+                    
                     break;
 
                 case 3:
                     System.out.println("Éxécuter pour quel joueur ?");
-                    j = m.getJoueur(sc.nextInt());
+                    j = m.getJoueur(sc.nextInt()-1);
                     m.getCarreau(j.getPositionCourante()).action(j);
                     break;
 
                 case 4:
                     System.out.println("Éxécuter pour quel joueur ?");
-                    j = m.getJoueur(sc.nextInt());
+                    j = m.getJoueur(sc.nextInt()-1);
                     System.out.println("Nouvau solde du joueur : ");
                     j.setCash(sc.nextInt());
-
+                    break;
                 case 5:
                     //Jouer un coup sur propriété sans proprio (achat)
                     System.out.println("Éxécuter pour quel joueur ?");
-                    j = m.getJoueur(sc.nextInt());
+                    j = m.getJoueur(sc.nextInt()-1);
                     c = (CarreauPropriete) m.getCarreau(16);
                     j.setCarreau(c);
                     c.action(j);
@@ -92,25 +100,27 @@ public class JeuTests {
                     //Jouer un coup sur propriete ne nous appartenant pas (loyer)
                     System.out.println("Éxécution pour le joueur 1 :");
                     c = (CarreauPropriete) m.getCarreau(16);
-                    c.setProprietaire(m.getJoueur(2));
-                    m.getJoueur(1).setCarreau(c);
-                    c.action(m.getJoueur(1));
+                    c.setProprietaire(m.getJoueur(1));
+                    m.getJoueur(1).setPropriete(c);
+                    m.getJoueur(0).setCarreau(c);
+                    c.action(m.getJoueur(0));
                     break;
 
                 case 7:
                     //Jouer un coup sur propriete nous appartenant
                     System.out.println("Éxécuter pour quel joueur ?");
-                    j = m.getJoueur(sc.nextInt());
+                    j = m.getJoueur(sc.nextInt()-1);
                     c = (CarreauPropriete) m.getCarreau(16);
                     c.setProprietaire(j);
                     j.setCarreau(c);
+                    j.setPropriete(c);
                     c.action(j);
                     break;
 
                 case 8:
                     //Jouer un coup sur une propriété a construire nous appartenant
                     System.out.println("Éxécuter pour quel joueur ?");
-                    j = m.getJoueur(sc.nextInt());
+                    j = m.getJoueur(sc.nextInt()-1);
                     c = (CarreauPropriete) m.getCarreau(2);
                     c.setProprietaire(j);
                     j.setCarreau(c);
