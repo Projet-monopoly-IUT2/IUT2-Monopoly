@@ -197,6 +197,12 @@ public class Monopoly {
             
             compteurTours++;
             
+            if(jCourant.equals(getJoueurs().getLast())) { // si jCourant est le dernier joueur dans la liste
+                jCourant = getJoueurs().peekFirst();
+            } else {
+                jCourant = getJoueurs().get(getJoueurs().indexOf(jCourant) +1); //récupérer le prochain joueur dans la liste
+            }
+            
             //Vérifier si il reste plus d'un joueur en non-faillite
             for (Joueur j : getJoueurs()) {
                 if (j.enFaillite()) {
