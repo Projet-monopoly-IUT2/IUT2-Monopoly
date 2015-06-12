@@ -43,6 +43,7 @@ public class JeuTests {
             System.out.println("********************************************************");
             System.out.println("Note : le plateau n'est pas réinitialisé entre chaque test !");;
 
+            Scanner sc = new Scanner(System.in);
             int scenario = sc.nextInt();
             
             System.out.println("");
@@ -72,6 +73,7 @@ public class JeuTests {
                     Carreau caseCible = m.getCarreau(sc.nextInt());
 
                     j.setCarreau(caseCible);
+                    
                     break;
 
                 case 3:

@@ -112,7 +112,7 @@ public class Monopoly {
      * @param c Propriété à acheter
      */
     // prise de décision ? vérification si possibilité d'achat ? éxécution de l'achat ? les 3 ? Remplir la doc svp
-    public void achat(Joueur j, CarreauPropriete c) {
+    public void Achat(Joueur j, CarreauPropriete c) {
         if (j.testFaillite(c.getMontantAchat()) == false) {
         interfaceJeu.afficherAchat(c, j);
         if (interfaceJeu.ChoixAchat(j, c)==1){
@@ -128,15 +128,13 @@ public class Monopoly {
                c.setProprietaire(j);
            }
            boolean paiement = j.retirerCash(c.getMontantAchat());
-            System.out.println("Vous venez d'acheter cette propriété, bravo !");
-            System.out.println("***************************");
+           interfaceJeu.MessageAchat(1);
         }
-        else {
-            System.out.println("Vous n'avez pas acheté cette propriete");
-            System.out.println("***************************");
-        }
+            else {
+           interfaceJeu.MessageAchat(2);
+            }
         } else {
-            interfaceJeu.MessageErreur(2);
+           interfaceJeu.MessageErreur(2);
         }
     }
 
@@ -180,7 +178,7 @@ public class Monopoly {
 
                     }
                 }
-                setjCourant(getJoueur(premierJoueur));
+                setjCourant(getJoueur(premierJoueur-1));
             }
             
             //Tour de jeu
@@ -229,8 +227,6 @@ public class Monopoly {
             
 
         int i = 1;
-        System.out.println();
-        System.out.println("☆● ☆● ☆● ☆● Tour du joueur : ");
         interfaceJeu.afficherJoueur(j);
 
         boolean rejouer = true;
@@ -271,6 +267,7 @@ public class Monopoly {
     public boolean jouerPrison(Joueur j) throws Faillite{
         if (j.isCarteSortiePrison() && interfaceJeu.utiliserCarteSortiePrison()) {
             j.setEnPrison(false);
+            j.retirerCarteSortiePrison();
             j.setCarteSortiePrison(false);
             return true;
         } else {
@@ -300,7 +297,7 @@ public class Monopoly {
      */
     public boolean lancerDesAvancer(Joueur j) {
         ResultatDes nb = lancerDes();
-        
+        resultatDes = nb.getRes(); //important pour le calcul loyer
         return lancerDesAvancer(j, nb);
     }
     
@@ -524,8 +521,7 @@ public class Monopoly {
 
         for (int i = 1; i <= nbJoueurs; i++) {
             
-            System.out.println("Joueur " + i);
-            String nj = this.interfaceJeu.SaisieNomJ();
+            String nj = this.interfaceJeu.SaisieNomJ(i);
          //On ajoute un premier joueur
            Joueur j = new Joueur(this);  
             

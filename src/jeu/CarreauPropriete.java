@@ -19,7 +19,7 @@ public abstract class CarreauPropriete extends Carreau {
     public void achatPropriete(Joueur j) {
         int PrixApayer = this.getMontantAchat();
         if (!j.testFaillite(montantAchat)){
-            this.getMonopoly().achat(j, this);
+            this.getMonopoly().Achat(j, this);
         }
         else {
             getMonopoly().interfaceJeu.MessageErreur(2);
