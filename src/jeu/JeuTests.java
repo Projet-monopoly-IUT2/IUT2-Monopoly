@@ -5,7 +5,9 @@
  */
 package jeu;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import static jeu.Monopoly.lancerDes;
 
 /**
  *
@@ -46,9 +48,9 @@ public class JeuTests {
             System.out.println("13 - Faillite et fin du jeu   ");
             System.out.println("********************************************************");
             System.out.println("Note : le plateau n'est pas réinitialisé entre chaque test !");;
-
-            int scenario = sc.nextInt();
             
+            int scenario = sc.nextInt();
+
             System.out.println("");
             System.out.println("");
             
@@ -67,7 +69,8 @@ public class JeuTests {
                             + "Propriété à construire...2 (bd de Belleville)\n"
                             + "Gare.....................6 (gare montparnasse)\n"
                             + "Case Argent..............5 (impot sur le revenu)\n"
-                            + "Case Tirage..............8 (chance)");
+                            + "Case Tirage..............8 (chance)\n"
+                            + "Case Tirage..............18(communauté");
 
                     System.out.println("Éxécuter pour quel joueur ?");
                     j = m.getJoueur(sc.nextInt()-1);
@@ -138,12 +141,25 @@ public class JeuTests {
                     break;
                 case 8:
                     //Jouer un coup sur propriete ne nous appartenant pas (loyer)
+                    ResultatDes nb = lancerDes();
+                    int resultatDes = nb.getRes();
                     System.out.println("Éxécution pour le joueur 1 :");
+                    System.out.println("Loyer pour une gare :");
                     c = (CarreauPropriete) m.getCarreau(16);
+                     System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()));  
                     c.setProprietaire(m.getJoueur(1));
                     m.getJoueur(1).setPropriete(c);
                     m.getJoueur(0).setCarreau(c);
                     c.action(m.getJoueur(0));
+                    System.out.println("Loyer pour une propriete :");
+                    c = (CarreauPropriete) m.getCarreau(2);
+                    System.out.println("Propriété : " + c.getNomCarreau() + " : " + String.valueOf(c.getNumero()) + " Groupe : " + ((ProprieteAConstruire)c).getGroupePropriete().getCouleur().toString());
+                    c.setProprietaire(m.getJoueur(1));
+                    m.getJoueur(1).setPropriete(c);
+                    m.getJoueur(0).setCarreau(c);
+                    c.action(m.getJoueur(0));
+
+                
                     break;
 
                 case 9:
@@ -178,6 +194,8 @@ public class JeuTests {
                     p3.setProprietaire(j);
                     j.setPropriete(p1);
                     j.setPropriete(p3);
+                    //m.setNbHotels(1);
+                    //m.setNbMaisons(5);
                     j.setCarreau(p1);
                     p1.action(j);
                     break;
@@ -185,22 +203,28 @@ public class JeuTests {
                 case 12:
                     System.out.println("Éxécuter pour quel joueur ?");
                     j = m.getJoueur(sc.nextInt()-1);
-                    System.out.println("Donner une carte sortie de prison au joueur ? (O/N)");
+                    System.out.println("Donner une carte sortie de prison au joueur ? (oui/non)");
                     String carteP = sc.next();
                     switch(carteP) {
-                        case "O":
+                        case "oui":
                             j.addCarteSortiePrison();
                             break;
                             
                         default:
                             System.out.println("Erreur de saisie. La carte ne sera pas donnée au joueur");
-                        case "N":
+                        case "non":
                             break;
                     }
                     
                     j.setEnPrison(true);
+                    j.deplacer(11);
                     System.out.println("Le jeu va commencer avec un joueur en prison...");
-                    m.jouerPlusieursCoups();
+                    
+                    for(int i = 1; i<= 4; i++)
+                        for (Joueur js : m.getJoueurs()){
+                            m.jouerUnCoup(js);
+                        }
+                                
                     break;
                     
                 case 13:
